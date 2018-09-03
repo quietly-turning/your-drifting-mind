@@ -86,22 +86,70 @@ local map_data = LoadActor("./data/YourDriftingMind.lua")
 
 local amv_af = Def.ActorFrame{}
 
--- for i, layer_type in {"Under", "Player", "Over"} do
-for i, layer_name in ipairs( {"Under", "Over"} ) do
-	for j, layer_data in ipairs(map_data.layers) do
-		if layer_data.type == "tilelayer" and layer_data.name == layer_name then
+for layer_name in ivalues({"Under", "Player", "Over"}) do
+	for layer_data in ivalues(map_data.layers) do
+		if layer_data.name == layer_name then
 
-			local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "data/" .. map_data.tilesets[1].image
-			local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
+			if layer_name == "Under" or layer_name == "Over" then
+				local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "data/" .. map_data.tilesets[1].image
+				local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
-			amv_af[#amv_af+1] = Def.ActorMultiVertex{
-				InitCommand=function(self)
-					self:SetDrawState( {Mode="DrawMode_Quads"} )
-						:LoadTexture( path_to_texture )
-						:SetVertices( verts )
-						:SetTextureFiltering( false )
-				end
-			}
+				amv_af[#amv_af+1] = Def.ActorMultiVertex{
+					InitCommand=function(self)
+						self:SetDrawState( {Mode="DrawMode_Quads"} )
+							:LoadTexture( path_to_texture )
+							:SetVertices( verts )
+							:SetTextureFiltering( false )
+					end
+				}
+			elseif layer_name == "Player" then
+
+				local SleepDuration = 0.125
+				local frames = {
+					Down = {
+						{ Frame=0,	Delay=SleepDuration},
+						{ Frame=1,	Delay=SleepDuration},
+						{ Frame=2,	Delay=SleepDuration},
+						{ Frame=3,	Delay=SleepDuration}
+					},
+					Left = {
+						{ Frame=4,	Delay=SleepDuration},
+						{ Frame=5,	Delay=SleepDuration},
+						{ Frame=6,	Delay=SleepDuration},
+						{ Frame=7,	Delay=SleepDuration}
+					},
+					Right = {
+						{ Frame=8,	Delay=SleepDuration},
+						{ Frame=9,	Delay=SleepDuration},
+						{ Frame=10,	Delay=SleepDuration},
+						{ Frame=11,	Delay=SleepDuration}
+					},
+					Up = {
+						{ Frame=12,	Delay=SleepDuration},
+						{ Frame=13,	Delay=SleepDuration},
+						{ Frame=14,	Delay=SleepDuration},
+						{ Frame=15,	Delay=SleepDuration}
+					}
+				}
+
+
+				amv_af[#amv_af+1] = LoadActor("./data/Reen 4x4.png")..{
+					InitCommand=function(self)
+						self:animate(0)
+						-- align to left and v-middle
+							:align(0, 0.5)
+
+						-- initialize the position
+							:xy(layer_data.objects[1].x, layer_data.objects[1].y)
+
+						-- initialize the sprite state
+						self:SetStateProperties( frames.Down )
+
+						-- mark the MapData where the player is standing as collidable
+						-- SRT.TileData.CollisionTiles[SRT.Player.pos.d * SRT.TileData.Width.Tiles + SRT.Player.pos.r + 1] = 1
+					end
+				}
+			end
 		end
 	end
 end
