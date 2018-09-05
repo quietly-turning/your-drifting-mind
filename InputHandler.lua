@@ -2,6 +2,32 @@ local args = ...
 local t = args[1]
 local g = args[2]
 
+local directional_movement = function(button)
+	g.Player.input.Active = button
+
+	if not g.InputIsLocked then
+		-- attempt to tween character
+		g.Player.actor:playcommand("AttemptToTween", {dir=button})
+
+		-- attempt to tween the map
+		-- t:GetChild("Visuals"):GetChild("Sprite"):playcommand("AttemptToTween")
+	end
+end
+
+local FirstPress = {
+	Start = function()
+		-- InteractionHandler()
+	end,
+
+	MenuRight = function() end,
+	MenuLeft = function() end,
+
+	Up = function(button) directional_movement(button) end,
+	Down = function(button) directional_movement(button) end,
+	Left = function(button) directional_movement(button) end,
+	Right = function(button) directional_movement(button) end
+}
+
 local InputHandler = function(event)
 
 	-- if any of these, don't attempt to handle input
@@ -11,7 +37,7 @@ local InputHandler = function(event)
 	-- DEVELOPER & DEBUG STUFF
 
 	-- quick hack to get out of the song by pressing escape
-	if event.type == "InputEventType_FirstPress" and (event.DeviceInput.button == "DeviceButton_escape") then
+	if  (event.DeviceInput.button == "DeviceButton_escape") then
 		t:queuecommand("Off")
 		return false
 	end
@@ -22,35 +48,9 @@ local InputHandler = function(event)
 	local pn = ToEnumShortString(event.PlayerNumber)
 
 
-	if event.type == "InputEventType_FirstPress" and event.GameButton == "Start" then
+	if event.type == "InputEventType_FirstPress" then
 
-		-- InteractionHandler()
-
-	elseif event.type == "InputEventType_FirstPress" and event.button == "MenuRight" then
-
-
-	elseif event.type == "InputEventType_FirstPress" and event.button == "MenuLeft" then
-
-
-	elseif event.type ~= "InputEventType_Release" then
-
-		g.Player.input[event.button] = true
-
-		-- handle player sprite movement
-		if event.button == "Up" or event.button == "Down" or event.button == "Left" or event.button == "Right" then
-
-			-- if event.type == "InputEventType_FirstPress" then
-			-- 	g.Player.input.Active = event.button
-			-- end
-
-			if not g.InputIsLocked then
-				-- attempt to tween character
-				g.Player.actor:playcommand("AttemptToTween", {dir=event.button})
-
-				-- attempt to tween the map
-				-- t:GetChild("Visuals"):GetChild("Sprite"):playcommand("AttemptToTween")
-			end
-		end
+		FirstPress[event.button](event.button)
 
 	elseif event.type == "InputEventType_Release" then
 		-- g.Player.input.Active = nil
