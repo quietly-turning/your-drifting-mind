@@ -20,10 +20,10 @@ local FirstPress = {
 	MenuRight = function() end,
 	MenuLeft = function() end,
 
-	Up = function(button) directional_movement(button) end,
-	Down = function(button) directional_movement(button) end,
-	Left = function(button) directional_movement(button) end,
-	Right = function(button) directional_movement(button) end
+	Up = function() directional_movement("Up") end,
+	Down = function() directional_movement("Down") end,
+	Left = function() directional_movement("Left") end,
+	Right = function() directional_movement("Right") end
 }
 
 local InputHandler = function(event)
@@ -44,17 +44,20 @@ local InputHandler = function(event)
 
 	if event.type == "InputEventType_FirstPress" then
 
-		if FirstPress[event.button] then
-			FirstPress[event.button](event.button)
-		end
+		-- if the FirstPress table has a function to react to whichever
+		-- button was just pressed, then call that function
+		if FirstPress[event.button] then FirstPress[event.button]() end
 
 	elseif event.type == "InputEventType_Release" then
 
-		-- if the button just released was the most recently active button, mark the active field as nil
+		-- if the button just released was the most recently active button, then no button is being held
 		if event.button == g.Player.input.Active then
+			-- so mark the Active field as nil
 			g.Player.input.Active = nil
+			-- and inform the player sprite to stop animating
 			g.Player.actor:queuecommand("AnimationOff")
 		end
+
 		-- either way, this button has been released, so mark it as false
 		g.Player.input[event.button] = false
 	end

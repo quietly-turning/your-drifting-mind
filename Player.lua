@@ -5,6 +5,16 @@ local layer_data = args[3]
 
 local SleepDuration = 0.125
 
+local collision_layer
+
+for layer in ivalues(map_data.layers) do
+	if layer.name == "Collision" then
+		collision_layer = layer
+		break
+	end
+end
+
+
 local WillBeOffMap = {
 	Up=function() return g.Player.pos.y < 1 end,
 	Down=function() return g.Player.pos.y > map_data.height-2 end,
@@ -38,6 +48,29 @@ local UpdatePosition = function()
 	-- set the current tile to collidable
 	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 1
 end
+
+local NextTile = {
+	Up=function() return (g.Player.pos.y-1) * map_data.width + g.Player.pos.x + 1 end,
+	Down=function() return (g.Player.pos.y+1) * map_data.width + g.Player.pos.x + 1 end,
+	Left=function() return g.Player.pos.y * map_data.width + g.Player.pos.x end,
+	Right=function() return g.Player.pos.y * map_data.width + g.Player.pos.x + 2 end
+}
+
+local WillCollide = function()
+	local next_tile = NextTile[g.Player.dir]()
+
+	if next_tile then
+		if collision_layer.data[ next_tile ] ~= 0 then
+			return true
+		else
+			-- TouchHandler( NextTile )
+			return false
+		end
+	end
+
+	return false
+end
+
 
 local frames = {
 	Down = {
@@ -82,7 +115,7 @@ return LoadActor("./data/Reen 4x4.png")..{
 
 		self:animate(false)
 		-- align to left and v-middle
-			:align(0, 0)
+			:align(0, 0.5)
 		-- initialize the position
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
 		-- initialize the sprite state
@@ -102,7 +135,8 @@ return LoadActor("./data/Reen 4x4.png")..{
 	TweenCommand=function(self)
 
 
-		if not WillBeOffMap[g.Player.dir]() then
+		-- collision check the impending tile
+		if not WillCollide() and not WillBeOffMap[g.Player.dir]() then
 
 			-- this does a good job of mitigating tween overflows resulting from button mashing
 			-- self:stoptweening()
@@ -145,20 +179,13 @@ return LoadActor("./data/Reen 4x4.png")..{
 			self:playcommand("UpdateSpriteFrames")
 		end
 
+		-- don't allow us to go off the map
+		if g.Player.dir and g.Player.input[ g.Player.dir ] and not g.Player.tweening then
 
+			self:playcommand("AnimationOn")
 
-		-- collision check the impending tile
-		-- if not WillCollide() then
-
-
-			-- don't allow us to go off the map
-			if g.Player.dir and g.Player.input[ g.Player.dir ] and not g.Player.tweening then
-
-				self:playcommand("AnimationOn")
-
-				-- tween the player sprite
-				self:playcommand("Tween")
-			end
-		-- end
+			-- tween the player sprite
+			self:playcommand("Tween")
+		end
 	end
 }
