@@ -5,6 +5,13 @@ local layer_data = args[3]
 
 local SleepDuration = 0.125
 
+local WillBeOffMap = {
+	Up=function() return g.Player.pos.y < 1 end,
+	Down=function() return g.Player.pos.y > map_data.height-2 end,
+	Left=function() return g.Player.pos.x < 1 end,
+	Right=function() return g.Player.pos.x > map_data.width-2 end
+}
+
 local UpdatePosition = function()
 
 	-- set the player sprite's current tile to "not collidable"
@@ -68,18 +75,16 @@ return LoadActor("./data/Reen 4x4.png")..{
 		g.Player.pos = g.Player.pos or {
 			x = layer_data.objects[1].x/map_data.tilewidth,
 			y = layer_data.objects[1].y/map_data.tileheight
-			-- z = -(SRT.TileData.Height.Tiles - SRT.Player.pos.d)
+			-- z = -(g.TileData.Height.Tiles - g.Player.pos.d)
 		}
 
 		g.Player.dir = "Down"
 
-		self:animate(true)
+		self:animate(false)
 		-- align to left and v-middle
-			:align(0, 0.5)
-
+			:align(0, 0)
 		-- initialize the position
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
-
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
 	end,
@@ -96,24 +101,28 @@ return LoadActor("./data/Reen 4x4.png")..{
 	end,
 	TweenCommand=function(self)
 
-		-- this does a good job of mitigating tween overflows resulting from button mashing
-		-- self:stoptweening()
-		g.Player.tweening = true
 
-		-- we *probably* want to update the player's map position
-		-- UpdatePosition() does just that, if we should
-		UpdatePosition()
+		if not WillBeOffMap[g.Player.dir]() then
 
-		-- tween the map
-		SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Visuals"):playcommand("TweenMap", {SleepDuration=SleepDuration})
+			-- this does a good job of mitigating tween overflows resulting from button mashing
+			-- self:stoptweening()
+			g.Player.tweening = true
 
-		self:playcommand("AnimationOn")
-			:linear(SleepDuration)
-			:x(g.Player.pos.x * map_data.tilewidth)
-			:y(g.Player.pos.y * map_data.tileheight)
-			-- :z( -g.Player.pos.z )
+			-- we *probably* want to update the player's map position
+			-- UpdatePosition() does just that, if we should
+			UpdatePosition()
 
-		self:queuecommand("MaybeTweenAgain")
+			-- tween the map
+			SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Visuals"):playcommand("TweenMap", {SleepDuration=SleepDuration})
+
+			self:playcommand("AnimationOn")
+				:linear(SleepDuration)
+				:x(g.Player.pos.x * map_data.tilewidth)
+				:y(g.Player.pos.y * map_data.tileheight)
+				-- :z( -g.Player.pos.z )
+
+			self:queuecommand("MaybeTweenAgain")
+		end
 	end,
 	MaybeTweenAgainCommand=function(self)
 		g.Player.tweening = false
@@ -139,10 +148,10 @@ return LoadActor("./data/Reen 4x4.png")..{
 
 
 		-- collision check the impending tile
-		-- if not SRT.Collisions or not WillCollide() then
+		-- if not WillCollide() then
+
 
 			-- don't allow us to go off the map
-			-- if not WillBeOffMap() then
 			if g.Player.dir and g.Player.input[ g.Player.dir ] and not g.Player.tweening then
 
 				self:playcommand("AnimationOn")
@@ -150,7 +159,6 @@ return LoadActor("./data/Reen 4x4.png")..{
 				-- tween the player sprite
 				self:playcommand("Tween")
 			end
-			-- end
 		-- end
 	end
 }

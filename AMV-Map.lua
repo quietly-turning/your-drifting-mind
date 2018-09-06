@@ -5,7 +5,7 @@ local map_data = args[2]
 -- returns a table of two values, right and down, both in tile units
 local FindCenterOfMap = function()
 	-- calculate which tile currently represents map center in terms of tiles right and tiles down from top-left (1,1)
-	local MapCenter = {right = g.Player.pos.x, down = g.Player.pos.y}
+	local MapCenter = {right=g.Player.pos.x,  down=g.Player.pos.y}
 
 	-- half screen width in tile units
 	local half_screen_width_in_tiles  = (_screen.w/map_data.tilewidth)/2

@@ -51,7 +51,10 @@ local InputHandler = function(event)
 	elseif event.type == "InputEventType_Release" then
 
 		-- if the button just released was the most recently active button, mark the active field as nil
-		if event.button == g.Player.input.Active then g.Player.input.Active = nil end
+		if event.button == g.Player.input.Active then
+			g.Player.input.Active = nil
+			g.Player.actor:queuecommand("AnimationOff")
+		end
 		-- either way, this button has been released, so mark it as false
 		g.Player.input[event.button] = false
 	end
