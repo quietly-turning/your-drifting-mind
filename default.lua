@@ -1,4 +1,5 @@
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+local so = GAMESTATE:GetSongOptionsObject("ModsLevel_Song")
 local g = {
 	Player = {
 		file = "Reen 4x4.png",
@@ -14,11 +15,11 @@ local g = {
 			Start = false,
 			Select = false
 		},
+		tweening = false
 	},
-
 }
 local map_data = LoadActor("./data/YourDriftingMind.lua")
-local amv_af = LoadActor("AMV-Map.lua", {g, map_data})
+local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 return Def.ActorFrame{
@@ -28,30 +29,20 @@ return Def.ActorFrame{
 
 		-- This won't work with ScreenEdit, so don't bother trying.
 		if screen:GetName() ~= "ScreenEdit" then
-			screen:PauseGame(true)
 
 			-- hide everything but the SongForeground layer
 			for k,v in pairs(screen:GetChildren()) do
 				if k ~= "SongForeground" then
-					v:hibernate(math.huge)
+					v:visible(false)
 				end
 			end
 
 			screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 		end
 	end,
-	OffCommand=function(self)
-		local screen = SCREENMAN:GetTopScreen()
-
-		-- This won't work with ScreenEdit, so don't bother trying.
-		if screen:GetName() ~= "ScreenEdit" then
-			screen:PauseGame(false)
-		end
-	end,
 
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
-
 	-- AMVs to draw
-	amv_af,
+	amv_map
 }

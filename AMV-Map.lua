@@ -2,6 +2,32 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 
+-- returns a table of two values, right and down, both in tile units
+local FindCenterOfMap = function()
+	-- calculate which tile currently represents map center in terms of tiles right and tiles down from top-left (1,1)
+	local MapCenter = {right = g.Player.pos.x, down = g.Player.pos.y}
+
+	-- half screen width in tile units
+	local half_screen_width_in_tiles  = (_screen.w/map_data.tilewidth)/2
+	-- half screen height in tile units
+	local half_screen_height_in_tiles = (_screen.h/map_data.tileheight)/2
+
+	-- if players are near the edge of a map, using the MapCenter as calculated above
+	-- will result in the map scrolling "too far" and the player seeing beyond the edge of the map
+	-- clamp the MapCenter values here to prevent this from occuring
+
+	-- left edge of map
+	if (MapCenter.right < half_screen_width_in_tiles) then MapCenter.right = half_screen_width_in_tiles end
+	-- right edge of map
+	if (MapCenter.right > map_data.width - half_screen_width_in_tiles) then MapCenter.right = map_data.width - half_screen_width_in_tiles end
+	-- top edge of map
+	if (MapCenter.down < half_screen_height_in_tiles) then MapCenter.down = half_screen_height_in_tiles end
+	-- bottom edge of map
+	if (MapCenter.down > map_data.height - half_screen_height_in_tiles) then MapCenter.down = map_data.height - half_screen_height_in_tiles end
+
+	return MapCenter
+end
+
 local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, mapheight)
 
 	local rows = tileset.imageheight/tileset.tileheight
@@ -45,7 +71,26 @@ local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, maphe
 	return verts
 end
 
-local af = Def.ActorFrame{}
+local af = Def.ActorFrame{ Name="Visuals" }
+
+af.InitCommand=function(self)
+	local MapCenter = FindCenterOfMap()
+	-- update the map's xy position
+	self:x(-(MapCenter.right * map_data.tilewidth - _screen.w/2))
+	self:y(-(MapCenter.down * map_data.tileheight - _screen.h/2))
+end
+
+af.TweenMapCommand=function(self, params)
+	self:stoptweening()
+	local MapCenter = FindCenterOfMap()
+	-- SM(g.Player.pos)
+	self:linear(params.SleepDuration)
+	-- update the map's xy position
+	self:x(-(MapCenter.right * map_data.tilewidth - _screen.w/2))
+	self:y(-(MapCenter.down * map_data.tileheight - _screen.h/2))
+end
+
+
 
 for layer_name in ivalues({"Under", "Player", "Over"}) do
 	for layer_data in ivalues(map_data.layers) do

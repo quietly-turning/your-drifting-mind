@@ -34,28 +34,28 @@ end
 
 local frames = {
 	Down = {
-		{ Frame=0,	Delay=SleepDuration},
-		{ Frame=1,	Delay=SleepDuration},
-		{ Frame=2,	Delay=SleepDuration},
-		{ Frame=3,	Delay=SleepDuration}
+		{ Frame=0,	Delay=SleepDuration/1.5},
+		{ Frame=1,	Delay=SleepDuration/1.5},
+		{ Frame=2,	Delay=SleepDuration/1.5},
+		{ Frame=3,	Delay=SleepDuration/1.5}
 	},
 	Left = {
-		{ Frame=4,	Delay=SleepDuration},
-		{ Frame=5,	Delay=SleepDuration},
-		{ Frame=6,	Delay=SleepDuration},
-		{ Frame=7,	Delay=SleepDuration}
+		{ Frame=4,	Delay=SleepDuration/1.5},
+		{ Frame=5,	Delay=SleepDuration/1.5},
+		{ Frame=6,	Delay=SleepDuration/1.5},
+		{ Frame=7,	Delay=SleepDuration/1.5}
 	},
 	Right = {
-		{ Frame=8,	Delay=SleepDuration},
-		{ Frame=9,	Delay=SleepDuration},
-		{ Frame=10,	Delay=SleepDuration},
-		{ Frame=11,	Delay=SleepDuration}
+		{ Frame=8,	Delay=SleepDuration/1.5},
+		{ Frame=9,	Delay=SleepDuration/1.5},
+		{ Frame=10,	Delay=SleepDuration/1.5},
+		{ Frame=11,	Delay=SleepDuration/1.5}
 	},
 	Up = {
-		{ Frame=12,	Delay=SleepDuration},
-		{ Frame=13,	Delay=SleepDuration},
-		{ Frame=14,	Delay=SleepDuration},
-		{ Frame=15,	Delay=SleepDuration}
+		{ Frame=12,	Delay=SleepDuration/1.5},
+		{ Frame=13,	Delay=SleepDuration/1.5},
+		{ Frame=14,	Delay=SleepDuration/1.5},
+		{ Frame=15,	Delay=SleepDuration/1.5}
 	}
 }
 
@@ -65,46 +65,66 @@ return LoadActor("./data/Reen 4x4.png")..{
 
 		g.Player.actor = self
 
-		g.Player.pos = g.Player.pos or {}
-		g.Player.pos.x = layer_data.objects[1].x/map_data.tilewidth
-		g.Player.pos.y = layer_data.objects[1].y/map_data.tileheight
+		g.Player.pos = g.Player.pos or {
+			x = layer_data.objects[1].x/map_data.tilewidth,
+			y = layer_data.objects[1].y/map_data.tileheight
+			-- z = -(SRT.TileData.Height.Tiles - SRT.Player.pos.d)
+		}
 
 		g.Player.dir = "Down"
 
-		self:animate(0)
+		self:animate(true)
 		-- align to left and v-middle
 			:align(0, 0.5)
 
 		-- initialize the position
-			:xy(g.Player.pos.x*map_data.tilewidth, g.Player.pos.y*map_data.tileheight)
+			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
 
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
 	end,
 	UpdateSpriteFramesCommand=function(self)
-		self:SetStateProperties( frames[g.Player.dir] )
+		if g.Player.dir then
+			self:SetStateProperties( frames[g.Player.dir] )
+		end
 	end,
-	AnimationOnCommand=cmd(animate,1),
-	AnimationOffCommand=cmd(animate, 0; setstate, 0),
+	AnimationOnCommand=function(self)
+		self:animate(true)
+	end,
+	AnimationOffCommand=function(self)
+		self:animate(false):setstate(0)
+	end,
 	TweenCommand=function(self)
 
 		-- this does a good job of mitigating tween overflows resulting from button mashing
-		self:stoptweening()
+		-- self:stoptweening()
+		g.Player.tweening = true
 
-		if g.Player.dir and g.Player.input[ g.Player.dir ] then
+		-- we *probably* want to update the player's map position
+		-- UpdatePosition() does just that, if we should
+		UpdatePosition()
 
-			self:linear(SleepDuration)
-			self:x(g.Player.pos.x * map_data.tilewidth)
-			self:y(g.Player.pos.y * map_data.tileheight)
-
-			-- SM( g.Player.pos.x .. " " .. g.Player.pos.y )
-			self:z( -g.Player.pos.z )
-		end
-	end,
-
-	AttemptToTweenCommand=function(self, params)
+		-- tween the map
+		SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Visuals"):playcommand("TweenMap", {SleepDuration=SleepDuration})
 
 		self:playcommand("AnimationOn")
+			:linear(SleepDuration)
+			:x(g.Player.pos.x * map_data.tilewidth)
+			:y(g.Player.pos.y * map_data.tileheight)
+			-- :z( -g.Player.pos.z )
+
+		self:queuecommand("MaybeTweenAgain")
+	end,
+	MaybeTweenAgainCommand=function(self)
+		g.Player.tweening = false
+
+		if g.Player.dir and g.Player.input[ g.Player.dir ] then
+			self:playcommand("Tween")
+		else
+			self:stoptweening():playcommand("AnimationOff")
+		end
+	end,
+	AttemptToTweenCommand=function(self, params)
 
 		-- Does the player sprite's current direction match the direction
 		-- we were just passed from the input handler?
@@ -123,13 +143,13 @@ return LoadActor("./data/Reen 4x4.png")..{
 
 			-- don't allow us to go off the map
 			-- if not WillBeOffMap() then
+			if g.Player.dir and g.Player.input[ g.Player.dir ] and not g.Player.tweening then
 
-				-- we *probably* want to update the player's map position
-				-- UpdatePosition() does just that, if we should
-				UpdatePosition()
+				self:playcommand("AnimationOn")
 
 				-- tween the player sprite
 				self:playcommand("Tween")
+			end
 			-- end
 		-- end
 	end

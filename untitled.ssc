@@ -36,7 +36,7 @@
 #KEYSOUNDS:;
 #ATTACKS:;
 #FGCHANGES:0.000=./default.lua=1.000=0=0=1=====;
-#LASTSECONDHINT:2.000;
+#LASTSECONDHINT:999.000;
 
 //---------------dance-single - ----------------
 #NOTEDATA:;

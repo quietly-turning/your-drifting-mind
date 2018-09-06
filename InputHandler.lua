@@ -4,13 +4,11 @@ local g = args[2]
 
 local directional_movement = function(button)
 	g.Player.input.Active = button
+	g.Player.input[button] = true
 
 	if not g.InputIsLocked then
 		-- attempt to tween character
 		g.Player.actor:playcommand("AttemptToTween", {dir=button})
-
-		-- attempt to tween the map
-		-- t:GetChild("Visuals"):GetChild("Sprite"):playcommand("AttemptToTween")
 	end
 end
 
@@ -38,29 +36,24 @@ local InputHandler = function(event)
 
 	-- quick hack to get out of the song by pressing escape
 	if  (event.DeviceInput.button == "DeviceButton_escape") then
-		t:queuecommand("Off")
-		return false
+		SCREENMAN:GetTopScreen():begin_backing_out()
+		return
 	end
 
 	----------------------------------------------------------------------------
 
-	-- truncate "PlayerNumber_P1" into "P1"
-	local pn = ToEnumShortString(event.PlayerNumber)
-
-
 	if event.type == "InputEventType_FirstPress" then
 
-		FirstPress[event.button](event.button)
+		if FirstPress[event.button] then
+			FirstPress[event.button](event.button)
+		end
 
 	elseif event.type == "InputEventType_Release" then
-		-- g.Player.input.Active = nil
-		g.Player.input[event.button] = false
 
-		-- if a player has released a directional arrow...
-		if event.button == "Up" or event.button == "Down" or event.button == "Left" or event.button == "Right" then
-			-- ...then attempt to redraw the character sprite in a neutral (standing) state
-			g.Player.actor:queuecommand("AnimationOff")
-		end
+		-- if the button just released was the most recently active button, mark the active field as nil
+		if event.button == g.Player.input.Active then g.Player.input.Active = nil end
+		-- either way, this button has been released, so mark it as false
+		g.Player.input[event.button] = false
 	end
 
 	return false
