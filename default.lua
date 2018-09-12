@@ -1,5 +1,34 @@
+-- ------------------------------------------------------
+-- Stuff related to chart selection
+
+-- if both players are joined
+if #GAMESTATE:GetHumanPlayers() > 1 then
+
+	local all_steps = GAMESTATE:GetCurrentSong():GetStepsByStepsType( "StepsType_Dance_Single" )
+	local reload_necessary = false
+
+	for player in ivalues(GAMESTATE:GetHumanPlayers()) do
+		if GAMESTATE:GetCurrentSteps(player):GetDifficulty() ~= "Difficulty_Challenge" then
+			GAMESTATE:SetCurrentSteps(player, steps[2])
+			reload_necessary = true
+		end
+	end
+
+	if reload_necessary then
+		return Def.Actor {
+			OnCommand=function(self)
+				if SCREENMAN:GetTopScreen():GetName() ~= "ScreenEdit" then
+					SCREENMAN:SetNewScreen('ScreenGameplay')
+				end
+			end
+		}
+	else
+		return Def.Actor{}
+	end
+end
+
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-local so = GAMESTATE:GetSongOptionsObject("ModsLevel_Song")
+
 local g = {
 	Player = {
 		file = "Reen 4x4.png",
@@ -25,6 +54,9 @@ local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
 return Def.ActorFrame{
 	InitCommand=function(self) end,
 	OnCommand=function(self)
+
+		-- GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate( 0.1 )
+
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- This won't work with ScreenEdit, so don't bother trying.
