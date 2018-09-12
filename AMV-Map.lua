@@ -2,6 +2,8 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 
+g.Events = {}
+
 -- returns a table of two values, right and down, both in tile units
 local FindCenterOfMap = function()
 	-- calculate which tile currently represents map center in terms of tiles right and tiles down from top-left (1,1)
@@ -78,6 +80,7 @@ af.InitCommand=function(self)
 	-- update the map's xy position
 	self:x(-(MapCenter.right * map_data.tilewidth - _screen.w/2))
 	self:y(-(MapCenter.down * map_data.tileheight - _screen.h/2))
+
 end
 
 af.TweenMapCommand=function(self, params)
@@ -91,14 +94,14 @@ af.TweenMapCommand=function(self, params)
 end
 
 
+local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "data/" .. map_data.tilesets[1].image
 
-for layer_name in ivalues({"Under", "Player", "Over"}) do
+for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 	for layer_data in ivalues(map_data.layers) do
 		if layer_data.name == layer_name then
 
 			if layer_name == "Under" or layer_name == "Over" then
 
-				local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "data/" .. map_data.tilesets[1].image
 				local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
 				-- an AMV for this layer in the map
@@ -115,6 +118,12 @@ for layer_name in ivalues({"Under", "Player", "Over"}) do
 			elseif layer_name == "Player" then
 
 				af[#af+1] = LoadActor("./Player.lua", {g, map_data, layer_data})
+
+			elseif layer_data == "Events" then
+
+				for event in ivalues(layer_data) do
+
+				end
 			end
 		end
 	end

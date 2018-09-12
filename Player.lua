@@ -5,8 +5,32 @@ local layer_data = args[3]
 
 local SleepDuration = 0.125
 
-local collision_layer
+g.Player = {
+	file = "Reen 4x4.png",
+	dir = "Down",
+	tweening = false,
 
+	input = {
+		Active = nil,
+		Up = false,
+		Down = false,
+		Left = false,
+		Right = false,
+		MenuRight = false,
+		MenuLeft = false,
+		Start = false,
+		Select = false
+	},
+
+	NextTile = {
+		Up=function() return (g.Player.pos.y-1) * map_data.width + g.Player.pos.x + 1 end,
+		Down=function() return (g.Player.pos.y+1) * map_data.width + g.Player.pos.x + 1 end,
+		Left=function() return g.Player.pos.y * map_data.width + g.Player.pos.x end,
+		Right=function() return g.Player.pos.y * map_data.width + g.Player.pos.x + 2 end
+	}
+}
+
+local collision_layer
 for layer in ivalues(map_data.layers) do
 	if layer.name == "Collision" then
 		collision_layer = layer
@@ -49,21 +73,15 @@ local UpdatePosition = function()
 	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 1
 end
 
-local NextTile = {
-	Up=function() return (g.Player.pos.y-1) * map_data.width + g.Player.pos.x + 1 end,
-	Down=function() return (g.Player.pos.y+1) * map_data.width + g.Player.pos.x + 1 end,
-	Left=function() return g.Player.pos.y * map_data.width + g.Player.pos.x end,
-	Right=function() return g.Player.pos.y * map_data.width + g.Player.pos.x + 2 end
-}
 
 local WillCollide = function()
-	local next_tile = NextTile[g.Player.dir]()
+	local next_tile = g.Player.NextTile[g.Player.dir]()
 
 	if next_tile then
 		if collision_layer.data[ next_tile ] ~= 0 then
 			return true
 		else
-			-- TouchHandler( NextTile )
+			-- TouchHandler( g.Player.NextTile )
 			return false
 		end
 	end
@@ -120,6 +138,7 @@ return LoadActor("./data/Reen 4x4.png")..{
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
+			:SetTextureFiltering(false)
 	end,
 	UpdateSpriteFramesCommand=function(self)
 		if g.Player.dir then

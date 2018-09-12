@@ -13,9 +13,7 @@ local directional_movement = function(button)
 end
 
 local FirstPress = {
-	Start = function()
-		-- InteractionHandler()
-	end,
+	Start = function() InteractionHandler() end,
 
 	MenuRight = function() end,
 	MenuLeft = function() end,
@@ -23,7 +21,7 @@ local FirstPress = {
 	Up = function() directional_movement("Up") end,
 	Down = function() directional_movement("Down") end,
 	Left = function() directional_movement("Left") end,
-	Right = function() directional_movement("Right") end
+	Right = function() directional_movement("Right") end,
 }
 
 local InputHandler = function(event)

@@ -29,24 +29,7 @@ end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-local g = {
-	Player = {
-		file = "Reen 4x4.png",
-		dir = "Down",
-		input = {
-			Active = nil,
-			Up = false,
-			Down = false,
-			Left = false,
-			Right = false,
-			MenuRight = false,
-			MenuLeft = false,
-			Start = false,
-			Select = false
-		},
-		tweening = false
-	},
-}
+local g = {}
 local map_data = LoadActor("./data/YourDriftingMind.lua")
 local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,8 +37,6 @@ local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
 return Def.ActorFrame{
 	InitCommand=function(self) end,
 	OnCommand=function(self)
-
-		-- GAMESTATE:GetSongOptionsObject("ModsLevel_Song"):MusicRate( 0.1 )
 
 		local screen = SCREENMAN:GetTopScreen()
 

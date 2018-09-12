@@ -8,8 +8,8 @@ return {
   height = 24,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 11,
-  nextobjectid = 7,
+  nextlayerid = 13,
+  nextobjectid = 16,
   properties = {},
   tilesets = {
     {
@@ -294,6 +294,50 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 11,
+      name = "Events",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 7,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 128,
+          y = 160,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["info"] = "The entrance to the cave is being blocked by this log."
+          }
+        },
+        {
+          id = 15,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 288,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          gid = 31,
+          visible = true,
+          properties = {
+            ["info"] = "A lone flower."
+          }
         }
       }
     }
