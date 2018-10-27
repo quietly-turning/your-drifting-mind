@@ -166,7 +166,7 @@ return LoadActor("./map_data/Reen 4x4.png")..{
 			UpdatePosition()
 
 			-- tween the map
-			SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Visuals"):playcommand("TweenMap", {SleepDuration=SleepDuration})
+			SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Map ActorFrame"):GetChild("Visuals"):playcommand("TweenMap", {SleepDuration=SleepDuration})
 
 			self:playcommand("AnimationOn")
 				:linear(SleepDuration)

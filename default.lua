@@ -28,18 +28,34 @@ if #GAMESTATE:GetHumanPlayers() > 1 then
 end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 local g = {}
-local map_data = LoadActor("./map_data/YourDriftingMind.lua")
-local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
-
-
--- local start_time = GetTimeSinceStart()
-
 local Update = function(self, delta)
 	-- g.Player.actor:playcommand("Update", {delta})
 	g.snowfall:playcommand("Update", {delta})
 end
+
+local map_data = LoadActor("./map_data/YourDriftingMind.lua")
+
+local map = Def.ActorFrame{
+	Name="Map ActorFrame",
+
+	InitCommand=function(self) self:diffuse(0,0,0,1) end,
+	OnCommand=function(self)
+		self:hibernate(13):queuecommand("Appear")
+		self:smooth(1):diffuse(1,1,1,1)
+	end,
+	AppearCommand=function(self)
+		local screen = SCREENMAN:GetTopScreen()
+		screen:SetUpdateFunction( Update )
+		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
+	end,
+
+	LoadActor("AMV-Map.lua", {g, map_data}),
+	LoadActor("./snow.lua", g)
+}
+
+local phone = LoadActor("./phone/default.lua")
+
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -58,16 +74,13 @@ return Def.ActorFrame{
 					v:visible(false)
 				end
 			end
-
-			screen:SetUpdateFunction( Update )
-			screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 		end
 	end,
 
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
-	-- AMVs to draw
-	amv_map,
 
-	LoadActor("./snow.lua", g)
+	-- Scenes
+	phone,
+	map
 }
