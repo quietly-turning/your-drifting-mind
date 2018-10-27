@@ -30,8 +30,17 @@ end
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 local g = {}
-local map_data = LoadActor("./data/YourDriftingMind.lua")
+local map_data = LoadActor("./map_data/YourDriftingMind.lua")
 local amv_map = LoadActor("AMV-Map.lua", {g, map_data})
+
+
+-- local start_time = GetTimeSinceStart()
+
+local Update = function(self, delta)
+	-- g.Player.actor:playcommand("Update", {delta})
+	g.snowfall:playcommand("Update", {delta})
+end
+
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 return Def.ActorFrame{
@@ -50,6 +59,7 @@ return Def.ActorFrame{
 				end
 			end
 
+			screen:SetUpdateFunction( Update )
 			screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 		end
 	end,
@@ -57,5 +67,7 @@ return Def.ActorFrame{
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 	-- AMVs to draw
-	amv_map
+	amv_map,
+
+	LoadActor("./snow.lua", g)
 }

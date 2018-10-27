@@ -9,11 +9,20 @@ local directional_movement = function(button)
 	if not g.InputIsLocked then
 		-- attempt to tween character
 		g.Player.actor:playcommand("AttemptToTween", {dir=button})
+
+
+		-- -- Does the player sprite's current direction match the direction
+		-- if g.Player.dir ~= button then
+		-- 	-- if not, update it
+		-- 	g.Player.dir = button
+		-- 	-- and update the sprite's frames appropriately
+		-- 	g.Player.actor:playcommand("UpdateSpriteFrames")
+		-- end
 	end
 end
 
 local FirstPress = {
-	Start = function() InteractionHandler() end,
+	-- Start = function() InteractionHandler() end,
 
 	MenuRight = function() end,
 	MenuLeft = function() end,

@@ -94,7 +94,7 @@ af.TweenMapCommand=function(self, params)
 end
 
 
-local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "data/" .. map_data.tilesets[1].image
+local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
 
 for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 	for layer_data in ivalues(map_data.layers) do

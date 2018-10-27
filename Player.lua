@@ -118,7 +118,7 @@ local frames = {
 }
 
 -- a sprite for the player
-return LoadActor("./data/Reen 4x4.png")..{
+return LoadActor("./map_data/Reen 4x4.png")..{
 	InitCommand=function(self)
 
 		g.Player.actor = self
