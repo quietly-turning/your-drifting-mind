@@ -39,12 +39,13 @@ local map_data = LoadActor("./map_data/YourDriftingMind.lua")
 local map = Def.ActorFrame{
 	Name="Map ActorFrame",
 
-	InitCommand=function(self) self:diffuse(0,0,0,1) end,
+	-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
+	-- OnCommand=function(self)
+	-- 	self:hibernate(13):queuecommand("Appear")
+	-- 	self:smooth(1):diffuse(1,1,1,1)
+	-- end,
+	-- AppearCommand=function(self)
 	OnCommand=function(self)
-		self:hibernate(13):queuecommand("Appear")
-		self:smooth(1):diffuse(1,1,1,1)
-	end,
-	AppearCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
@@ -81,6 +82,6 @@ return Def.ActorFrame{
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 
 	-- Scenes
-	phone,
+	-- phone,
 	map
 }

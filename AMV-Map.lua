@@ -2,20 +2,24 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 
+local map_zoom = 1.75
+
 g.Events = {}
 
 -- returns a table of two values, right and down, both in tile units
 local FindCenterOfMap = function()
-	-- calculate which tile currently represents map center in terms of tiles right and tiles down from top-left (1,1)
+
+	-- calculate which tile currently represents the center of what is currently
+	-- displayed in the window in terms of tiles right and tiles down from top-left
 	local MapCenter = {right=g.Player.pos.x,  down=g.Player.pos.y}
 
 	-- half screen width in tile units
-	local half_screen_width_in_tiles  = (_screen.w/map_data.tilewidth)/2
+	local half_screen_width_in_tiles  = (_screen.w/(map_data.tilewidth*map_zoom))/2
 	-- half screen height in tile units
-	local half_screen_height_in_tiles = (_screen.h/map_data.tileheight)/2
+	local half_screen_height_in_tiles = (_screen.h/(map_data.tileheight*map_zoom))/2
 
-	-- if players are near the edge of a map, using the MapCenter as calculated above
-	-- will result in the map scrolling "too far" and the player seeing beyond the edge of the map
+	-- if players are near the edge of a map, using the MapCenter, this will result
+	-- in the map scrolling "too far" and the player seeing beyond the edge of the map
 	-- clamp the MapCenter values here to prevent this from occuring
 
 	-- left edge of map
@@ -73,24 +77,25 @@ local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, maphe
 	return verts
 end
 
+local MoveMap = function(self)
+	local MapCenter = FindCenterOfMap()
+	self:x(-(MapCenter.right * map_data.tilewidth * map_zoom - _screen.w/2))
+	self:y(-(MapCenter.down * map_data.tileheight * map_zoom - _screen.h/2))
+end
+
+-- -----------------------------------------------------------------------
+
 local af = Def.ActorFrame{ Name="Visuals" }
 
 af.InitCommand=function(self)
-	local MapCenter = FindCenterOfMap()
-	-- update the map's xy position
-	self:x(-(MapCenter.right * map_data.tilewidth - _screen.w/2))
-	self:y(-(MapCenter.down * map_data.tileheight - _screen.h/2))
-
+	self:zoom(map_zoom)
+	MoveMap(self)
 end
 
 af.TweenMapCommand=function(self, params)
 	self:stoptweening()
-	local MapCenter = FindCenterOfMap()
-	-- SM(g.Player.pos)
 	self:linear(params.SleepDuration)
-	-- update the map's xy position
-	self:x(-(MapCenter.right * map_data.tilewidth - _screen.w/2))
-	self:y(-(MapCenter.down * map_data.tileheight - _screen.h/2))
+	MoveMap(self)
 end
 
 

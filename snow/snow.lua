@@ -11,7 +11,7 @@ local max_vx = 7
 local min_vy = 55
 local max_vy = 85
 -- try to keep it SFW
-local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."snow/snowflake2.png"
+local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."snow/snowflake.png"
 
 -- -----------------------------------
 local verts = {}
