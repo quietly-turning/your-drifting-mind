@@ -1,6 +1,8 @@
 local args = ...
-local t = args[1]
+local map = args[1]
 local g = args[2]
+local _start = { duration = 0, begin_time = 0 }
+
 
 local directional_movement = function(button)
 	g.Player.input.Active = button
@@ -9,15 +11,6 @@ local directional_movement = function(button)
 	if not g.InputIsLocked then
 		-- attempt to tween character
 		g.Player.actor:playcommand("AttemptToTween", {dir=button})
-
-
-		-- -- Does the player sprite's current direction match the direction
-		-- if g.Player.dir ~= button then
-		-- 	-- if not, update it
-		-- 	g.Player.dir = button
-		-- 	-- and update the sprite's frames appropriately
-		-- 	g.Player.actor:playcommand("UpdateSpriteFrames")
-		-- end
 	end
 end
 
@@ -41,10 +34,39 @@ local InputHandler = function(event)
 	----------------------------------------------------------------------------
 	-- DEVELOPER & DEBUG STUFF
 
-	-- quick hack to get out of the song by pressing escape
+	-- quick hack to get out by pressing escape
 	if  (event.DeviceInput.button == "DeviceButton_escape") then
+		-- return input handling back to the engine
+		SCREENMAN:set_input_redirected(PLAYER_1, false)
+		SCREENMAN:set_input_redirected(PLAYER_2, false)
+		-- back out of ScreenGameplay
 		SCREENMAN:GetTopScreen():begin_backing_out()
 		return
+	end
+
+	-- get out by holding START for longer than 3 seconds
+	if event.button == "Start" then
+		if event.type == "InputEventType_FirstPress" then
+			_start.begin_time = GetTimeSinceStart()
+
+		elseif event.type == "InputEventType_Repeat" then
+			_start.duration = GetTimeSinceStart() - _start.begin_time
+
+		else
+			_start.duration = 0
+			_start.begin_time = 0
+		end
+
+		if _start.duration > 1 then
+			SCREENMAN:SystemMessage("Continue holding &START; to exit.")
+		end
+
+		if _start.duration > 3 then
+			-- return input handling back to the engine
+			SCREENMAN:set_input_redirected(PLAYER_1, false)
+			SCREENMAN:set_input_redirected(PLAYER_2, false)
+			SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_DoNextScreen")
+		end
 	end
 
 	----------------------------------------------------------------------------

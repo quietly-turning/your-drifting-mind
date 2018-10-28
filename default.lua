@@ -69,6 +69,10 @@ return Def.ActorFrame{
 		-- This won't work with ScreenEdit, so don't bother trying.
 		if screen:GetName() ~= "ScreenEdit" then
 
+			-- redirect input away from ScreenGameplay
+			SCREENMAN:set_input_redirected(PLAYER_1, true)
+			SCREENMAN:set_input_redirected(PLAYER_2, true)
+
 			-- hide everything but the SongForeground layer
 			for k,v in pairs(screen:GetChildren()) do
 				if k ~= "SongForeground" then
@@ -77,6 +81,13 @@ return Def.ActorFrame{
 			end
 		end
 	end,
+	OffCommand=function(self)
+		-- return input handling back to the engine
+		SCREENMAN:set_input_redirected(PLAYER_1, false)
+		SCREENMAN:set_input_redirected(PLAYER_2, false)
+	end,
+
+
 
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
