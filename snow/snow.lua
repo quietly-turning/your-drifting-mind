@@ -11,7 +11,7 @@ local max_vx = 7
 local min_vy = 55
 local max_vy = 85
 -- try to keep it SFW
-local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."assets/snowflake.png"
+local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."snow/snowflake2.png"
 
 -- -----------------------------------
 local verts = {}
@@ -40,6 +40,7 @@ return Def.ActorMultiVertex{
 		self:SetDrawState( {Mode="DrawMode_Quads"} )
 			:LoadTexture( path_to_texture )
 			:SetVertices( verts )
+			:SetTextureFiltering( false )
 		amv = self
 		g.snowfall = self
 	end,

@@ -51,7 +51,7 @@ local map = Def.ActorFrame{
 	end,
 
 	LoadActor("AMV-Map.lua", {g, map_data}),
-	LoadActor("./snow.lua", g)
+	LoadActor("./snow/snow.lua", g)
 }
 
 local phone = LoadActor("./phone/default.lua")
