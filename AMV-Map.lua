@@ -81,6 +81,10 @@ local MoveMap = function(self)
 	local MapCenter = FindCenterOfMap()
 	self:x(-(MapCenter.right * map_data.tilewidth * map_zoom - _screen.w/2))
 	self:y(-(MapCenter.down * map_data.tileheight * map_zoom - _screen.h/2))
+
+	if g.snowfall then
+		g.snowfall:playcommand("TweenSnow", MapCenter)
+	end
 end
 
 -- -----------------------------------------------------------------------

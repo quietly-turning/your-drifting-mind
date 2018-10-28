@@ -1,10 +1,13 @@
-local g = ...
+local args = ...
+local g = args[1]
+local map_data = args[2]
+
 
 -- variables you might want to configure to your liking
-local num_particles = 1000
+local num_particles = 2000
 -- particle size in pixels
 local min_size = 10
-local max_size = 22
+local max_size = 30
 -- particle velocity in pixels per second
 local min_vx = -7
 local max_vx = 7
@@ -23,8 +26,8 @@ local delta_x, delta_y
 -- initialize the verts table
 for i=1, num_particles do
 	size = math.random(min_size, max_size)
-	x = math.random(_screen.w + size*2)
-	y = math.random(_screen.h + size*2)
+	x = math.random(map_data.width*map_data.tilewidth*g.map_zoom + size*2)
+	y = math.random(map_data.height*map_data.tileheight*g.map_zoom + size*2)
 	velocities[i] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
 	alpha = math.random(6, 10)/10
 
@@ -35,8 +38,11 @@ for i=1, num_particles do
 end
 
 
+
 return Def.ActorMultiVertex{
 	InitCommand=function(self)
+		-- self:setsize(map_data.width*map_data.tilewidth, map_data.height*map_data.tileheight)
+
 		self:SetDrawState( {Mode="DrawMode_Quads"} )
 			:LoadTexture( path_to_texture )
 			:SetVertices( verts )
@@ -50,6 +56,7 @@ return Def.ActorMultiVertex{
 		-- each particle is a quadrilateral comprised of four vertices (with a texture applied)
 		-- we want to update each of those four vertices for each of the quadrilaterals
 		for i=1, num_particles*4, 4 do
+
 			index = math.floor(i/4)+1
 
 			-- update the 4 x coordinates belonging to this particle
@@ -68,13 +75,13 @@ return Def.ActorMultiVertex{
 
 			-- if the top of this particular quadrilateral within the AMV has gone off
 			-- the bottom of the screen, reset its properties to reuse it
-			if (verts[i+0][1][2] > _screen.h+(verts[i+2][1][2]-verts[i+0][1][2])) then
+			if (verts[i+0][1][2] > map_data.height*map_data.tileheight*g.map_zoom+(verts[i+2][1][2]-verts[i+0][1][2])) then
 				-- re-randomize velocities as {vx, vy}
 				velocities[index] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
 				-- re-randomize particle size
 				size = math.random(min_size, max_size)
 				-- re-randomize starting x position
-				x = math.random(_screen.w + size*2)
+				x = math.random(map_data.width*map_data.width*g.map_zoom + size*2)
 				-- reset starting y position to be just above the top of the screen
 				verts[i+0][1] = {x-size, -size, 0}
 				verts[i+1][1] = {x, -size, 0}
@@ -84,6 +91,12 @@ return Def.ActorMultiVertex{
 		end
 
 		self:SetVertices(verts)
+	end,
+
+	TweenSnowCommand=function(self, MapCenter)
+		self:linear(g.SleepDuration)
+		self:x(-(MapCenter.right * map_data.tilewidth * g.map_zoom - _screen.w/2))
+		self:y(-(MapCenter.down * map_data.tileheight * g.map_zoom - _screen.h/2))
 	end
 }
 

@@ -3,7 +3,7 @@ local g = args[1]
 local map_data = args[2]
 local layer_data = args[3]
 
-local SleepDuration = 0.125
+local SleepDuration = g.SleepDuration
 
 g.Player = {
 	file = "Reen 4x4.png",

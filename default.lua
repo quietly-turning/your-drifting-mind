@@ -28,9 +28,12 @@ if #GAMESTATE:GetHumanPlayers() > 1 then
 end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-local g = {}
+local g = {
+	SleepDuration = 0.125,
+	map_zoom = 1.75
+}
+
 local Update = function(self, delta)
-	-- g.Player.actor:playcommand("Update", {delta})
 	g.snowfall:playcommand("Update", {delta})
 end
 
@@ -52,9 +55,9 @@ local map = Def.ActorFrame{
 	end,
 
 	LoadActor("AMV-Map.lua", {g, map_data}),
-	LoadActor("./snow/snow.lua", g)
 }
 
+local snow = LoadActor("./snow/snow.lua", {g, map_data})
 local phone = LoadActor("./phone/default.lua")
 
 
@@ -94,5 +97,6 @@ return Def.ActorFrame{
 
 	-- Scenes
 	-- phone,
-	map
+	map,
+	snow
 }
