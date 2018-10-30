@@ -49,7 +49,7 @@ af[#af+1] = Def.ActorFrame{
 
 		-- time
 		Def.BitmapText{
-			File=song_dir.."Fonts/helvetica neue/_helvetica neue 20px.ini",
+			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 			Text="6:32 AM",
 			InitCommand=function(self) self:diffuse(0.1,0.1,0.1,1):xy(_screen.cx, _screen.cy-130):zoom(1.5) end
 		},
@@ -63,7 +63,7 @@ af[#af+1] = Def.ActorFrame{
 			},
 			-- notification text
 			Def.BitmapText{
-				File=song_dir.."Fonts/helvetica neue/_helvetica neue 20px.ini",
+				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 				Text="you'll find me out here\nor maybe I'll lose myself\na walk in the snow",
 				InitCommand=function(self)
 					self:diffuse(Color.Black)
