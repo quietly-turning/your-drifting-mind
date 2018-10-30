@@ -30,7 +30,10 @@ end
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
 	SleepDuration = 0.125,
-	map_zoom = 1.75
+	map_zoom = 1.75,
+	Dialog = {
+		Speaker = "Her"
+	}
 }
 
 local Update = function(self, delta)
@@ -49,6 +52,8 @@ local map = Def.ActorFrame{
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
+
+		g.Dialog.ActorFrame:queuecommand("Show")
 	end,
 	TweenMapCommand=function(self)
 		self:stoptweening()
@@ -62,7 +67,7 @@ local map = Def.ActorFrame{
 }
 
 local phone = LoadActor("./phone/default.lua")
-
+local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -101,4 +106,7 @@ return Def.ActorFrame{
 	-- Scenes
 	phone,
 	map,
+
+	-- DialogBox, hidden unless needed
+	dialog_box,
 }

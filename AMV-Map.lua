@@ -115,7 +115,7 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 
 			elseif layer_name == "Player" then
 
-				af[#af+1] = LoadActor("./Player.lua", {g, map_data, layer_data})
+				af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
 
 			elseif layer_data == "Events" then
 
