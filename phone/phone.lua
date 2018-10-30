@@ -24,23 +24,18 @@ af[#af+1] = Def.ActorFrame{
 
 
 	Def.ActorFrame{
-		InitCommand=function(self) self:diffuse(0,0,0,1) end,
-		AppearCommand=function(self) self:sleep(0.25):smooth(0.75):diffuse(1,1,1,1) end,
-
-		-- screen
-		Def.Quad{
-			InitCommand=function(self) self:Center():zoomto(_phone.w*0.9,_phone.h*0.9):diffuse(color("#576274")) end,
-		},
+		-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
+		-- AppearCommand=function(self) self:sleep(0.25):smooth(0.75):diffuse(1,1,1,1) end,
 
 		-- wallpaper
-		-- LoadActor("./chobi.png")..{
-		-- 	InitCommand=function(self) self:zoom(0.35):xy(_screen.cx, _screen.cy+40) end,
-		-- },
+		LoadActor("./tree.jpg")..{
+			InitCommand=function(self) self:zoomto(200, 350):xy(_screen.cx, _screen.cy) end,
+		},
 	},
 
 	Def.ActorFrame{
-		InitCommand=function(self) self:diffuse(0,0,0,1) end,
-		AppearCommand=function(self) self:smooth(0.75):diffuse(1,1,1,1) end,
+		-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
+		-- AppearCommand=function(self) self:smooth(0.75):diffuse(1,1,1,1) end,
 
 		-- shell
 		LoadActor("./phone.png")..{
@@ -51,7 +46,7 @@ af[#af+1] = Def.ActorFrame{
 		Def.BitmapText{
 			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 			Text="6:32 AM",
-			InitCommand=function(self) self:diffuse(0.1,0.1,0.1,1):xy(_screen.cx, _screen.cy-130):zoom(1.5) end
+			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-130):zoom(1.65):shadowlength(0.75) end
 		},
 
 
@@ -59,17 +54,36 @@ af[#af+1] = Def.ActorFrame{
 			InitCommand=function(self) self:xy(_screen.cx, _screen.cy-60) end,
 			-- notification bg
 			Def.Quad{
-				InitCommand=function(self) self:zoomto(_phone.w*0.765, 60):diffuse(0.8,0.8,0.8,0.925) end,
+				InitCommand=function(self) self:zoomto(_phone.w*0.765, 80):diffuse(0.8,0.8,0.8,0.925) end,
 			},
+
+			-- name bg
+			Def.Quad{
+				InitCommand=function(self) self:valign(0):y(-40):zoomto(_phone.w*0.765, 22):diffuse(0,0,0,0.8) end,
+			},
+
+			-- message from Ben
+			Def.BitmapText{
+				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
+				Text="message from Ben:",
+				InitCommand=function(self)
+					self:zoom(0.85)
+						:align(0,0)
+						:x(-_phone.w/2 + 30)
+						:y(-36)
+				end
+			},
+
 			-- notification text
 			Def.BitmapText{
 				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
-				Text="you'll find me out here\nor maybe I'll lose myself\na walk in the snow",
+				Text="you'll find me out here\nor maybe I'll disappear\na walk in the snow",
 				InitCommand=function(self)
 					self:diffuse(Color.Black)
 						:zoom(0.85)
 						:halign(0)
 						:x(-_phone.w/2 + 30)
+						:y(10)
 						:vertspacing(-4)
 				end
 			},

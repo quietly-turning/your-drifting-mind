@@ -51,8 +51,14 @@ local map = Def.ActorFrame{
 	InitCommand=function(self)
 		g.map.af = self
 		g.MoveMap(self)
+
+		-- self:diffuse(0,0,0,1)
 	end,
 	OnCommand=function(self)
+	-- 	self:hibernate(13):queuecommand("Appear")
+	-- 	self:smooth(1):diffuse(1,1,1,1)
+	-- end,
+	-- AppearCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
@@ -69,12 +75,12 @@ local map = Def.ActorFrame{
 	LoadActor("AMV-Map.lua", {g, map_data}),
 }
 
--- snowfall
+-- snowfall actors
 for i=1,5 do
 	map[#map+1] = LoadActor("./snow/snow.lua", {g, map_data, i})
 end
 
-local phone = LoadActor("./phone/default.lua")
+local phone = LoadActor("./phone/phone.lua")
 local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
