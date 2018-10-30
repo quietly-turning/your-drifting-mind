@@ -2,9 +2,11 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 
-
+-- -----------------------------------
 -- variables you might want to configure to your liking
-local num_particles = 2000
+
+-- starting values (these can be manipulated later as needed)
+local num_particles = 1000
 -- particle size in pixels
 local min_size = 10
 local max_size = 30
@@ -19,18 +21,16 @@ local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."snow/snowflake
 -- -----------------------------------
 local verts = {}
 local velocities = {}
-local alphas = {}
 local x, y, size, alpha, index
 local amv
 local delta_x, delta_y
 
-
 local initialize_particle = function(i, reset)
-	-- randomize velocities as {vx, vy}
+	-- randomize velocity as {vx, vy}
 	velocities[i] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
 
 	size = math.random(min_size, max_size)
-	alphas[i] = math.random(6, 10)/10
+	alpha = math.random(6, 10)/10
 
 	x = math.random(map_data.width*map_data.tilewidth*g.map_zoom + size*2)
 
@@ -46,10 +46,10 @@ local initialize_particle = function(i, reset)
 		y = math.random(map_data.height*map_data.tileheight*g.map_zoom + size*2)
 
 		-- insert all our particle data into the verts table
-		table.insert( verts, {{x-size, y-size, 0}, {1,1,1,alphas[i]}, {0,0} } )
-		table.insert( verts, {{x, y-size, 0}, {1,1,1,alphas[i]}, {1,0} } )
-		table.insert( verts, {{x, y, 0}, {1,1,1,alphas[i]}, {1,1} } )
-		table.insert( verts, {{x-size, y, 0}, {1,1,1,alphas[i]}, {0,1} } )
+		table.insert( verts, {{x-size, y-size, 0}, {1,1,1,alpha}, {0,0} } )
+		table.insert( verts, {{x, y-size, 0}, {1,1,1,alpha}, {1,0} } )
+		table.insert( verts, {{x, y, 0}, {1,1,1,alpha}, {1,1} } )
+		table.insert( verts, {{x-size, y, 0}, {1,1,1,alpha}, {0,1} } )
 	end
 end
 
@@ -64,6 +64,14 @@ local af = Def.ActorFrame{
 	InitCommand=function(self) self:diffusealpha(0) end,
 	OnCommand=function(self)
 		self:sleep(2):linear(1):diffusealpha(1)
+			:sleep(5):queuecommand("Add500")
+			:sleep(5):queuecommand("Add1000")
+	end,
+	Add500Command=function(self)
+		self:playcommand("AddMoreSnow", {how_many=500})
+	end,
+	Add1000Command=function(self)
+		self:playcommand("AddMoreSnow", {how_many=1000})
 	end,
 }
 
@@ -109,6 +117,13 @@ af[#af+1] = Def.ActorMultiVertex{
 
 		self:SetVertices(verts)
 	end,
+
+	AddMoreSnowCommand=function(self, params)
+		for i=num_particles+1, num_particles+params.how_many do
+			initialize_particle(i, false)
+		end
+		num_particles = num_particles + params.how_many
+	end
 }
 
 return af
