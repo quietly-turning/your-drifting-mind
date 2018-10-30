@@ -19,30 +19,57 @@ local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir().."snow/snowflake
 -- -----------------------------------
 local verts = {}
 local velocities = {}
+local alphas = {}
 local x, y, size, alpha, index
 local amv
 local delta_x, delta_y
 
+
+local initialize_particle = function(i, reset)
+	-- randomize velocities as {vx, vy}
+	velocities[i] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
+
+	size = math.random(min_size, max_size)
+	alphas[i] = math.random(6, 10)/10
+
+	x = math.random(map_data.width*map_data.tilewidth*g.map_zoom + size*2)
+
+	if reset then
+		-- update only the x, y, z sub-table so that the particle is at the top of the map
+		verts[i+0][1] = {x-size, -size, 0}
+		verts[i+1][1] = {x, -size, 0}
+		verts[i+2][1] = {x, 0, 0}
+		verts[i+3][1] = {x-size, 0, 0}
+
+	else
+		-- randomize y at init so that not all particles start at a y of 0
+		y = math.random(map_data.height*map_data.tileheight*g.map_zoom + size*2)
+
+		-- insert all our particle data into the verts table
+		table.insert( verts, {{x-size, y-size, 0}, {1,1,1,alphas[i]}, {0,0} } )
+		table.insert( verts, {{x, y-size, 0}, {1,1,1,alphas[i]}, {1,0} } )
+		table.insert( verts, {{x, y, 0}, {1,1,1,alphas[i]}, {1,1} } )
+		table.insert( verts, {{x-size, y, 0}, {1,1,1,alphas[i]}, {0,1} } )
+	end
+end
+
 -- initialize the verts table
 for i=1, num_particles do
-	size = math.random(min_size, max_size)
-	x = math.random(map_data.width*map_data.tilewidth*g.map_zoom + size*2)
-	y = math.random(map_data.height*map_data.tileheight*g.map_zoom + size*2)
-	velocities[i] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
-	alpha = math.random(6, 10)/10
-
-	table.insert( verts, {{x-size, y-size, 0}, {1,1,1,alpha}, {0,0} } )
-	table.insert( verts, {{x, y-size, 0}, {1,1,1,alpha}, {1,0} } )
-	table.insert( verts, {{x, y, 0}, {1,1,1,alpha}, {1,1} } )
-	table.insert( verts, {{x-size, y, 0}, {1,1,1,alpha}, {0,1} } )
+	initialize_particle(i, false)
 end
 
 
 
-return Def.ActorMultiVertex{
-	InitCommand=function(self)
-		-- self:setsize(map_data.width*map_data.tilewidth, map_data.height*map_data.tileheight)
+local af = Def.ActorFrame{
+	InitCommand=function(self) self:diffusealpha(0) end,
+	OnCommand=function(self)
+		self:sleep(2):linear(1):diffusealpha(1)
+	end,
+}
 
+
+af[#af+1] = Def.ActorMultiVertex{
+	InitCommand=function(self)
 		self:SetDrawState( {Mode="DrawMode_Quads"} )
 			:LoadTexture( path_to_texture )
 			:SetVertices( verts )
@@ -75,29 +102,13 @@ return Def.ActorMultiVertex{
 
 			-- if the top of this particular quadrilateral within the AMV has gone off
 			-- the bottom of the screen, reset its properties to reuse it
-			if (verts[i+0][1][2] > map_data.height*map_data.tileheight*g.map_zoom+(verts[i+2][1][2]-verts[i+0][1][2])) then
-				-- re-randomize velocities as {vx, vy}
-				velocities[index] = {math.random(min_vx,max_vx), math.random(min_vy,max_vy)}
-				-- re-randomize particle size
-				size = math.random(min_size, max_size)
-				-- re-randomize starting x position
-				x = math.random(map_data.width*map_data.width*g.map_zoom + size*2)
-				-- reset starting y position to be just above the top of the screen
-				verts[i+0][1] = {x-size, -size, 0}
-				verts[i+1][1] = {x, -size, 0}
-				verts[i+2][1] = {x, 0, 0}
-				verts[i+3][1] = {x-size, 0, 0}
+			if (verts[i][1][2] > map_data.height*map_data.tileheight*g.map_zoom+(verts[i+2][1][2]-verts[i+0][1][2])) then
+				initialize_particle(i, true)
 			end
 		end
 
 		self:SetVertices(verts)
 	end,
-
-	TweenSnowCommand=function(self, MapCenter)
-		self:linear(g.SleepDuration)
-		self:x(-(MapCenter.right * map_data.tilewidth * g.map_zoom - _screen.w/2))
-		self:y(-(MapCenter.down * map_data.tileheight * g.map_zoom - _screen.h/2))
-	end
 }
 
--- return af
+return af

@@ -77,31 +77,20 @@ local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, maphe
 	return verts
 end
 
-local MoveMap = function(self)
+g.MoveMap = function(self)
 	local MapCenter = FindCenterOfMap()
 	self:x(-(MapCenter.right * map_data.tilewidth * map_zoom - _screen.w/2))
 	self:y(-(MapCenter.down * map_data.tileheight * map_zoom - _screen.h/2))
-
-	if g.snowfall then
-		g.snowfall:playcommand("TweenSnow", MapCenter)
-	end
 end
 
 -- -----------------------------------------------------------------------
 
 local af = Def.ActorFrame{ Name="Visuals" }
 
+-- zoom the map and the player (but not the snow) some amount
 af.InitCommand=function(self)
 	self:zoom(map_zoom)
-	MoveMap(self)
 end
-
-af.TweenMapCommand=function(self, params)
-	self:stoptweening()
-	self:linear(params.SleepDuration)
-	MoveMap(self)
-end
-
 
 local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
 

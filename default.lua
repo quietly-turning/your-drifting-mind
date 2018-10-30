@@ -42,22 +42,25 @@ local map_data = LoadActor("./map_data/YourDriftingMind.lua")
 local map = Def.ActorFrame{
 	Name="Map ActorFrame",
 
-	-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
-	-- OnCommand=function(self)
-	-- 	self:hibernate(13):queuecommand("Appear")
-	-- 	self:smooth(1):diffuse(1,1,1,1)
-	-- end,
-	-- AppearCommand=function(self)
+	InitCommand=function(self)
+		g.MoveMap(self)
+	end,
 	OnCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 	end,
+	TweenMapCommand=function(self)
+		self:stoptweening()
+		self:linear(g.SleepDuration)
+		g.MoveMap(self)
+	end,
+
 
 	LoadActor("AMV-Map.lua", {g, map_data}),
+	LoadActor("./snow/snow.lua", {g, map_data})
 }
 
-local snow = LoadActor("./snow/snow.lua", {g, map_data})
 local phone = LoadActor("./phone/default.lua")
 
 
@@ -96,7 +99,6 @@ return Def.ActorFrame{
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 
 	-- Scenes
-	-- phone,
+	phone,
 	map,
-	snow
 }
