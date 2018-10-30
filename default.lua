@@ -30,14 +30,17 @@ end
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
 	SleepDuration = 0.125,
-	map_zoom = 1.75,
+	map = {
+		af = nil,
+		zoom = 1.75
+	},
 	Dialog = {
 		Speaker = "Her"
 	}
 }
 
 local Update = function(self, delta)
-	g.snowfall:playcommand("Update", {delta})
+	g.map.af:playcommand("UpdateAMV", {delta})
 end
 
 local map_data = LoadActor("./map_data/YourDriftingMind.lua")
@@ -46,6 +49,7 @@ local map = Def.ActorFrame{
 	Name="Map ActorFrame",
 
 	InitCommand=function(self)
+		g.map.af = self
 		g.MoveMap(self)
 	end,
 	OnCommand=function(self)
@@ -63,8 +67,12 @@ local map = Def.ActorFrame{
 
 
 	LoadActor("AMV-Map.lua", {g, map_data}),
-	LoadActor("./snow/snow.lua", {g, map_data})
 }
+
+-- snowfall
+for i=1,5 do
+	map[#map+1] = LoadActor("./snow/snow.lua", {g, map_data, i})
+end
 
 local phone = LoadActor("./phone/default.lua")
 local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
@@ -104,7 +112,7 @@ return Def.ActorFrame{
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 
 	-- Scenes
-	phone,
+	-- phone,
 	map,
 
 	-- DialogBox, hidden unless needed

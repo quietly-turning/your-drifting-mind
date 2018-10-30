@@ -6,7 +6,7 @@ local layer_data = args[3]
 local SleepDuration = g.SleepDuration
 
 g.Player = {
-	file = "Reen 4x4.png",
+	file = "natalie 4x4.png",
 	dir = "Down",
 	tweening = false,
 

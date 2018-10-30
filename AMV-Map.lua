@@ -2,8 +2,6 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 
-local map_zoom = 1.75
-
 g.Events = {}
 
 -- returns a table of two values, right and down, both in tile units
@@ -14,9 +12,9 @@ local FindCenterOfMap = function()
 	local MapCenter = {right=g.Player.pos.x,  down=g.Player.pos.y}
 
 	-- half screen width in tile units
-	local half_screen_width_in_tiles  = (_screen.w/(map_data.tilewidth*map_zoom))/2
+	local half_screen_width_in_tiles  = (_screen.w/(map_data.tilewidth*g.map.zoom))/2
 	-- half screen height in tile units
-	local half_screen_height_in_tiles = (_screen.h/(map_data.tileheight*map_zoom))/2
+	local half_screen_height_in_tiles = (_screen.h/(map_data.tileheight*g.map.zoom))/2
 
 	-- if players are near the edge of a map, using the MapCenter, this will result
 	-- in the map scrolling "too far" and the player seeing beyond the edge of the map
@@ -79,8 +77,8 @@ end
 
 g.MoveMap = function(self)
 	local MapCenter = FindCenterOfMap()
-	self:x(-(MapCenter.right * map_data.tilewidth * map_zoom - _screen.w/2))
-	self:y(-(MapCenter.down * map_data.tileheight * map_zoom - _screen.h/2))
+	self:x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
+	self:y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
 end
 
 -- -----------------------------------------------------------------------
@@ -89,7 +87,7 @@ local af = Def.ActorFrame{ Name="Visuals" }
 
 -- zoom the map and the player (but not the snow) some amount
 af.InitCommand=function(self)
-	self:zoom(map_zoom)
+	self:zoom(g.map.zoom)
 end
 
 local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
