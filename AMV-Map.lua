@@ -88,14 +88,14 @@ local af = Def.ActorFrame{ Name="Visuals" }
 -- zoom the map and the player (but not the snow) some amount
 af.InitCommand=function(self)
 	self:zoom(g.map.zoom)
+		:SetDrawByZPosition(true)
 end
 
 local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
 
-local collision_layer
 for layer in ivalues(map_data.layers) do
 	if layer.name == "Collision" then
-		collision_layer = layer
+		g.collision_layer = layer
 		break
 	end
 end
@@ -132,13 +132,14 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 							Texture=path_to_texture,
 							InitCommand=function(self)
 								self:animate(false)
-									:align(0,0):xy(event.x, event.y-map_data.tileheight)
+									:align(0,0)
+									:xy(event.x, event.y-map_data.tileheight)
+									:z((event.y/map_data.tileheight)-1)
 									:setstate(event.gid-1)
 									:SetTextureFiltering( false )
 
-
-
-
+								local tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
+								g.collision_layer.data[tile_num] = 1
 							end,
 						}
 					end

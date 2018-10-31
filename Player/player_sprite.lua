@@ -30,14 +30,6 @@ g.Player = {
 	}
 }
 
-local collision_layer
-for layer in ivalues(map_data.layers) do
-	if layer.name == "Collision" then
-		collision_layer = layer
-		break
-	end
-end
-
 
 local WillBeOffMap = {
 	Up=function() return g.Player.pos.y < 1 end,
@@ -67,7 +59,7 @@ local UpdatePosition = function()
 	end
 
 	-- update this sprite's z value based on its down value
-	g.Player.pos.z = map_data.height - g.Player.pos.y
+	g.Player.pos.z = g.Player.pos.y
 
 	-- set the current tile to collidable
 	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 1
@@ -78,7 +70,7 @@ local WillCollide = function()
 	local next_tile = g.Player.NextTile[g.Player.dir]()
 
 	if next_tile then
-		if collision_layer.data[ next_tile ] ~= 0 then
+		if g.collision_layer.data[ next_tile ] ~= 0 then
 			return true
 		else
 			-- TouchHandler( g.Player.NextTile )
@@ -125,9 +117,10 @@ return LoadActor( "./" .. g.Player.file )..{
 
 		g.Player.pos = g.Player.pos or {
 			x = layer_data.objects[1].x/map_data.tilewidth,
-			y = layer_data.objects[1].y/map_data.tileheight
-			-- z = -(g.TileData.Height.Tiles - g.Player.pos.d)
+			y = layer_data.objects[1].y/map_data.tileheight,
 		}
+
+		g.Player.pos.z = g.Player.pos.y
 
 		g.Player.dir = "Down"
 
@@ -136,6 +129,7 @@ return LoadActor( "./" .. g.Player.file )..{
 			:align(0, 0.5)
 		-- initialize the position
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
+			:z( g.Player.pos.z )
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
 			:SetTextureFiltering(false)
@@ -172,7 +166,7 @@ return LoadActor( "./" .. g.Player.file )..{
 				:linear(SleepDuration)
 				:x(g.Player.pos.x * map_data.tilewidth)
 				:y(g.Player.pos.y * map_data.tileheight)
-				-- :z( -g.Player.pos.z )
+				:z(g.Player.pos.z)
 
 			self:queuecommand("MaybeTweenAgain")
 		end
