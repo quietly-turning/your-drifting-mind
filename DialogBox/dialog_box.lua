@@ -76,11 +76,11 @@ local af = Def.ActorFrame{
 	Def.BitmapText{
 		File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 
-		InitCommand=function(self) self:zoom(0.55):cropright(1) end,
+		InitCommand=function(self) self:zoom(0.5):cropright(1) end,
 		OnCommand=function(self)
-			self:halign(0):valign(0):xy(-_screen.w/3, -24)
+			self:align(0,0):xy( WideScale(-_screen.cx+40 , -_screen.w/3), -24)
 				:diffuse(Color.Black)
-				:wrapwidthpixels((_screen.w * 0.65)/self:GetZoom())
+				:wrapwidthpixels((_screen.w * WideScale(_screen.w-80,0.65))/self:GetZoom())
 		end,
 
 		ClearTextCommand=function(self)

@@ -14,6 +14,7 @@ local af = Def.ActorFrame{
 	HideCommand=function(self) self:hibernate(math.huge) end
 }
 
+-- sound
 af[#af+1] = LoadActor("./buzz.ogg")..{
 	OnCommand=function(self) self:sleep(0.5):queuecommand("Play") end,
 	PlayCommand=function(self) self:play() end,
@@ -22,20 +23,16 @@ af[#af+1] = LoadActor("./buzz.ogg")..{
 -- phone
 af[#af+1] = Def.ActorFrame{
 
+	-- wallpaper
+	LoadActor("./tree.jpg")..{
+		InitCommand=function(self) self:zoomto(200, 350):xy(_screen.cx, _screen.cy):diffuse(0,0,0,1) end,
+		AppearCommand=function(self) self:sleep(0.25):smooth(0.75):diffuse(1,1,1,1) end,
 
-	Def.ActorFrame{
-		-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
-		-- AppearCommand=function(self) self:sleep(0.25):smooth(0.75):diffuse(1,1,1,1) end,
-
-		-- wallpaper
-		LoadActor("./tree.jpg")..{
-			InitCommand=function(self) self:zoomto(200, 350):xy(_screen.cx, _screen.cy) end,
-		},
 	},
 
 	Def.ActorFrame{
-		-- InitCommand=function(self) self:diffuse(0,0,0,1) end,
-		-- AppearCommand=function(self) self:smooth(0.75):diffuse(1,1,1,1) end,
+		InitCommand=function(self) self:diffuse(0,0,0,1) end,
+		AppearCommand=function(self) self:smooth(0.75):diffuse(1,1,1,1) end,
 
 		-- shell
 		LoadActor("./phone.png")..{
@@ -46,7 +43,7 @@ af[#af+1] = Def.ActorFrame{
 		Def.BitmapText{
 			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 			Text="6:32 AM",
-			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-130):zoom(0.85):shadowlength(0.75) end
+			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-138):zoom(0.75):shadowlength(0.75) end
 		},
 
 
@@ -80,11 +77,11 @@ af[#af+1] = Def.ActorFrame{
 				Text="you'll find me out here\nor maybe I'll disappear\na walk in the snow",
 				InitCommand=function(self)
 					self:diffuse(Color.Black)
-						:zoom(0.4)
+						:zoom(0.375)
 						:halign(0)
 						:x(-_phone.w/2 + 32)
-						:y(4)
-						:vertspacing(-4)
+						:y(6)
+						:vertspacing(0)
 				end
 			},
 		}
