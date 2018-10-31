@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 13,
-  nextobjectid = 16,
+  nextobjectid = 18,
   properties = {},
   tilesets = {
     {
@@ -21,7 +21,7 @@ return {
       spacing = 0,
       margin = 0,
       columns = 8,
-      image = "008-Snowfield01.png",
+      image = "Snowfield 8x32.png",
       imagewidth = 256,
       imageheight = 1024,
       tileoffset = {
@@ -336,7 +336,23 @@ return {
           gid = 31,
           visible = true,
           properties = {
-            ["info"] = "A lone flower."
+            ["info"] = "This flower looks so lonely."
+          }
+        },
+        {
+          id = 17,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 800,
+          y = 672,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          gid = 32,
+          visible = true,
+          properties = {
+            ["info"] = "He took off his gloves and left them here.  Why would he do that?"
           }
         }
       }

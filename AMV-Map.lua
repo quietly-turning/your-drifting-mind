@@ -92,6 +92,14 @@ end
 
 local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
 
+local collision_layer
+for layer in ivalues(map_data.layers) do
+	if layer.name == "Collision" then
+		collision_layer = layer
+		break
+	end
+end
+
 for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 	for layer_data in ivalues(map_data.layers) do
 		if layer_data.name == layer_name then
@@ -115,10 +123,25 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 
 				af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
 
-			elseif layer_data == "Events" then
+			elseif layer_name == "Events" then
 
-				for event in ivalues(layer_data) do
+				for event in ivalues(layer_data.objects) do
+					if event.gid then
 
+						af[#af+1] = Def.Sprite{
+							Texture=path_to_texture,
+							InitCommand=function(self)
+								self:animate(false)
+									:align(0,0):xy(event.x, event.y-map_data.tileheight)
+									:setstate(event.gid-1)
+									:SetTextureFiltering( false )
+
+
+
+
+							end,
+						}
+					end
 				end
 			end
 		end

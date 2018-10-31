@@ -3,6 +3,59 @@ local map = args[1]
 local g = args[2]
 local _start = { duration = 0, begin_time = 0 }
 
+local InteractionHandler = function()
+
+	-- if handling an event that must be interacted with
+	if not SRT.InputIsLocked then
+
+		local NextTile
+		if SRT.Player.dir == "Right" then
+			NextTile = SRT.Player.pos.d * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 2
+		elseif SRT.Player.dir == "Left" then
+			NextTile = SRT.Player.pos.d * SRT.TileData.Width.Tiles +  SRT.Player.pos.r
+		elseif SRT.Player.dir == "Up" then
+			NextTile = (SRT.Player.pos.d-1) * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 1
+		elseif SRT.Player.dir == "Down" then
+			NextTile = (SRT.Player.pos.d+1) * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 1
+		end
+
+		for i, event in ipairs(SRT.EventData) do
+
+			local tile = ((event.Tile.d) * SRT.TileData.Width.Tiles) + event.Tile.r+1
+
+			if tile == NextTile  and event.Trigger == "PlayerInteraction" then
+				SRT.EventActors[i]:queuecommand("TurnToFacePlayer")
+				event.Action()
+				return false
+			end
+		end
+		return false
+	end
+
+	-- if already handling dialog...
+	if SRT.InputIsLocked and SRT.DialogIsActive then
+
+		if not SRT.Dialog.IsTweening then
+			-- update the dialog index
+			SRT.Dialog.Index = SRT.Dialog.Index + 1
+
+			-- then, clear the old text
+			SRT.Dialog.Box:queuecommand("ClearText")
+
+			-- then, ensure that there is more to load
+			if SRT.Dialog.Index <= #SRT.Dialog.Words then
+				-- if so, display it
+				SRT.Dialog.Box:queuecommand("UpdateText")
+			else
+				-- otherwise, transition the screen
+				SRT.Dialog.Box:queuecommand("Hide")
+			end
+		else
+			SRT.Dialog.Box:GetChild("Text"):finishtweening()
+			SRT.Dialog.IsTweening = false
+		end
+	end
+end
 
 local directional_movement = function(button)
 	g.Player.input.Active = button
