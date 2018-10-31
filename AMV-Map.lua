@@ -109,69 +109,61 @@ for layer in ivalues(map_data.layers) do
 end
 
 -- Loop through the layers exported from the Tiled app, and add either an AMV or a Sprite for each.
--- There will be multiple "Under" and "Over" layers from the Tiled app...
---
--- ... so, do all "Under" layers first
--- then the "Player" layer
--- then the "Over" layers
--- then the "Events" layer
+-- The parent ActorFrame (af) has SetDrawByZPosition(true) set, so the sequence in which these layers are
+-- added to it does not dictate their draw order.  Each layer must be assigned a z() value appropriately.
 
-for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
-	for layer_data in ivalues(map_data.layers) do
-		if layer_data.name == layer_name then
+for layer_data in ivalues(map_data.layers) do
 
-			if layer_name == "Under" or layer_name == "Over" then
+	if (layer_data.name == "Under" or layer_data.name == "Over") and layer_data.visible then
 
-				local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
+		local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
-				-- an AMV for this layer in the map
-				af[#af+1] = Def.ActorMultiVertex{
+		-- an AMV for this layer in the map
+		af[#af+1] = Def.ActorMultiVertex{
+			InitCommand=function(self)
+				self:SetDrawState( {Mode="DrawMode_Quads"} )
+					:LoadTexture( path_to_texture )
+					:SetVertices( verts )
+					:SetTextureFiltering( false )
+
+				-- set z() arbitrarily high for "Over" layers
+				self:z(500)
+				-- set z() to 0 for "Under" layers
+				if layer_data.name == "Under" then self:z(0) end
+			end
+		}
+
+
+	elseif layer_data.name == "Player" then
+
+		-- Player sprite has enough logic that it gets its own Lua file
+		af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
+
+	elseif layer_data.name == "Events" then
+
+		for event in ivalues(layer_data.objects) do
+			if event.gid then
+
+				af[#af+1] = Def.Sprite{
+					Texture=path_to_texture,
 					InitCommand=function(self)
-						self:SetDrawState( {Mode="DrawMode_Quads"} )
-							:LoadTexture( path_to_texture )
-							:SetVertices( verts )
+						self:animate(false)
+							:align(0,0)
+							:x(event.x)
+							:y(event.y-map_data.tileheight)
+							:z((event.y/map_data.tileheight)-1)
+							:setstate(event.gid-1)
 							:SetTextureFiltering( false )
 
-						-- set z() arbitrarily high for "Over" layers
-						self:z(500)
-						-- set z() to 0 for "Under" layers
-						if layer_name == "Under" then self:z(0) end
-					end
+						local tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
+
+						-- mark this tile in the collision table
+						g.collision_layer.data[tile_num] = 1
+
+						-- set Events data
+						g.Events[tile_num] = event.properties.info
+					end,
 				}
-
-
-			elseif layer_name == "Player" then
-
-				-- Player sprite has enough logic that it gets its own Lua file
-				af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
-
-			elseif layer_name == "Events" then
-
-				for event in ivalues(layer_data.objects) do
-					if event.gid then
-
-						af[#af+1] = Def.Sprite{
-							Texture=path_to_texture,
-							InitCommand=function(self)
-								self:animate(false)
-									:align(0,0)
-									:x(event.x)
-									:y(event.y-map_data.tileheight)
-									:z((event.y/map_data.tileheight)-1)
-									:setstate(event.gid-1)
-									:SetTextureFiltering( false )
-
-								local tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
-
-								-- mark this tile in the collision table
-								g.collision_layer.data[tile_num] = 1
-
-								-- set Events data
-								g.Events[tile_num] = event.properties.info
-							end,
-						}
-					end
-				end
 			end
 		end
 	end
