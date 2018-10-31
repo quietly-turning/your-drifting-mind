@@ -88,17 +88,33 @@ local af = Def.ActorFrame{ Name="Visuals" }
 -- zoom the map and the player (but not the snow) some amount
 af.InitCommand=function(self)
 	self:zoom(g.map.zoom)
-		:SetDrawByZPosition(true)
+
+	-- The AMV_map will have been designed in the Tiled app to have "under" and "over" layers
+	-- but the player sprite and event tiles might need to dynamically shift their sense of what
+	-- draws under/over what.  We handle this by updating the z() value of the player and events to match their
+	-- y() value (things further down the map draw OVER things higher up the map) and applying
+	-- SetDrawByZPosition(true) to the entire ActorFrame.
+	self:SetDrawByZPosition(true)
 end
 
 local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
 
+-- find the collision data layer now and add it to the g table
+-- we'll want to refer to it from within a few different files
 for layer in ivalues(map_data.layers) do
 	if layer.name == "Collision" then
 		g.collision_layer = layer
 		break
 	end
 end
+
+-- Loop through the layers exported from the Tiled app, and add either an AMV or a Sprite for each.
+-- There will be multiple "Under" and "Over" layers from the Tiled app...
+--
+-- ... so, do all "Under" layers first
+-- then the "Player" layer
+-- then the "Over" layers
+-- then the "Events" layer
 
 for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 	for layer_data in ivalues(map_data.layers) do
@@ -121,6 +137,7 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 
 			elseif layer_name == "Player" then
 
+				-- Player sprite has enough logic that it gets its own Lua file
 				af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
 
 			elseif layer_name == "Events" then
@@ -133,7 +150,8 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 							InitCommand=function(self)
 								self:animate(false)
 									:align(0,0)
-									:xy(event.x, event.y-map_data.tileheight)
+									:x(event.x)
+									:y(event.y-map_data.tileheight)
 									:z((event.y/map_data.tileheight)-1)
 									:setstate(event.gid-1)
 									:SetTextureFiltering( false )
