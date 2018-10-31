@@ -131,6 +131,11 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 							:LoadTexture( path_to_texture )
 							:SetVertices( verts )
 							:SetTextureFiltering( false )
+
+						-- set z() arbitrarily high for "Over" layers
+						self:z(500)
+						-- set z() to 0 for "Under" layers
+						if layer_name == "Under" then self:z(0) end
 					end
 				}
 
