@@ -67,7 +67,7 @@ local af = Def.ActorFrame{
 		Def.BitmapText{
 			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 			Text=g.Dialog.Speaker,
-			InitCommand=function(self) self:zoom(1.1) end
+			InitCommand=function(self) self:zoom(0.55):y(-6) end
 		}
 	},
 
@@ -76,10 +76,11 @@ local af = Def.ActorFrame{
 	Def.BitmapText{
 		File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 
-		InitCommand=function(self) self:zoom(1.1):cropright(1) end,
+		InitCommand=function(self) self:zoom(0.55):cropright(1) end,
 		OnCommand=function(self)
 			self:halign(0):valign(0):xy(-_screen.w/3, -24)
-				:diffuse(Color.Black):wrapwidthpixels(_screen.w * 0.75)
+				:diffuse(Color.Black)
+				:wrapwidthpixels((_screen.w * 0.65)/self:GetZoom())
 		end,
 
 		ClearTextCommand=function(self)

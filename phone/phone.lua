@@ -46,7 +46,7 @@ af[#af+1] = Def.ActorFrame{
 		Def.BitmapText{
 			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 			Text="6:32 AM",
-			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-130):zoom(1.65):shadowlength(0.75) end
+			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-130):zoom(0.85):shadowlength(0.75) end
 		},
 
 
@@ -67,9 +67,9 @@ af[#af+1] = Def.ActorFrame{
 				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 				Text="message from Ben:",
 				InitCommand=function(self)
-					self:zoom(0.85)
+					self:zoom(0.4)
 						:align(0,0)
-						:x(-_phone.w/2 + 30)
+						:x(-_phone.w/2 + 32)
 						:y(-36)
 				end
 			},
@@ -80,10 +80,10 @@ af[#af+1] = Def.ActorFrame{
 				Text="you'll find me out here\nor maybe I'll disappear\na walk in the snow",
 				InitCommand=function(self)
 					self:diffuse(Color.Black)
-						:zoom(0.85)
+						:zoom(0.4)
 						:halign(0)
-						:x(-_phone.w/2 + 30)
-						:y(10)
+						:x(-_phone.w/2 + 32)
+						:y(4)
 						:vertspacing(-4)
 				end
 			},
