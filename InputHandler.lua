@@ -9,20 +9,12 @@ local InteractionHandler = function()
 	if not g.DialogIsActive then
 
 		local NextTile = g.Player.NextTile[g.Player.dir]()
-		-- SM(NextTile .. "\n" .. tostring(g.Events[NextTile]))
 
-		g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[NextTile]}):playcommand("Show")
-		g.DialogIsActive = true
-		-- for i, event in ipairs(SRT.EventData) do
-		--
-		-- 	local tile = ((event.Tile.d) * SRT.TileData.Width.Tiles) + event.Tile.r+1
-		--
-		-- 	if tile == NextTile  and event.Trigger == "PlayerInteraction" then
-		-- 		SRT.EventActors[i]:queuecommand("TurnToFacePlayer")
-		-- 		event.Action()
-		-- 		return false
-		-- 	end
-		-- end
+		if g.Events[NextTile] then
+			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[NextTile]}):playcommand("Show")
+			g.DialogIsActive = true
+		end
+
 		return false
 	end
 
