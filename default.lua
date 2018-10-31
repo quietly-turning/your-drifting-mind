@@ -62,8 +62,6 @@ local map = Def.ActorFrame{
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
-
-		g.Dialog.ActorFrame:queuecommand("Show")
 	end,
 	TweenMapCommand=function(self)
 		self:stoptweening()

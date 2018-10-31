@@ -6,54 +6,51 @@ local _start = { duration = 0, begin_time = 0 }
 local InteractionHandler = function()
 
 	-- if handling an event that must be interacted with
-	if not SRT.InputIsLocked then
+	if not g.DialogIsActive then
 
-		local NextTile
-		if SRT.Player.dir == "Right" then
-			NextTile = SRT.Player.pos.d * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 2
-		elseif SRT.Player.dir == "Left" then
-			NextTile = SRT.Player.pos.d * SRT.TileData.Width.Tiles +  SRT.Player.pos.r
-		elseif SRT.Player.dir == "Up" then
-			NextTile = (SRT.Player.pos.d-1) * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 1
-		elseif SRT.Player.dir == "Down" then
-			NextTile = (SRT.Player.pos.d+1) * SRT.TileData.Width.Tiles +  SRT.Player.pos.r + 1
-		end
+		local NextTile = g.Player.NextTile[g.Player.dir]()
+		-- SM(NextTile .. "\n" .. tostring(g.Events[NextTile]))
 
-		for i, event in ipairs(SRT.EventData) do
-
-			local tile = ((event.Tile.d) * SRT.TileData.Width.Tiles) + event.Tile.r+1
-
-			if tile == NextTile  and event.Trigger == "PlayerInteraction" then
-				SRT.EventActors[i]:queuecommand("TurnToFacePlayer")
-				event.Action()
-				return false
-			end
-		end
+		g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[NextTile]}):playcommand("Show")
+		g.DialogIsActive = true
+		-- for i, event in ipairs(SRT.EventData) do
+		--
+		-- 	local tile = ((event.Tile.d) * SRT.TileData.Width.Tiles) + event.Tile.r+1
+		--
+		-- 	if tile == NextTile  and event.Trigger == "PlayerInteraction" then
+		-- 		SRT.EventActors[i]:queuecommand("TurnToFacePlayer")
+		-- 		event.Action()
+		-- 		return false
+		-- 	end
+		-- end
 		return false
 	end
 
 	-- if already handling dialog...
-	if SRT.InputIsLocked and SRT.DialogIsActive then
+	if not g.Dialog.IsTweening then
+		-- update the dialog index
+		-- g.Dialog.Index = SRT.Dialog.Index + 1
 
-		if not SRT.Dialog.IsTweening then
-			-- update the dialog index
-			SRT.Dialog.Index = SRT.Dialog.Index + 1
+		-- then, clear the old text
+		g.Dialog.ActorFrame:queuecommand("ClearText")
 
-			-- then, clear the old text
-			SRT.Dialog.Box:queuecommand("ClearText")
+		-- hide the dialog_box
+		g.Dialog.ActorFrame:queuecommand("Hide")
 
-			-- then, ensure that there is more to load
-			if SRT.Dialog.Index <= #SRT.Dialog.Words then
-				-- if so, display it
-				SRT.Dialog.Box:queuecommand("UpdateText")
-			else
-				-- otherwise, transition the screen
-				SRT.Dialog.Box:queuecommand("Hide")
-			end
-		else
-			SRT.Dialog.Box:GetChild("Text"):finishtweening()
-			SRT.Dialog.IsTweening = false
-		end
+		-- and change the flag
+		g.DialogIsActive = false
+
+		-- then, ensure that there is more to load
+		-- if g.Dialog.Index <= #g.Dialog.Words then
+		-- 	-- if so, display it
+		-- 	g.Dialog.Box:queuecommand("UpdateText")
+		-- else
+			-- otherwise,
+			-- g.Dialog.ActorFrame:queuecommand("Hide")
+		-- end
+	else
+		g.Dialog.ActorFrame:finishtweening()
+		g.Dialog.IsTweening = false
 	end
 end
 
@@ -61,14 +58,14 @@ local directional_movement = function(button)
 	g.Player.input.Active = button
 	g.Player.input[button] = true
 
-	if not g.InputIsLocked then
+	if not g.DialogIsActive then
 		-- attempt to tween character
 		g.Player.actor:playcommand("AttemptToTween", {dir=button})
 	end
 end
 
 local FirstPress = {
-	-- Start = function() InteractionHandler() end,
+	Start = function() InteractionHandler() end,
 
 	MenuRight = function() end,
 	MenuLeft = function() end,

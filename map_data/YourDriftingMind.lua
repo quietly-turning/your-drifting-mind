@@ -74,7 +74,7 @@ return {
       y = 0,
       width = 32,
       height = 24,
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -336,7 +336,7 @@ return {
           gid = 31,
           visible = true,
           properties = {
-            ["info"] = "This flower looks so lonely."
+            ["info"] = "The snow came so suddenly that these flowers are still in bloom."
           }
         },
         {

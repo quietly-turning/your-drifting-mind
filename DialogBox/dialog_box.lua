@@ -75,31 +75,32 @@ local af = Def.ActorFrame{
 
 	Def.BitmapText{
 		File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
-		Text="He took off his gloves and left them here.  Why would he do that?",
-		InitCommand=function(self) self:zoom(1.1) end,
+
+		InitCommand=function(self) self:zoom(1.1):cropright(1) end,
 		OnCommand=function(self)
 			self:halign(0):valign(0):xy(-_screen.w/3, -24)
 				:diffuse(Color.Black):wrapwidthpixels(_screen.w * 0.75)
 		end,
+
 		ClearTextCommand=function(self)
 			self:settext(""):cropright(1)
 		end,
-		UpdateTextCommand=function(self)
-			SRT.Dialog.IsTweening = true
+		UpdateTextCommand=function(self, params)
+			g.Dialog.IsTweening = true
 
-			if type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "string" then
-				text = SRT.Dialog.Words[SRT.Dialog.Index].text
-			elseif type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "function" then
-				text = SRT.Dialog.Words[SRT.Dialog.Index].text()
-			end
+			-- if type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "string" then
+			-- 	text = SRT.Dialog.Words[SRT.Dialog.Index].text
+			-- elseif type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "function" then
+			-- 	text = SRT.Dialog.Words[SRT.Dialog.Index].text()
+			-- end
 
-			if text then
-				self:settext( text ):linear(0.75):cropright(0):queuecommand("FinishUpdateText")
+			if params.text then
+				self:settext( params.text ):linear(0.75):cropright(0):queuecommand("FinishUpdateText")
 			else
 				self:queuecommand("ClearText")
 			end
 		end,
-		FinishUpdateTextCommand=function(self) SRT.Dialog.IsTweening = false end
+		FinishUpdateTextCommand=function(self) g.Dialog.IsTweening = false end
 	}
 }
 

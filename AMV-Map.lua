@@ -157,7 +157,12 @@ for layer_name in ivalues({"Under", "Player", "Over", "Events"}) do
 									:SetTextureFiltering( false )
 
 								local tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
+
+								-- mark this tile in the collision table
 								g.collision_layer.data[tile_num] = 1
+
+								-- set Events data
+								g.Events[tile_num] = event.properties.info
 							end,
 						}
 					end
