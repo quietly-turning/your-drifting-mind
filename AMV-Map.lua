@@ -97,7 +97,8 @@ af.InitCommand=function(self)
 	self:SetDrawByZPosition(true)
 end
 
-local path_to_texture = GAMESTATE:GetCurrentSong():GetSongDir() .. "map_data/" .. map_data.tilesets[1].image
+local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
+local path_to_texture = song_dir .. "map_data/" .. map_data.tilesets[1].image
 
 -- find the collision data layer now and add it to the g table
 -- we'll want to refer to it from within a few different files
@@ -114,7 +115,7 @@ end
 
 for layer_data in ivalues(map_data.layers) do
 
-	if (layer_data.name == "Under" or layer_data.name == "Over") and layer_data.visible then
+	if (layer_data.name == "Under" or layer_data.name == "Over" or layer_data.name == "Water") and layer_data.visible then
 
 		local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
@@ -130,8 +131,27 @@ for layer_data in ivalues(map_data.layers) do
 				self:z(500)
 				-- set z() to 0 for "Under" layers
 				if layer_data.name == "Under" then self:z(0) end
+				if layer_data.name == "Water" then self:z(-1) end
 			end
 		}
+
+		-- if this map has a "Water" layer, add a scrolling texture on top of it
+		-- the positioning + sizing of this is rather hardcoded for now
+		if layer_data.name == "Water" then
+			-- water texture
+			af[#af+1] = Def.Sprite{
+				Texture=song_dir.."map_data/WaterTexture.png",
+				InitCommand=function(self)
+					self:zoomto( map_data.width*map_data.tilewidth, 6*map_data.tileheight  )
+						:customtexturerect(0,0,1,1)
+						:texcoordvelocity(-0.0333,0)
+						:diffusealpha(0.333)
+						:y(map_data.height*map_data.tileheight)
+						:z(-1)
+						:align(0,1)
+				end
+			}
+		end
 
 
 	elseif layer_data.name == "Player" then
@@ -168,5 +188,15 @@ for layer_data in ivalues(map_data.layers) do
 		end
 	end
 end
+
+-- snow / ground
+af[#af+1] = Def.Quad{
+	InitCommand=function(self)
+		self:align(0,0)
+			:zoomto( map_data.width*map_data.tilewidth, map_data.height*map_data.tileheight  )
+			:z(-2)
+	end
+}
+
 
 return af
