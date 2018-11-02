@@ -158,8 +158,22 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 	elseif layer_data.name == "Events" then
 
 		for event in ivalues(layer_data.objects) do
-			if event.gid then
+			local tile_num
 
+			-- if an object from Tiled has a gid, we need to subtract 1 tile unit from the y position of this event
+			if event.gid then
+				tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
+			else
+			-- otherwise, if the object does not have a tile associated with it...
+				tile_num = ((event.y/map_data.tileheight)) * map_data.width + (event.x/map_data.tilewidth) + 1
+			end
+
+			-- mark this tile in the collision table
+			g.collision_layer.data[tile_num] = 1
+			-- set Events data
+			g.Events[tile_num] = event.properties.info
+
+			if event.gid then
 				af[#af+1] = Def.Sprite{
 					Texture=path_to_texture,
 					InitCommand=function(self)
@@ -170,14 +184,6 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 							:z(layer_index)
 							:setstate(event.gid-1)
 							:SetTextureFiltering( false )
-
-						local tile_num = ((event.y/map_data.tileheight)-1) * map_data.width + (event.x/map_data.tilewidth) + 1
-
-						-- mark this tile in the collision table
-						g.collision_layer.data[tile_num] = 1
-
-						-- set Events data
-						g.Events[tile_num] = event.properties.info
 					end,
 				}
 			end
