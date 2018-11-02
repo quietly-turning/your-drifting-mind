@@ -35,7 +35,7 @@ local g = {
 		zoom = 1.75
 	},
 	Dialog = {
-		Speaker = "Her"
+		Speaker = "Elli"
 	}
 }
 

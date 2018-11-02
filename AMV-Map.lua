@@ -113,9 +113,10 @@ end
 -- The parent ActorFrame (af) has SetDrawByZPosition(true) set, so the sequence in which these layers are
 -- added to it does not dictate their draw order.  Each layer must be assigned a z() value appropriately.
 
-for layer_data in ivalues(map_data.layers) do
+for layer_index,layer_data in ipairs(map_data.layers) do
 
-	if (layer_data.name == "Under" or layer_data.name == "Over" or layer_data.name == "Water") and layer_data.visible then
+	-- this is a tiled layer that must be created using an AMV
+	if (layer_data.name == "Under" or layer_data.name == "Over") and layer_data.visible then
 
 		local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
@@ -126,38 +127,33 @@ for layer_data in ivalues(map_data.layers) do
 					:LoadTexture( path_to_texture )
 					:SetVertices( verts )
 					:SetTextureFiltering( false )
-
-				-- set z() arbitrarily high for "Over" layers
-				self:z(500)
-				-- set z() to 0 for "Under" layers
-				if layer_data.name == "Under" then self:z(0) end
-				if layer_data.name == "Water" then self:z(-1) end
+					:z(layer_index)
 			end
 		}
 
-		-- if this map has a "Water" layer, add a scrolling texture on top of it
-		-- the positioning + sizing of this is rather hardcoded for now
-		if layer_data.name == "Water" then
-			-- water texture
-			af[#af+1] = Def.Sprite{
-				Texture=song_dir.."map_data/WaterTexture.png",
-				InitCommand=function(self)
-					self:zoomto( map_data.width*map_data.tilewidth, 6*map_data.tileheight  )
-						:customtexturerect(0,0,1,1)
-						:texcoordvelocity(-0.0333,0)
-						:diffusealpha(0.333)
-						:y(map_data.height*map_data.tileheight)
-						:z(-1)
-						:align(0,1)
-				end
-			}
-		end
+	-- for "Texture" layers, add a texture that is ... hardcoded to scroll infinitely because all I need for this is water...
+	elseif layer_data.name == "Texture" then
 
+		local obj = layer_data.objects[1]
+
+		-- water texture
+		af[#af+1] = Def.Sprite{
+			Texture=song_dir..obj.properties.Texture,
+			InitCommand=function(self)
+				self:zoomto( obj.width, obj.height  )
+					:customtexturerect(0,0,1,1)
+					:texcoordvelocity(-0.0333,0)
+					:diffusealpha(0.333)
+					:xy(obj.x, obj.y)
+					:z(layer_index)
+					:align(0,0)
+			end
+		}
 
 	elseif layer_data.name == "Player" then
 
 		-- Player sprite has enough logic that it gets its own Lua file
-		af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data})
+		af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data, layer_index})
 
 	elseif layer_data.name == "Events" then
 
@@ -171,7 +167,7 @@ for layer_data in ivalues(map_data.layers) do
 							:align(0,0)
 							:x(event.x)
 							:y(event.y-map_data.tileheight)
-							:z((event.y/map_data.tileheight)-1)
+							:z(layer_index)
 							:setstate(event.gid-1)
 							:SetTextureFiltering( false )
 

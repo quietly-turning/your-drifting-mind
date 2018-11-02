@@ -2,6 +2,7 @@ local args = ...
 local g = args[1]
 local map_data = args[2]
 local layer_data = args[3]
+local layer_index = args[4]
 
 local SleepDuration = g.SleepDuration
 
@@ -57,9 +58,6 @@ local UpdatePosition = function()
 	elseif g.Player.dir == "Right" then
 		g.Player.pos.x = g.Player.pos.x + 1
 	end
-
-	-- update this sprite's z value based on its down value
-	g.Player.pos.z = g.Player.pos.y
 
 	-- set the current tile to collidable
 	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 1
@@ -120,8 +118,6 @@ return LoadActor( "./" .. g.Player.file )..{
 			y = layer_data.objects[1].y/map_data.tileheight,
 		}
 
-		g.Player.pos.z = g.Player.pos.y
-
 		g.Player.dir = "Down"
 
 		self:animate(false)
@@ -129,7 +125,7 @@ return LoadActor( "./" .. g.Player.file )..{
 			:align(0, 0.5)
 		-- initialize the position
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
-			:z( g.Player.pos.z )
+			:z( layer_index )
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
 			:SetTextureFiltering(false)
@@ -166,7 +162,6 @@ return LoadActor( "./" .. g.Player.file )..{
 				:linear(SleepDuration)
 				:x(g.Player.pos.x * map_data.tilewidth)
 				:y(g.Player.pos.y * map_data.tileheight)
-				:z(g.Player.pos.z)
 
 			self:queuecommand("MaybeTweenAgain")
 		end
