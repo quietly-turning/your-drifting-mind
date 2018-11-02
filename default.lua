@@ -30,6 +30,7 @@ end
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
 	SleepDuration = 0.125,
+	-- InputIsLocked = true,
 	map = {
 		af = nil,
 		zoom = 1.75
@@ -50,15 +51,26 @@ local map = Def.ActorFrame{
 
 	InitCommand=function(self)
 		g.map.af = self
-		g.MoveMap(self)
 
-		-- self:diffuse(0,0,0,1)
+		-- uncomment to initialize map to center the player sprite
+		-- leave commented to intialize map at 0,0, or specify map starting xy() below
+		-- g.MoveMap(self)
+
+		self:xy( 0, -map_data.height*map_data.tileheight )
+
+		self:diffuse(0,0,0,1)
 	end,
 	OnCommand=function(self)
-	-- 	self:hibernate(13):queuecommand("Appear")
-	-- 	self:smooth(1):diffuse(1,1,1,1)
-	-- end,
-	-- AppearCommand=function(self)
+		-- self:hibernate(13)
+		self:smooth(1.5):diffuse(1,1,1,1):sleep(1):linear(5)
+
+		g.MoveMap(self)
+
+		self:queuecommand("Appear")
+	end,
+
+	-- UnlockInputCommand=function(self) g.InputIsLocked = false end,
+	AppearCommand=function(self)
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
