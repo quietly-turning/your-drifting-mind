@@ -116,7 +116,7 @@ end
 for layer_index,layer_data in ipairs(map_data.layers) do
 
 	-- this is a tiled layer that must be created using an AMV
-	if (layer_data.name == "Under" or layer_data.name == "Over") and layer_data.visible then
+	if layer_data.name ~= "Collision" and layer_data.name ~= "Events" and layer_data.name ~= "Player" and layer_data.name ~= "Texture" and layer_data.visible then
 
 		local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
@@ -142,8 +142,8 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 			InitCommand=function(self)
 				self:zoomto( obj.width, obj.height  )
 					:customtexturerect(0,0,1,1)
-					:texcoordvelocity(-0.0333,0)
-					:diffusealpha(0.333)
+					:texcoordvelocity(obj.properties.vx or 0,obj.properties.vy or 0)
+					:diffusealpha(obj.properties.alpha or 1)
 					:xy(obj.x, obj.y)
 					:z(layer_index)
 					:align(0,0)

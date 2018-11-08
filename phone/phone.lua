@@ -62,7 +62,7 @@ af[#af+1] = Def.ActorFrame{
 			-- message from Ben
 			Def.BitmapText{
 				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
-				Text="message from Ben:",
+				Text="1 new message:",
 				InitCommand=function(self)
 					self:zoom(0.4)
 						:align(0,0)

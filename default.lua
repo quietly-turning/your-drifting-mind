@@ -29,11 +29,11 @@ end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
-	SleepDuration = 0.125,
+	SleepDuration = 0.2,
 	-- InputIsLocked = true,
 	map = {
 		af = nil,
-		zoom = 1.75
+		zoom = 1
 	},
 	Dialog = {
 		Speaker = "Elli"
@@ -44,7 +44,7 @@ local Update = function(self, delta)
 	g.map.af:playcommand("UpdateAMV", {delta})
 end
 
-local map_data = LoadActor("./map_data/YourDriftingMind.lua")
+local map_data = LoadActor("./map_data/Autumn.lua")
 
 local map = Def.ActorFrame{
 	Name="Map ActorFrame",

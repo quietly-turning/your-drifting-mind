@@ -10,8 +10,6 @@ local InteractionHandler = function()
 
 		local NextTile = g.Player.NextTile[g.Player.dir]()
 
-		SM(NextTile)
-
 		if g.Events[NextTile] then
 			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[NextTile]}):playcommand("Show")
 			g.DialogIsActive = true

@@ -7,7 +7,7 @@ local layer_index = args[4]
 local SleepDuration = g.SleepDuration
 
 g.Player = {
-	file = "natalie 4x4.png",
+	file = "Elli 4x4 (doubleres).png",
 	dir = "Down",
 	tweening = false,
 
@@ -129,6 +129,7 @@ return LoadActor( "./" .. g.Player.file )..{
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
 			:SetTextureFiltering(false)
+			:zoom(0.9)
 	end,
 	UpdateSpriteFramesCommand=function(self)
 		if g.Player.dir then
@@ -172,7 +173,7 @@ return LoadActor( "./" .. g.Player.file )..{
 		if g.Player.dir and g.Player.input[ g.Player.dir ] then
 			self:playcommand("Tween")
 		else
-			self:stoptweening():playcommand("AnimationOff")
+			self:stoptweening():queuecommand("AnimationOff")
 		end
 	end,
 	AttemptToTweenCommand=function(self, params)
