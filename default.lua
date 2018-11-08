@@ -54,17 +54,18 @@ local map = Def.ActorFrame{
 
 		-- uncomment to initialize map to center the player sprite
 		-- leave commented to intialize map at 0,0, or specify map starting xy() below
-		-- g.MoveMap(self)
+		g.MoveMap(self)
 
-		self:xy( 0, -map_data.height*map_data.tileheight )
+		-- self:xy( 0, -map_data.height*map_data.tileheight )
 
 		self:diffuse(0,0,0,1)
 	end,
 	OnCommand=function(self)
 		-- self:hibernate(13)
-		self:smooth(1.5):diffuse(1,1,1,1):sleep(1):linear(5)
+		self:smooth(1.5):diffuse(1,1,1,1)
+		-- self:sleep(1):linear(5)
 
-		g.MoveMap(self)
+		-- g.MoveMap(self)
 
 		self:queuecommand("Appear")
 	end,
