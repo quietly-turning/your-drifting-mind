@@ -6,7 +6,7 @@ local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
 local af = Def.ActorFrame{
 	InitCommand=function(self)
 		self:visible(false):diffusealpha(0)
-			:xy(_screen.cx, _screen.h-50)
+			:xy(_screen.cx, _screen.h-WideScale(50,75))
 		g.Dialog.ActorFrame = self
 	end,
 	ShowCommand=function(self) self:visible(true):linear(0.333):diffusealpha(1) end,
@@ -20,10 +20,18 @@ local af = Def.ActorFrame{
 
 	Def.ActorFrame{
 		InitCommand=function(self)
-			self:zoom(0.25)
+			self:zoom(WideScale(0.25, 0.275))
 		end,
 
 		LoadActor("./box.png"),
+
+		LoadActor("./Elli wow.png")..{
+			InitCommand=function(self)
+				self:zoom(0.45):halign(0)
+				-- inner box width is 2460
+					:x(-2460/2)
+			end
+		},
 
 		LoadActor("./box_stroke.png")..{
 			InitCommand=function(self)
@@ -39,7 +47,7 @@ local af = Def.ActorFrame{
 	Def.ActorFrame{
 		Name="NameBoxAF",
 		InitCommand=function(self)
-			self:xy(-270, -46)
+			self:xy(-WideScale(270,280), -WideScale(46,56))
 		end,
 		ClearTextCommand=function(self)
 			self:visible(false)
@@ -78,7 +86,7 @@ local af = Def.ActorFrame{
 
 		InitCommand=function(self) self:zoom(0.5):cropright(1) end,
 		OnCommand=function(self)
-			self:align(0,0):xy( WideScale(-_screen.cx+40 , -_screen.w/3), -24)
+			self:align(0,0):xy( WideScale(-_screen.cx+40 , -_screen.w/3 + 60), -WideScale(24,30))
 				:diffuse(Color.Black)
 				:wrapwidthpixels((_screen.w * WideScale(_screen.w-80,0.65))/self:GetZoom())
 		end,

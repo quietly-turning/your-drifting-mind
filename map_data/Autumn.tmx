@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <objectgroup id="11" name="Texture">
-  <object id="3" x="0" y="0" width="2560" height="384">
+  <object id="3" name="Sky" x="0" y="0" width="2560" height="384">
    <properties>
     <property name="Texture" value="map_data/sunset.png"/>
    </properties>
@@ -54,7 +54,7 @@
 </data>
  </layer>
  <objectgroup id="12" name="Texture" offsetx="0" offsety="-64">
-  <object id="4" x="0" y="1792" width="2560" height="640">
+  <object id="4" name="Water" x="0" y="1792" width="2560" height="640">
    <properties>
     <property name="Texture" value="map_data/WaterTexture.png"/>
     <property name="alpha" type="float" value="0.33300000000000002"/>
