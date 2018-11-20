@@ -25,9 +25,9 @@ local af = Def.ActorFrame{
 
 		LoadActor("./box.png"),
 
-		LoadActor("./Elli wow.png")..{
+		LoadActor("./Elli wow (doubleres).png")..{
 			InitCommand=function(self)
-				self:zoom(0.45):halign(0)
+				self:zoom(0.9):halign(0)
 				-- inner box width is 2460
 					:x(-2460/2)
 			end
