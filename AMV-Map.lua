@@ -171,7 +171,7 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 			-- mark this tile in the collision table
 			g.collision_layer.data[tile_num] = 1
 			-- set Events data
-			g.Events[tile_num] = event.properties.info
+			g.Events[tile_num] = event.properties.text
 
 			if event.gid then
 				af[#af+1] = Def.Sprite{

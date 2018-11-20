@@ -32,15 +32,6 @@ local af = Def.ActorFrame{
 					:x(-2460/2)
 			end
 		},
-
-		LoadActor("./box_stroke.png")..{
-			InitCommand=function(self)
-				self:diffuse(color("#995544"))
-			end,
-			UpdateColorCommand=function(self, params)
-				self:diffuse(params.Color)
-			end
-		},
 	},
 
 	-- the speaker's name

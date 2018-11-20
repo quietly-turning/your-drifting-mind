@@ -82,28 +82,28 @@ end
 
 local frames = {
 	Down = {
-		{ Frame=0,	Delay=SleepDuration/1.5},
 		{ Frame=1,	Delay=SleepDuration/1.5},
 		{ Frame=2,	Delay=SleepDuration/1.5},
-		{ Frame=3,	Delay=SleepDuration/1.5}
+		{ Frame=3,	Delay=SleepDuration/1.5},
+		{ Frame=0,	Delay=SleepDuration/1.5}
 	},
 	Left = {
-		{ Frame=4,	Delay=SleepDuration/1.5},
 		{ Frame=5,	Delay=SleepDuration/1.5},
 		{ Frame=6,	Delay=SleepDuration/1.5},
-		{ Frame=7,	Delay=SleepDuration/1.5}
+		{ Frame=7,	Delay=SleepDuration/1.5},
+		{ Frame=4,	Delay=SleepDuration/1.5}
 	},
 	Right = {
-		{ Frame=8,	Delay=SleepDuration/1.5},
 		{ Frame=9,	Delay=SleepDuration/1.5},
 		{ Frame=10,	Delay=SleepDuration/1.5},
-		{ Frame=11,	Delay=SleepDuration/1.5}
+		{ Frame=11,	Delay=SleepDuration/1.5},
+		{ Frame=8,	Delay=SleepDuration/1.5}
 	},
 	Up = {
-		{ Frame=12,	Delay=SleepDuration/1.5},
 		{ Frame=13,	Delay=SleepDuration/1.5},
 		{ Frame=14,	Delay=SleepDuration/1.5},
-		{ Frame=15,	Delay=SleepDuration/1.5}
+		{ Frame=15,	Delay=SleepDuration/1.5},
+		{ Frame=12,	Delay=SleepDuration/1.5}
 	}
 }
 
@@ -128,6 +128,7 @@ return LoadActor( "./" .. g.Player.file )..{
 			:z( layer_index )
 		-- initialize the sprite state
 			:SetStateProperties( frames[g.Player.dir] )
+			:setstate(1)
 			:SetTextureFiltering(false)
 			:zoom(0.9)
 	end,
@@ -140,7 +141,7 @@ return LoadActor( "./" .. g.Player.file )..{
 		self:animate(true)
 	end,
 	AnimationOffCommand=function(self)
-		self:animate(false):setstate(0)
+		self:animate(false):setstate(1)
 	end,
 	TweenCommand=function(self)
 
