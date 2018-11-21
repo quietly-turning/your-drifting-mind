@@ -168,10 +168,8 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 				tile_num = ((event.y/map_data.tileheight)) * map_data.width + (event.x/map_data.tilewidth) + 1
 			end
 
-			-- mark this tile in the collision table
-			g.collision_layer.data[tile_num] = 1
 			-- set Events data
-			g.Events[tile_num] = event.properties.text
+			g.Events[tile_num] = event.properties
 
 			if event.gid then
 				af[#af+1] = Def.Sprite{
@@ -190,15 +188,6 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 		end
 	end
 end
-
--- snow / ground
-af[#af+1] = Def.Quad{
-	InitCommand=function(self)
-		self:align(0,0)
-			:zoomto( map_data.width*map_data.tilewidth, map_data.height*map_data.tileheight  )
-			:z(-2)
-	end
-}
 
 
 return af

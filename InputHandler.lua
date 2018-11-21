@@ -3,15 +3,22 @@ local map = args[1]
 local g = args[2]
 local _start = { duration = 0, begin_time = 0 }
 
+g.TouchHandler = function(next_tile)
+
+	if g.Events[next_tile] and g.Events[next_tile].EventType == "Touch" then
+		-- handle the event
+	end
+end
+
 local InteractionHandler = function()
 
 	-- if handling an event that must be interacted with
 	if not g.DialogIsActive then
 
-		local NextTile = g.Player.NextTile[g.Player.dir]()
+		local next_tile = g.Player.NextTile[g.Player.dir]()
 
-		if g.Events[NextTile] then
-			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[NextTile]}):playcommand("Show")
+		if g.Events[next_tile] and g.Events[next_tile].text then
+			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[next_tile].text}):playcommand("Show")
 			g.DialogIsActive = true
 		end
 

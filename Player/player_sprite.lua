@@ -71,7 +71,7 @@ local WillCollide = function()
 		if g.collision_layer.data[ next_tile ] ~= 0 then
 			return true
 		else
-			-- TouchHandler( g.Player.NextTile )
+			g.TouchHandler( next_tile )
 			return false
 		end
 	end
@@ -122,7 +122,7 @@ return LoadActor( "./" .. g.Player.file )..{
 
 		self:animate(false)
 		-- align to left and v-middle
-			:align(0, 0.5)
+			:align(0.1, 0.5)
 		-- initialize the position
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
 			:z( layer_index )
