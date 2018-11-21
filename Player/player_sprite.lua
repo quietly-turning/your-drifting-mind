@@ -104,12 +104,17 @@ local frames = {
 
 -- a sprite for the player
 return LoadActor( "./" .. player.file )..{
-	InitCommand=function(self)
+	InitCommand=function(self, event)
 
 		player.actor = self
 
-		pos.x = layer_data.objects[1].x/map_data.tilewidth
-		pos.y = layer_data.objects[1].y/map_data.tileheight
+		if event.x and event.y then
+			pos.x = event.x
+			pos.y = event.y
+		else
+			pos.x = layer_data.objects[1].x/map_data.tilewidth
+			pos.y = layer_data.objects[1].y/map_data.tileheight
+		end
 
 		player.pos = pos
 		g.Player[map_index] = player
@@ -118,7 +123,7 @@ return LoadActor( "./" .. player.file )..{
 		-- align to left and v-middle
 			:align(0.1, 0.5)
 		-- initialize the position
-			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
+			:xy(pos.x*map_data.tilewidth, pos.y*map_data.tileheight)
 			:z( layer_index )
 		-- initialize the sprite state
 			:SetStateProperties( frames[player.dir] )
