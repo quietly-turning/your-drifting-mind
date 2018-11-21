@@ -29,6 +29,7 @@ end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
+	maps = { "Autumn", "Autumn2" },
 	CurrentMap = 1,
 	collision_layer = {},
 
@@ -43,6 +44,7 @@ local g = {
 	},
 
 	Events = {},
+	Player = {}
 }
 
 local Update = function(self, delta)
@@ -50,9 +52,8 @@ local Update = function(self, delta)
 end
 
 local map_data = {}
-local maps = { "./map_data/Autumn.lua", "./map_data/Autumn2.lua" }
 
-for i,map in ipairs(maps) do map_data[i] = LoadActor(map) end
+for i,map in ipairs(g.maps) do map_data[i] = LoadActor("./map_data/" .. map .. ".lua") end
 
 local map_af = Def.ActorFrame{
 	Name="Map ActorFrame",
@@ -62,7 +63,7 @@ local map_af = Def.ActorFrame{
 
 		-- uncomment to initialize map to center the player sprite
 		-- leave commented to intialize map at 0,0, or specify map starting xy() below
-		self:GetChild("Map"..g.CurrentMap).MoveMap(self)
+		self:GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 
 		-- self:xy( 0, -map_data.height*map_data.tileheight )
 
@@ -85,13 +86,8 @@ local map_af = Def.ActorFrame{
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 	end,
 	TweenMapCommand=function(self)
-		self:stoptweening()
-		self:linear(g.SleepDuration)
-		-- g.MoveMap(self)
-		self:GetChild("Map"..g.CurrentMap).MoveMap(self)
+		self:GetChild("Map"..g.CurrentMap):stoptweening():linear(g.SleepDuration):playcommand("MoveMap")
 	end,
-
-	-- LoadActor("AMV-Map.lua", {g, map_data}),
 }
 
 for map_index,map in ipairs(map_data) do

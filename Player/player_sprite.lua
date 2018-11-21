@@ -8,7 +8,9 @@ local map_index = args[5]
 
 local SleepDuration = g.SleepDuration
 
-g.Player = {
+local pos = { x=nil, y=nil }
+
+local player = {
 	file = "Elli 4x4 (doubleres).png",
 	dir = "Down",
 	tweening = false,
@@ -26,53 +28,42 @@ g.Player = {
 	},
 
 	NextTile = {
-		Up=function() return (g.Player.pos.y-1) * map_data.width + g.Player.pos.x + 1 end,
-		Down=function() return (g.Player.pos.y+1) * map_data.width + g.Player.pos.x + 1 end,
-		Left=function() return g.Player.pos.y * map_data.width + g.Player.pos.x end,
-		Right=function() return g.Player.pos.y * map_data.width + g.Player.pos.x + 2 end
+		Up=function() return (pos.y-1) * map_data.width + pos.x + 1 end,
+		Down=function() return (pos.y+1) * map_data.width + pos.x + 1 end,
+		Left=function() return pos.y * map_data.width + pos.x end,
+		Right=function() return pos.y * map_data.width + pos.x + 2 end
 	},
-
-	actor = {}
 }
 
-
 local WillBeOffMap = {
-	Up=function() return g.Player.pos.y < 1 end,
-	Down=function() return g.Player.pos.y > map_data.height-2 end,
-	Left=function() return g.Player.pos.x < 1 end,
-	Right=function() return g.Player.pos.x > map_data.width-2 end
+	Up=function() return pos.y < 1 end,
+	Down=function() return pos.y > map_data.height-2 end,
+	Left=function() return pos.x < 1 end,
+	Right=function() return pos.x > map_data.width-2 end
 }
 
 local UpdatePosition = function()
-
-	-- set the player sprite's current tile to "not collidable"
-	-- we are about to update the player sprite's position
-	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 0
-
 	-- Increment/Decrement the value as needed first
-	if g.Player.dir == "Up" then
-		g.Player.pos.y = g.Player.pos.y - 1
+	if g.Player[map_index].dir == "Up" then
+		pos.y = pos.y - 1
 
-	elseif g.Player.dir == "Down" then
-		g.Player.pos.y = g.Player.pos.y + 1
+	elseif g.Player[map_index].dir == "Down" then
+		pos.y = pos.y + 1
 
-	elseif g.Player.dir == "Left" then
-		g.Player.pos.x = g.Player.pos.x - 1
+	elseif g.Player[map_index].dir == "Left" then
+		pos.x = pos.x - 1
 
-	elseif g.Player.dir == "Right" then
-		g.Player.pos.x = g.Player.pos.x + 1
+	elseif g.Player[map_index].dir == "Right" then
+		pos.x = pos.x + 1
 	end
-
-	-- set the current tile to collidable
-	-- g.TileData.CollisionTiles[g.Player.pos.y * g.TileData.Width.Tiles + g.Player.pos.x + 1] = 1
 end
 
 
 local WillCollide = function()
-	local next_tile = g.Player.NextTile[g.Player.dir]()
+	local next_tile = g.Player[map_index].NextTile[g.Player[map_index].dir]()
 
 	if next_tile then
-		if g.collision_layer[g.CurrentMap].data[ next_tile ] ~= 0 then
+		if g.collision_layer[map_index].data[ next_tile ] ~= 0 then
 			return true
 		else
 			g.TouchHandler( next_tile )
@@ -112,17 +103,16 @@ local frames = {
 }
 
 -- a sprite for the player
-return LoadActor( "./" .. g.Player.file )..{
+return LoadActor( "./" .. player.file )..{
 	InitCommand=function(self)
 
-		g.Player.actor[map_index] = self
+		player.actor = self
 
-		g.Player.pos = g.Player.pos or {
-			x = layer_data.objects[1].x/map_data.tilewidth,
-			y = layer_data.objects[1].y/map_data.tileheight,
-		}
+		pos.x = layer_data.objects[1].x/map_data.tilewidth
+		pos.y = layer_data.objects[1].y/map_data.tileheight
 
-		g.Player.dir = "Down"
+		player.pos = pos
+		g.Player[map_index] = player
 
 		self:animate(false)
 		-- align to left and v-middle
@@ -131,14 +121,14 @@ return LoadActor( "./" .. g.Player.file )..{
 			:xy(layer_data.objects[1].x, layer_data.objects[1].y)
 			:z( layer_index )
 		-- initialize the sprite state
-			:SetStateProperties( frames[g.Player.dir] )
+			:SetStateProperties( frames[player.dir] )
 			:setstate(1)
 			:SetTextureFiltering(false)
 			:zoom(0.9)
 	end,
 	UpdateSpriteFramesCommand=function(self)
-		if g.Player.dir then
-			self:SetStateProperties( frames[g.Player.dir] )
+		if player.dir then
+			self:SetStateProperties( frames[player.dir] )
 		end
 	end,
 	AnimationOnCommand=function(self)
@@ -150,11 +140,11 @@ return LoadActor( "./" .. g.Player.file )..{
 	TweenCommand=function(self)
 
 		-- collision check the impending tile
-		if not WillCollide() and not WillBeOffMap[g.Player.dir]() then
+		if not WillCollide() and not WillBeOffMap[player.dir]() then
 
 			-- this does a good job of mitigating tween overflows resulting from button mashing
 			-- self:stoptweening()
-			g.Player.tweening = true
+			player.tweening = true
 
 			-- we *probably* want to update the player's map position
 			-- UpdatePosition() does just that, if we should
@@ -165,16 +155,16 @@ return LoadActor( "./" .. g.Player.file )..{
 
 			self:playcommand("AnimationOn")
 				:linear(SleepDuration)
-				:x(g.Player.pos.x * map_data.tilewidth)
-				:y(g.Player.pos.y * map_data.tileheight)
+				:x(pos.x * map_data.tilewidth)
+				:y(pos.y * map_data.tileheight)
 
 			self:queuecommand("MaybeTweenAgain")
 		end
 	end,
 	MaybeTweenAgainCommand=function(self)
-		g.Player.tweening = false
+		player.tweening = false
 
-		if g.Player.dir and g.Player.input[ g.Player.dir ] then
+		if player.dir and player.input[ player.dir ] then
 			self:playcommand("Tween")
 		else
 			self:stoptweening():queuecommand("AnimationOff")
@@ -184,16 +174,16 @@ return LoadActor( "./" .. g.Player.file )..{
 
 		-- Does the player sprite's current direction match the direction
 		-- we were just passed from the input handler?
-		if g.Player.dir ~= params.dir then
+		if player.dir ~= params.dir then
 
 			-- if not, update it
-			g.Player.dir = params.dir
+			player.dir = params.dir
 			-- and update the sprite's frames appropriately
 			self:playcommand("UpdateSpriteFrames")
 		end
 
 		-- don't allow us to go off the map
-		if g.Player.dir and g.Player.input[ g.Player.dir ] and not g.Player.tweening then
+		if player.dir and player.input[ player.dir ] and not player.tweening then
 
 			self:playcommand("AnimationOn")
 

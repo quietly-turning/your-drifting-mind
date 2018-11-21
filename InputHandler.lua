@@ -3,10 +3,28 @@ local map = args[1]
 local g = args[2]
 local _start = { duration = 0, begin_time = 0 }
 
+local FindInTable = function(needle, haystack)
+	for i,v in ipairs(haystack) do
+		if v == needle then return i end
+	end
+	return nil
+end
+
 g.TouchHandler = function(next_tile)
 
-	if g.Events[g.CurrentMap][next_tile] and g.Events[g.CurrentMap][next_tile].EventType == "Touch" then
+	local event = g.Events[g.CurrentMap][next_tile]
+
+	if event and event.EventType == "Touch" then
 		-- handle the event
+		if event.TransferPlayer then
+			local next_map_index = FindInTable(event.TransferPlayer, g.maps)
+			local map_af = SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Map ActorFrame")
+
+			map_af:GetChild("Map"..g.CurrentMap):visible(false)
+			g.CurrentMap = next_map_index
+			g.Player[g.CurrentMap].actor:playcommand("Init")
+			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
+		end
 	end
 end
 
@@ -15,7 +33,7 @@ local InteractionHandler = function()
 	-- if handling an event that must be interacted with
 	if not g.DialogIsActive then
 
-		local next_tile = g.Player.NextTile[g.Player.dir]()
+		local next_tile = g.Player[g.CurrentMap].NextTile[g.Player[g.CurrentMap].dir]()
 
 		if g.Events[g.CurrentMap][next_tile] and g.Events[g.CurrentMap][next_tile].text then
 			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[g.CurrentMap][next_tile].text}):playcommand("Show")
@@ -54,12 +72,12 @@ local InteractionHandler = function()
 end
 
 local directional_movement = function(button)
-	g.Player.input.Active = button
-	g.Player.input[button] = true
+	g.Player[g.CurrentMap].input.Active = button
+	g.Player[g.CurrentMap].input[button] = true
 
 	if not g.DialogIsActive then
 		-- attempt to tween character
-		g.Player.actor[g.CurrentMap]:playcommand("AttemptToTween", {dir=button})
+		g.Player[g.CurrentMap].actor:playcommand("AttemptToTween", {dir=button})
 	end
 end
 
@@ -133,15 +151,15 @@ local InputHandler = function(event)
 	elseif event.type == "InputEventType_Release" then
 
 		-- if the button just released was the most recently active button, then no button is being held
-		if event.button == g.Player.input.Active then
+		if event.button == g.Player[g.CurrentMap].input.Active then
 			-- so mark the Active field as nil
-			g.Player.input.Active = nil
+			g.Player[g.CurrentMap].input.Active = nil
 			-- and inform the player sprite to stop animating
-			g.Player.actor[g.CurrentMap]:queuecommand("AnimationOff")
+			g.Player[g.CurrentMap].actor:queuecommand("AnimationOff")
 		end
 
 		-- either way, this button has been released, so mark it as false
-		g.Player.input[event.button] = false
+		g.Player[g.CurrentMap].input[event.button] = false
 	end
 
 	return false

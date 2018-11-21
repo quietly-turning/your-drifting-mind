@@ -11,7 +11,7 @@ local FindCenterOfMap = function()
 
 	-- calculate which tile currently represents the center of what is currently
 	-- displayed in the window in terms of tiles right and tiles down from top-left
-	local MapCenter = {right=g.Player.pos.x,  down=g.Player.pos.y}
+	local MapCenter = {right=g.Player[g.CurrentMap].pos.x,  down=g.Player[g.CurrentMap].pos.y}
 
 	-- half screen width in tile units
 	local half_screen_width_in_tiles  = (_screen.w/(map_data.tilewidth*g.map.zoom))/2
@@ -77,12 +77,6 @@ local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, maphe
 	return verts
 end
 
-local MoveMap = function(self)
-	local MapCenter = FindCenterOfMap()
-	self:x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
-	self:y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
-end
-
 -- -----------------------------------------------------------------------
 
 local af = Def.ActorFrame{}
@@ -99,10 +93,13 @@ af.InitCommand=function(self)
 	self:SetDrawByZPosition(true)
 
 	self:visible(false)
-
-	self.MoveMap = MoveMap
 end
 
+af.MoveMapCommand=function(self)
+	local MapCenter = FindCenterOfMap()
+	self:x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
+	self:y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
+end
 
 
 local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
@@ -110,7 +107,6 @@ local path_to_texture = song_dir .. "map_data/" .. map_data.tilesets[1].image
 
 -- find the collision data layer now and add it to the g table
 -- we'll want to refer to it from within a few different files
-
 for layer in ivalues(map_data.layers) do
 	if layer.name == "Collision" then
 		g.collision_layer[map_index] = layer
