@@ -41,6 +41,8 @@ local g = {
 	Dialog = {
 		Speaker = "Elli"
 	},
+
+	Events = {},
 }
 
 local Update = function(self, delta)

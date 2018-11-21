@@ -3,7 +3,8 @@ local g = args[1]
 local map_data = args[2]
 local map_index = args[3]
 
-g.Events = {}
+g.Events[map_index] = {}
+
 
 -- returns a table of two values, right and down, both in tile units
 local FindCenterOfMap = function()
@@ -177,7 +178,7 @@ for layer_index,layer in ipairs(map_data.layers) do
 			end
 
 			-- set Events data
-			g.Events[tile_num] = event.properties
+			g.Events[map_index][tile_num] = event.properties
 
 			if event.gid then
 				af[#af+1] = Def.Sprite{
