@@ -29,6 +29,9 @@ end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
+	CurrentMap = 1,
+	collision_layer = {},
+
 	SleepDuration = 0.2,
 	-- InputIsLocked = true,
 	map = {
@@ -37,16 +40,19 @@ local g = {
 	},
 	Dialog = {
 		Speaker = "Elli"
-	}
+	},
 }
 
 local Update = function(self, delta)
 	g.map.af:playcommand("UpdateAMV", {delta})
 end
 
-local map_data = LoadActor("./map_data/Autumn.lua")
+local map_data = {}
+local maps = { "./map_data/Autumn.lua", "./map_data/Autumn2.lua" }
 
-local map = Def.ActorFrame{
+for i,map in ipairs(maps) do map_data[i] = LoadActor(map) end
+
+local map_af = Def.ActorFrame{
 	Name="Map ActorFrame",
 
 	InitCommand=function(self)
@@ -54,7 +60,7 @@ local map = Def.ActorFrame{
 
 		-- uncomment to initialize map to center the player sprite
 		-- leave commented to intialize map at 0,0, or specify map starting xy() below
-		g.MoveMap(self)
+		self:GetChild("Map"..g.CurrentMap).MoveMap(self)
 
 		-- self:xy( 0, -map_data.height*map_data.tileheight )
 
@@ -62,9 +68,9 @@ local map = Def.ActorFrame{
 	end,
 	OnCommand=function(self)
 		-- self:hibernate(13)
+		self:GetChild("Map1"):visible(true)
 		self:smooth(1.5):diffuse(1,1,1,1)
 		-- self:sleep(1):linear(5)
-
 		-- g.MoveMap(self)
 
 		self:queuecommand("Appear")
@@ -79,16 +85,20 @@ local map = Def.ActorFrame{
 	TweenMapCommand=function(self)
 		self:stoptweening()
 		self:linear(g.SleepDuration)
-		g.MoveMap(self)
+		-- g.MoveMap(self)
+		self:GetChild("Map"..g.CurrentMap).MoveMap(self)
 	end,
 
-
-	LoadActor("AMV-Map.lua", {g, map_data}),
+	-- LoadActor("AMV-Map.lua", {g, map_data}),
 }
+
+for map_index,map in ipairs(map_data) do
+	map_af[#map_af+1] = LoadActor("AMV-Map.lua" ,{g, map, map_index})..{ Name="Map"..map_index }
+end
 
 -- snowfall actors
 for i=1,5 do
-	map[#map+1] = LoadActor("./snow/snow.lua", {g, map_data, i})
+	map_af[#map_af+1] = LoadActor("./snow/snow.lua", {g, map_data, i})
 end
 
 local phone = LoadActor("./phone/phone.lua")
@@ -130,7 +140,7 @@ return Def.ActorFrame{
 
 	-- Scenes
 	-- phone,
-	map,
+	map_af,
 
 	-- DialogBox, hidden unless needed
 	dialog_box,

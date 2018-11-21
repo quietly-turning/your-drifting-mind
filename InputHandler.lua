@@ -59,7 +59,7 @@ local directional_movement = function(button)
 
 	if not g.DialogIsActive then
 		-- attempt to tween character
-		g.Player.actor:playcommand("AttemptToTween", {dir=button})
+		g.Player.actor[g.CurrentMap]:playcommand("AttemptToTween", {dir=button})
 	end
 end
 
@@ -137,7 +137,7 @@ local InputHandler = function(event)
 			-- so mark the Active field as nil
 			g.Player.input.Active = nil
 			-- and inform the player sprite to stop animating
-			g.Player.actor:queuecommand("AnimationOff")
+			g.Player.actor[g.CurrentMap]:queuecommand("AnimationOff")
 		end
 
 		-- either way, this button has been released, so mark it as false

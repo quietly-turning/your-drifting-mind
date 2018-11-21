@@ -1,6 +1,6 @@
 local args = ...
 local g = args[1]
-local map_data = args[2]
+local map_data = args[2][1]
 local snow_index = args[3]
 
 -- -----------------------------------

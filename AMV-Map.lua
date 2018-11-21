@@ -1,6 +1,7 @@
 local args = ...
 local g = args[1]
 local map_data = args[2]
+local map_index = args[3]
 
 g.Events = {}
 
@@ -75,7 +76,7 @@ local GetVerts = function(layer, tileset, tilewidth, tileheight, mapwidth, maphe
 	return verts
 end
 
-g.MoveMap = function(self)
+local MoveMap = function(self)
 	local MapCenter = FindCenterOfMap()
 	self:x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
 	self:y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
@@ -83,7 +84,7 @@ end
 
 -- -----------------------------------------------------------------------
 
-local af = Def.ActorFrame{ Name="Visuals" }
+local af = Def.ActorFrame{}
 
 -- zoom the map and the player (but not the snow) some amount
 af.InitCommand=function(self)
@@ -95,30 +96,37 @@ af.InitCommand=function(self)
 	-- y() value (things further down the map draw OVER things higher up the map) and applying
 	-- SetDrawByZPosition(true) to the entire ActorFrame.
 	self:SetDrawByZPosition(true)
+
+	self:visible(false)
+
+	self.MoveMap = MoveMap
 end
+
+
 
 local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
 local path_to_texture = song_dir .. "map_data/" .. map_data.tilesets[1].image
 
 -- find the collision data layer now and add it to the g table
 -- we'll want to refer to it from within a few different files
+
 for layer in ivalues(map_data.layers) do
 	if layer.name == "Collision" then
-		g.collision_layer = layer
+		g.collision_layer[map_index] = layer
 		break
 	end
 end
 
+
 -- Loop through the layers exported from the Tiled app, and add either an AMV or a Sprite for each.
 -- The parent ActorFrame (af) has SetDrawByZPosition(true) set, so the sequence in which these layers are
 -- added to it does not dictate their draw order.  Each layer must be assigned a z() value appropriately.
-
-for layer_index,layer_data in ipairs(map_data.layers) do
+for layer_index,layer in ipairs(map_data.layers) do
 
 	-- this is a tiled layer that must be created using an AMV
-	if layer_data.name ~= "Collision" and layer_data.name ~= "Events" and layer_data.name ~= "Player" and layer_data.name ~= "Texture" and layer_data.visible then
+	if layer.name ~= "Collision" and layer.name ~= "Events" and layer.name ~= "Player" and layer.name ~= "Texture" and layer.visible then
 
-		local verts = GetVerts(layer_data, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
+		local verts = GetVerts(layer, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 
 		-- an AMV for this layer in the map
 		af[#af+1] = Def.ActorMultiVertex{
@@ -131,10 +139,10 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 			end
 		}
 
-	-- for "Texture" layers, add a texture that is ... hardcoded to scroll infinitely because all I need for this is water...
-	elseif layer_data.name == "Texture" then
+	-- for "Texture" layers, add a texture
+	elseif layer.name == "Texture" then
 
-		local obj = layer_data.objects[1]
+		local obj = layer.objects[1]
 
 		-- water texture
 		af[#af+1] = Def.Sprite{
@@ -150,14 +158,14 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 			end
 		}
 
-	elseif layer_data.name == "Player" then
+	elseif layer.name == "Player" then
 
 		-- Player sprite has enough logic that it gets its own Lua file
-		af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer_data, layer_index})
+		af[#af+1] = LoadActor("./Player/player_sprite.lua", {g, map_data, layer, layer_index, map_index})
 
-	elseif layer_data.name == "Events" then
+	elseif layer.name == "Events" then
 
-		for event in ivalues(layer_data.objects) do
+		for event in ivalues(layer.objects) do
 			local tile_num
 
 			-- if an object from Tiled has a gid, we need to subtract 1 tile unit from the y position of this event
@@ -188,6 +196,5 @@ for layer_index,layer_data in ipairs(map_data.layers) do
 		end
 	end
 end
-
 
 return af

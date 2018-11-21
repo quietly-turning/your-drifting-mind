@@ -3,6 +3,8 @@ local g = args[1]
 local map_data = args[2]
 local layer_data = args[3]
 local layer_index = args[4]
+local map_index = args[5]
+
 
 local SleepDuration = g.SleepDuration
 
@@ -28,7 +30,9 @@ g.Player = {
 		Down=function() return (g.Player.pos.y+1) * map_data.width + g.Player.pos.x + 1 end,
 		Left=function() return g.Player.pos.y * map_data.width + g.Player.pos.x end,
 		Right=function() return g.Player.pos.y * map_data.width + g.Player.pos.x + 2 end
-	}
+	},
+
+	actor = {}
 }
 
 
@@ -68,7 +72,7 @@ local WillCollide = function()
 	local next_tile = g.Player.NextTile[g.Player.dir]()
 
 	if next_tile then
-		if g.collision_layer.data[ next_tile ] ~= 0 then
+		if g.collision_layer[g.CurrentMap].data[ next_tile ] ~= 0 then
 			return true
 		else
 			g.TouchHandler( next_tile )
@@ -111,7 +115,7 @@ local frames = {
 return LoadActor( "./" .. g.Player.file )..{
 	InitCommand=function(self)
 
-		g.Player.actor = self
+		g.Player.actor[map_index] = self
 
 		g.Player.pos = g.Player.pos or {
 			x = layer_data.objects[1].x/map_data.tilewidth,
@@ -144,7 +148,6 @@ return LoadActor( "./" .. g.Player.file )..{
 		self:animate(false):setstate(1)
 	end,
 	TweenCommand=function(self)
-
 
 		-- collision check the impending tile
 		if not WillCollide() and not WillBeOffMap[g.Player.dir]() then
