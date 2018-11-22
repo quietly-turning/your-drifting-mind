@@ -6,7 +6,7 @@ local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
 local af = Def.ActorFrame{
 	InitCommand=function(self)
 		self:visible(false):diffusealpha(0)
-			:xy(_screen.cx, _screen.h-WideScale(50,75))
+			:xy(_screen.cx, _screen.h-64)
 		g.Dialog.ActorFrame = self
 	end,
 	ShowCommand=function(self) self:visible(true):linear(0.333):diffusealpha(1) end,
@@ -19,9 +19,7 @@ local af = Def.ActorFrame{
 
 
 	Def.ActorFrame{
-		InitCommand=function(self)
-			self:zoom(WideScale(0.25, 0.275))
-		end,
+		InitCommand=function(self) self:zoom(0.245) end,
 
 		LoadActor("./box.png"),
 
@@ -38,7 +36,7 @@ local af = Def.ActorFrame{
 	Def.ActorFrame{
 		Name="NameBoxAF",
 		InitCommand=function(self)
-			self:xy(-WideScale(270,280), -WideScale(46,56))
+			self:xy(-250,-56)
 		end,
 		ClearTextCommand=function(self)
 			self:visible(false)
@@ -77,9 +75,9 @@ local af = Def.ActorFrame{
 
 		InitCommand=function(self) self:zoom(0.5):cropright(1) end,
 		OnCommand=function(self)
-			self:align(0,0):xy( WideScale(-_screen.cx+40 , -_screen.w/3 + 60), -WideScale(24,30))
+			self:align(0,0):xy(-200, -30)
 				:diffuse(Color.Black)
-				:wrapwidthpixels((_screen.w * WideScale(_screen.w-80,0.65))/self:GetZoom())
+				:wrapwidthpixels((_screen.w-140)/self:GetZoom())
 		end,
 
 		ClearTextCommand=function(self)
@@ -87,12 +85,6 @@ local af = Def.ActorFrame{
 		end,
 		UpdateTextCommand=function(self, params)
 			g.Dialog.IsTweening = true
-
-			-- if type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "string" then
-			-- 	text = SRT.Dialog.Words[SRT.Dialog.Index].text
-			-- elseif type(SRT.Dialog.Words[SRT.Dialog.Index].text) == "function" then
-			-- 	text = SRT.Dialog.Words[SRT.Dialog.Index].text()
-			-- end
 
 			if params.text then
 				self:settext( params.text ):linear(0.75):cropright(0):queuecommand("FinishUpdateText")
