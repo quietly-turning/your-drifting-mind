@@ -166,9 +166,6 @@ return Def.ActorFrame{
 
 			self:queuecommand("FadeToClear")
 		end
-
-
-
 	},
 
 	-- DialogBox, hidden unless needed
