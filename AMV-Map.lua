@@ -97,8 +97,8 @@ end
 
 af.MoveMapCommand=function(self)
 	local MapCenter = FindCenterOfMap()
-	self:x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
-	self:y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
+	self:GetParent():x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
+	self:GetParent():y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
 end
 
 

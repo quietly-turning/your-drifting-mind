@@ -17,20 +17,13 @@ g.TouchHandler = function(next_tile)
 	if event and event.EventType == "Touch" then
 		-- handle the event
 		if event.TransferPlayer then
-			local next_map_index = FindInTable(event.TransferPlayer, g.maps)
-			local facing = g.Player[g.CurrentMap].dir
-			local map_af = SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Map ActorFrame")
+			g.next_map = {
+				index = FindInTable(event.TransferPlayer, g.maps),
+				x = event.TransferTileRight,
+				y = event.TransferTileDown
+			}
 
-			-- don't draw the old map
-			map_af:GetChild("Map"..g.CurrentMap):visible(false)
-			-- update CurrentMap index
-			g.CurrentMap = next_map_index
-			-- maintain the direction the player was last facing when transferring maps
-			g.Player[g.CurrentMap].dir = facing
-			-- call InitCommand on the player Sprite for this map, passing in starting position data specified in Tiled
-			g.Player[g.CurrentMap].actor:playcommand("Init", {x=event.TransferTileRight, y=event.TransferTileDown} )
-			-- start drawing the new map and update its position if needed
-			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
+			g.SceneFade:playcommand("FadeToBlack")
 		end
 	end
 end

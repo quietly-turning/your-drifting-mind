@@ -86,7 +86,7 @@ local map_af = Def.ActorFrame{
 		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
 	end,
 	TweenMapCommand=function(self)
-		self:GetChild("Map"..g.CurrentMap):stoptweening():linear(g.SleepDuration):playcommand("MoveMap")
+		self:stoptweening():linear(g.SleepDuration):GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 	end,
 }
 
@@ -139,6 +139,37 @@ return Def.ActorFrame{
 	-- Scenes
 	-- phone,
 	map_af,
+
+	Def.Quad{
+		InitCommand=function(self) self:diffuse(0,0,0,0):FullScreen():Center(); g.SceneFade = self end,
+		FadeToBlackCommand=function(self)
+			self:smooth(0.5):diffusealpha(1):queuecommand("ChangeMap")
+		end,
+		FadeToClearCommand=function(self) self:smooth(0.5):diffusealpha(0) end,
+		ChangeMapCommand=function(self)
+			local facing = g.Player[g.CurrentMap].dir
+			local map_af = SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Map ActorFrame")
+
+			-- don't draw the old map
+			map_af:GetChild("Map"..g.CurrentMap):visible(false)
+			-- update CurrentMap index
+			g.CurrentMap = g.next_map.index
+
+			-- maintain the direction the player was last facing when transferring maps
+			g.Player[g.CurrentMap].dir = facing
+			-- call InitCommand on the player Sprite for this map, passing in starting position data specified in Tiled
+			g.Player[g.CurrentMap].actor:playcommand("Init", {x=g.next_map.x, y=g.next_map.y} )
+			-- reset this (just in case?)
+			g.next_map = nil
+			-- start drawing the new map and update its position if needed
+			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
+
+			self:queuecommand("FadeToClear")
+		end
+
+
+
+	},
 
 	-- DialogBox, hidden unless needed
 	dialog_box,
