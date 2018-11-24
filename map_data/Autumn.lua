@@ -84,11 +84,12 @@ return {
           shape = "rectangle",
           x = 0,
           y = 0,
-          width = 2560,
-          height = 384,
+          width = 64,
+          height = 64,
           rotation = 0,
           visible = true,
           properties = {
+            ["Parallax"] = true,
             ["Texture"] = "map_data/sunset.png"
           }
         }

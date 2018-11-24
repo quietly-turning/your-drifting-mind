@@ -90,9 +90,7 @@ af.InitCommand=function(self)
 	-- draws under/over what.  We handle this by updating the z() value of the player and events to match their
 	-- y() value (things further down the map draw OVER things higher up the map) and applying
 	-- SetDrawByZPosition(true) to the entire ActorFrame.
-	self:SetDrawByZPosition(true)
-
-	self:visible(false)
+	self:SetDrawByZPosition(true):visible(false)
 end
 
 af.MoveMapCommand=function(self)
@@ -141,19 +139,22 @@ for layer_index,layer in ipairs(map_data.layers) do
 
 		local obj = layer.objects[1]
 
-		-- water texture
-		af[#af+1] = Def.Sprite{
-			Texture=song_dir..obj.properties.Texture,
-			InitCommand=function(self)
-				self:zoomto( obj.width, obj.height  )
-					:customtexturerect(0,0,1,1)
-					:texcoordvelocity(obj.properties.vx or 0,obj.properties.vy or 0)
-					:diffusealpha(obj.properties.alpha or 1)
-					:xy(obj.x, obj.y)
-					:z(layer_index)
-					:align(0,0)
-			end
-		}
+		if not obj.properties.Parallax then
+
+			af[#af+1] = Def.Sprite{
+				Texture=song_dir..obj.properties.Texture,
+				InitCommand=function(self)
+					self:customtexturerect(0,0,1,1)
+						:texcoordvelocity(obj.properties.vx or 0,obj.properties.vy or 0)
+						:diffusealpha(obj.properties.alpha or 1)
+						:xy(obj.x, obj.y)
+						:z(layer_index)
+						:align(0,0)
+						:zoomto( obj.width, obj.height )
+
+				end
+			}
+		end
 
 	elseif layer.name == "Player" then
 

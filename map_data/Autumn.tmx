@@ -3,8 +3,9 @@
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <objectgroup id="11" name="Texture">
-  <object id="3" name="Sky" x="0" y="0" width="2560" height="384">
+  <object id="3" name="Sky" x="0" y="0" width="64" height="64">
    <properties>
+    <property name="Parallax" type="bool" value="true"/>
     <property name="Texture" value="map_data/sunset.png"/>
    </properties>
   </object>
