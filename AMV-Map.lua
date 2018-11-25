@@ -119,7 +119,7 @@ end
 for layer_index,layer in ipairs(map_data.layers) do
 
 	-- this is a tiled layer that must be created using an AMV
-	if layer.name ~= "Collision" and layer.name ~= "Events" and layer.name ~= "Player" and layer.name ~= "Texture" and layer.visible then
+	if layer.name ~= "Collision" and layer.name ~= "Events" and layer.name ~= "Player" and layer.name ~= "Texture" and layer.name ~= "Parallax" and layer.visible then
 
 		local verts = GetVerts(layer, map_data.tilesets[1], map_data.tilewidth, map_data.tileheight, map_data.width, map_data.height)
 

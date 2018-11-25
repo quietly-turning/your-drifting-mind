@@ -60,7 +60,6 @@ local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
 return Def.ActorFrame{
 	InitCommand=function(self) end,
 	OnCommand=function(self)
-
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- This won't work with ScreenEdit, so don't bother trying.
@@ -84,8 +83,6 @@ return Def.ActorFrame{
 		SCREENMAN:set_input_redirected(PLAYER_2, false)
 	end,
 
-
-
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 
@@ -95,14 +92,15 @@ return Def.ActorFrame{
 	map_af,
 
 	Def.Quad{
-		InitCommand=function(self) self:diffuse(0,0,0,0):FullScreen():Center(); g.SceneFade = self end,
+		InitCommand=function(self) self:diffuse(0,0,0,1):FullScreen():Center(); g.SceneFade = self end,
+		OnCommand=function(self) self:queuecommand("FadeToClear") end,
 		FadeToBlackCommand=function(self)
 			self:smooth(0.5):diffusealpha(1):queuecommand("ChangeMap")
 		end,
 		FadeToClearCommand=function(self) self:smooth(0.5):diffusealpha(0) end,
 		ChangeMapCommand=function(self)
 			local facing = g.Player[g.CurrentMap].dir
-			local map_af = SCREENMAN:GetTopScreen():GetChild("SongForeground"):GetChild("./default.lua"):GetChild("Map ActorFrame")
+			local map_af = self:GetParent():GetChild("Map ActorFrame")
 
 			-- don't draw the old map
 			map_af:GetChild("Map"..g.CurrentMap):visible(false)
