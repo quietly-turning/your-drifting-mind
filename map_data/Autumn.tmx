@@ -137,7 +137,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="1" name="Player" x="384" y="1664" width="64" height="64"/>
+  <object id="1" name="Player" x="320" y="448" width="64" height="64"/>
  </objectgroup>
  <layer id="37" name="Over" width="40" height="35">
   <data encoding="csv">
@@ -259,6 +259,7 @@
  <objectgroup id="9" name="Events">
   <object id="7" name="Door" x="128" y="384" width="64" height="64">
    <properties>
+    <property name="img" value="determined"/>
     <property name="text" value="I can't go back inside.  I need to find him."/>
    </properties>
   </object>

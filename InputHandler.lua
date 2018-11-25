@@ -36,7 +36,7 @@ local InteractionHandler = function()
 		local next_tile = g.Player[g.CurrentMap].NextTile[g.Player[g.CurrentMap].dir]()
 
 		if g.Events[g.CurrentMap][next_tile] and g.Events[g.CurrentMap][next_tile].text then
-			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[g.CurrentMap][next_tile].text}):playcommand("Show")
+			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[g.CurrentMap][next_tile].text}):playcommand("Show", {img=g.Events[g.CurrentMap][next_tile].img})
 			g.DialogIsActive = true
 		end
 

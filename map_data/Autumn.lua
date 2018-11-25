@@ -297,8 +297,8 @@ return {
           name = "Player",
           type = "",
           shape = "rectangle",
-          x = 384,
-          y = 1664,
+          x = 320,
+          y = 448,
           width = 64,
           height = 64,
           rotation = 0,
@@ -486,6 +486,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
+            ["img"] = "determined",
             ["text"] = "I can't go back inside.  I need to find him."
           }
         },
