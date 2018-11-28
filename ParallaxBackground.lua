@@ -12,13 +12,11 @@ for map_index,map in ipairs(map_data) do
 					Name="Parallax"..map_index,
 					Texture=song_dir..obj.properties.Texture,
 					InitCommand=function(self)
-						self:customtexturerect(0,0,1,1)
-							:texcoordvelocity(obj.properties.vx or 0,obj.properties.vy or 0)
-							:diffusealpha(obj.properties.alpha or 1)
+						self:diffusealpha(obj.properties.alpha or 1)
 							:xy(obj.x, obj.y)
 							:z(layer_index)
 							:align(0,0)
-							:zoomto( _screen.w, _screen.h )
+							:setsize( _screen.w, _screen.h )
 							-- :visible(false)
 					end
 				}
