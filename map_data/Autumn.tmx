@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="40" height="35" tilewidth="64" tileheight="64" infinite="0" nextlayerid="40" nextobjectid="11">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="40" height="35" tilewidth="64" tileheight="64" infinite="0" nextlayerid="41" nextobjectid="12">
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <objectgroup id="11" name="Parallax">
-  <object id="3" name="Sky" x="0" y="0" width="64" height="64">
+  <object id="11" name="Sky" x="0" y="0" width="64" height="64">
    <properties>
-    <property name="Texture" value="map_data/sunset.png"/>
+    <property name="Texture" value="map_data/sky.png"/>
+   </properties>
+  </object>
+  <object id="3" name="Mountain" x="0" y="0" width="64" height="64">
+   <properties>
+    <property name="Texture" value="map_data/mountains.png"/>
    </properties>
   </object>
  </objectgroup>
@@ -137,7 +142,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="1" name="Player" x="576" y="1600" width="64" height="64"/>
+  <object id="1" name="Player" x="512" y="384" width="64" height="64"/>
  </objectgroup>
  <layer id="37" name="Over" width="40" height="35">
   <data encoding="csv">

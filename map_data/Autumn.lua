@@ -8,8 +8,8 @@ return {
   height = 35,
   tilewidth = 64,
   tileheight = 64,
-  nextlayerid = 40,
-  nextobjectid = 11,
+  nextlayerid = 41,
+  nextobjectid = 12,
   properties = {},
   tilesets = {
     {
@@ -78,7 +78,7 @@ return {
       properties = {},
       objects = {
         {
-          id = 3,
+          id = 11,
           name = "Sky",
           type = "",
           shape = "rectangle",
@@ -89,7 +89,22 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Texture"] = "map_data/sunset.png"
+            ["Texture"] = "map_data/sky.png"
+          }
+        },
+        {
+          id = 3,
+          name = "Mountain",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["Texture"] = "map_data/mountains.png"
           }
         }
       }
@@ -297,8 +312,8 @@ return {
           name = "Player",
           type = "",
           shape = "rectangle",
-          x = 576,
-          y = 1600,
+          x = 512,
+          y = 384,
           width = 64,
           height = 64,
           rotation = 0,
