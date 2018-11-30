@@ -1,7 +1,6 @@
 -- ------------------------------------------------------
 -- Stuff related to chart selection
 
--- ----------------------------------------
 -- Check if we're in EditMode by getting the class of the current screen.
 -- We could check the current screen's name, but it's possible for a theme
 -- to rename screens as it sees fit.
@@ -40,9 +39,9 @@ if #GAMESTATE:GetHumanPlayers() > 1 then
 	end
 end
 
--- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+-- ------------------------------------------------------
 local g = {
-	maps = { "Autumn1", "Autumn2" },
+	maps = { "Autumn1", "Autumn2", "Autumn3" },
 	CurrentMap = 1,
 	collision_layer = {},
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="54" nextobjectid="10">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="54" nextobjectid="14">
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <layer id="46" name="Ground / Water" width="40" height="20">
@@ -200,7 +200,7 @@
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,513,513,513,513,513,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,513,513,513,513,513,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,513,513,513,513,
-513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,513,513,513,0,
+513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,513,513,513,513,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,0,0,0,0,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,0,0,0,0,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,0,0,0,
@@ -208,12 +208,36 @@
 </data>
  </layer>
  <objectgroup id="9" name="Events">
-  <object id="8" name="Transfer to Autumn" x="192" y="0" width="64" height="64">
+  <object id="8" name="Transfer to 1" x="192" y="0" width="64" height="64">
    <properties>
     <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="1"/>
     <property name="TransferTileDown" type="int" value="32"/>
     <property name="TransferTileRight" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="11" name="Transfer to 3" x="2496" y="1024" width="64" height="64">
+   <properties>
+    <property name="EventType" value="Touch"/>
+    <property name="TransferPlayer" value="3"/>
+    <property name="TransferTileDown" type="int" value="17"/>
+    <property name="TransferTileRight" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="12" name="Transfer to 3" x="2496" y="1088" width="64" height="64">
+   <properties>
+    <property name="EventType" value="Touch"/>
+    <property name="TransferPlayer" value="3"/>
+    <property name="TransferTileDown" type="int" value="17"/>
+    <property name="TransferTileRight" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="13" name="Transfer to 3" x="2496" y="1152" width="64" height="64">
+   <properties>
+    <property name="EventType" value="Touch"/>
+    <property name="TransferPlayer" value="3"/>
+    <property name="TransferTileDown" type="int" value="17"/>
+    <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>
