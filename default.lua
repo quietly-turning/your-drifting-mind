@@ -113,9 +113,13 @@ return Def.ActorFrame{
 		ChangeMapCommand=function(self)
 			local facing = g.Player[g.CurrentMap].dir
 			local map_af = self:GetParent():GetChild("Map ActorFrame")
+			local parallax_bg = self:GetParent():GetChild("Parallax"..g.CurrentMap)
 
 			-- don't draw the old map
 			map_af:GetChild("Map"..g.CurrentMap):visible(false)
+			-- don't draw the old background
+			if parallax_bg then parallax_bg:visible(false) end
+
 			-- update CurrentMap index
 			g.CurrentMap = g.next_map.index
 
@@ -127,6 +131,9 @@ return Def.ActorFrame{
 			g.next_map = nil
 			-- start drawing the new map and update its position if needed
 			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
+			-- get a handle to the new parallax bg if it exists
+			parallax_bg = self:GetParent():GetChild("Parallax"..g.CurrentMap)
+			if parallax_bg then parallax_bg:visible(true) end
 
 			self:queuecommand("FadeToClear")
 		end
