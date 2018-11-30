@@ -1,6 +1,21 @@
 -- ------------------------------------------------------
 -- Stuff related to chart selection
 
+-- ----------------------------------------
+-- Check if we're in EditMode by getting the class of the current screen.
+-- We could check the current screen's name, but it's possible for a theme
+-- to rename screens as it sees fit.
+
+local IsEditMode = function()
+	local screen = SCREENMAN:GetTopScreen()
+	if not screen then
+		SCREENMAN:SystemMessage("IsEditMode() check failed to run because there is no Screen yet.")
+		return nil
+	end
+
+	return (THEME:GetMetric(screen:GetName(), "Class") == "ScreenEdit")
+end
+
 -- if both players are joined
 if #GAMESTATE:GetHumanPlayers() > 1 then
 
@@ -17,9 +32,7 @@ if #GAMESTATE:GetHumanPlayers() > 1 then
 	if reload_necessary then
 		return Def.Actor {
 			OnCommand=function(self)
-				if SCREENMAN:GetTopScreen():GetName() ~= "ScreenEdit" then
-					SCREENMAN:SetNewScreen('ScreenGameplay')
-				end
+				if not IsEditMode() then SCREENMAN:SetNewScreen('ScreenGameplay') end
 			end
 		}
 	else
@@ -29,7 +42,7 @@ end
 
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 local g = {
-	maps = { "Autumn", "Autumn2" },
+	maps = { "Autumn1", "Autumn2" },
 	CurrentMap = 1,
 	collision_layer = {},
 

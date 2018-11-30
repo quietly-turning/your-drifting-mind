@@ -18,7 +18,7 @@ g.TouchHandler = function(next_tile)
 		-- handle the event
 		if event.TransferPlayer then
 			g.next_map = {
-				index = FindInTable(event.TransferPlayer, g.maps),
+				index = FindInTable("Autumn"..event.TransferPlayer, g.maps),
 				x = event.TransferTileRight,
 				y = event.TransferTileDown
 			}

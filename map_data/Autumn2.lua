@@ -443,8 +443,8 @@ return {
           visible = true,
           properties = {
             ["EventType"] = "Touch",
-            ["TransferPlayer"] = "Autumn",
-            ["TransferTileDown"] = 34,
+            ["TransferPlayer"] = "1",
+            ["TransferTileDown"] = 32,
             ["TransferTileRight"] = 3
           }
         }

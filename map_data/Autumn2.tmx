@@ -211,8 +211,8 @@
   <object id="8" name="Transfer to Autumn" x="192" y="0" width="64" height="64">
    <properties>
     <property name="EventType" value="Touch"/>
-    <property name="TransferPlayer" value="Autumn"/>
-    <property name="TransferTileDown" type="int" value="34"/>
+    <property name="TransferPlayer" value="1"/>
+    <property name="TransferTileDown" type="int" value="32"/>
     <property name="TransferTileRight" type="int" value="3"/>
    </properties>
   </object>
