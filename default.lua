@@ -41,7 +41,7 @@ end
 
 -- ------------------------------------------------------
 local g = {
-	maps = { "Autumn1", "Autumn2", "Autumn3" },
+	maps = { "Winter1", "Winter2", "Winter3" },
 	CurrentMap = 1,
 	collision_layer = {},
 
