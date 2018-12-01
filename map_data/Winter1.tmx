@@ -271,7 +271,7 @@
    <properties>
     <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="2"/>
-    <property name="TransferTileDown" type="int" value="0"/>
+    <property name="TransferTileDown" type="int" value="1"/>
     <property name="TransferTileRight" type="int" value="15"/>
    </properties>
   </object>
