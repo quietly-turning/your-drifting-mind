@@ -22,9 +22,8 @@ local map_af = Def.ActorFrame{
 
 		local screen = SCREENMAN:GetTopScreen()
 		screen:SetUpdateFunction( Update )
-		screen:AddInputCallback( LoadActor("InputHandler.lua", {self, g}) )
+		screen:AddInputCallback( LoadActor("InputHandler.lua", {map_data, g}) )
 	end,
-	-- UnlockInputCommand=function(self) g.InputIsLocked = false end,
 	TweenMapCommand=function(self)
 		self:stoptweening():linear(g.SleepDuration):GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 	end,

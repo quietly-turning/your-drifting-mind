@@ -41,12 +41,13 @@ end
 
 -- ------------------------------------------------------
 local g = {
-	maps = { "Winter1", "Winter2", "Winter3", "Blizzard" },
+	maps = { "Winter4", "Winter2", "Winter3", "Winter1", "Blizzard" },
 	CurrentMap = 1,
 	collision_layer = {},
 
+	InputIsLocked = false,
 	SleepDuration = 0.2,
-	-- InputIsLocked = true,
+
 	map = {
 		af = nil,
 		zoom = 1
@@ -107,18 +108,21 @@ return Def.ActorFrame{
 		InitCommand=function(self) self:diffuse(0,0,0,1):FullScreen():Center(); g.SceneFade = self end,
 		OnCommand=function(self) self:queuecommand("FadeToClear") end,
 		FadeToBlackCommand=function(self)
+			g.InputIsLocked = true
 			self:smooth(0.5):diffusealpha(1):queuecommand("ChangeMap")
 		end,
-		FadeToClearCommand=function(self) self:smooth(0.5):diffusealpha(0) end,
+		FadeToClearCommand=function(self)
+			g.InputIsLocked = false
+			self:smooth(0.5):diffusealpha(0)
+		end,
 		ChangeMapCommand=function(self)
 			local facing = g.Player[g.CurrentMap].dir
 			local map_af = self:GetParent():GetChild("Map ActorFrame")
-			local parallax_bg = self:GetParent():GetChild("Parallax"..g.CurrentMap)
+			local parallax_af = self:GetParent():GetChild("ParallaxAF")
+			parallax_af:playcommand("Hide")
 
 			-- don't draw the old map
 			map_af:GetChild("Map"..g.CurrentMap):visible(false)
-			-- don't draw the old background
-			if parallax_bg then parallax_bg:visible(false) end
 
 			-- update CurrentMap index
 			g.CurrentMap = g.next_map.index
@@ -127,12 +131,14 @@ return Def.ActorFrame{
 			g.Player[g.CurrentMap].dir = facing
 			-- call InitCommand on the player Sprite for this map, passing in starting position data specified in Tiled
 			g.Player[g.CurrentMap].actor:playcommand("Init", {x=g.next_map.x, y=g.next_map.y} )
+
 			-- reset this (just in case?)
 			g.next_map = nil
+
 			-- start drawing the new map and update its position if needed
 			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
 			-- get a handle to the new parallax bg if it exists
-			parallax_bg = self:GetParent():GetChild("Parallax"..g.CurrentMap)
+			local parallax_bg = parallax_af:GetChild("Parallax"..g.CurrentMap)
 			if parallax_bg then parallax_bg:visible(true) end
 
 			self:queuecommand("FadeToClear")

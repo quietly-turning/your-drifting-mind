@@ -145,7 +145,7 @@ return LoadActor( "./" .. player.file )..{
 	TweenCommand=function(self)
 
 		-- collision check the impending tile
-		if not WillCollide() and not WillBeOffMap[player.dir]() then
+		if not g.InputIsLocked and not WillCollide() and not WillBeOffMap[player.dir]() then
 
 			-- this does a good job of mitigating tween overflows resulting from button mashing
 			-- self:stoptweening()

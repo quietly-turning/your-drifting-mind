@@ -1,5 +1,5 @@
 local args = ...
-local map = args[1]
+local map_data = args[1]
 local g = args[2]
 local _start = { duration = 0, begin_time = 0 }
 
@@ -10,19 +10,36 @@ local FindInTable = function(needle, haystack)
 	return nil
 end
 
+local PlayerIsFacingDirectionToTransfer = {
+	Left = function(next_tile)
+		return next_tile % map_data[g.CurrentMap].width == 1
+	end,
+	Right = function(next_tile)
+		return next_tile % map_data[g.CurrentMap].width == 0
+	end,
+	Up = function(next_tile)
+		return next_tile <= map_data[g.CurrentMap].width
+	end,
+	Down = function(next_tile)
+		return next_tile > (map_data[g.CurrentMap].width * map_data[g.CurrentMap].height - map_data[g.CurrentMap].width)
+	end,
+}
+
 g.TouchHandler = function(next_tile)
 
+	-- SM(next_tile)
 	local event = g.Events[g.CurrentMap][next_tile]
+
+	-- SM(event)
 
 	if event and event.EventType == "Touch" then
 		-- handle the event
-		if event.TransferPlayer then
+		if event.TransferPlayer and PlayerIsFacingDirectionToTransfer[g.Player[g.CurrentMap].dir](next_tile) then
 			g.next_map = {
 				index = FindInTable("Winter"..event.TransferPlayer, g.maps),
 				x = event.TransferTileRight,
 				y = event.TransferTileDown
 			}
-
 			g.SceneFade:playcommand("FadeToBlack")
 		end
 	end

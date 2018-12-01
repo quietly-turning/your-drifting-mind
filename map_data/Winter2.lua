@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 54,
-  nextobjectid = 17,
+  nextobjectid = 22,
   properties = {},
   tilesets = {
     {
@@ -530,6 +530,78 @@ return {
           visible = true,
           properties = {
             ["text"] = "→   Kinder times, now distant. "
+          }
+        },
+        {
+          id = 18,
+          name = "Transfer to 4",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 384,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["EventType"] = "Touch",
+            ["TransferPlayer"] = "4",
+            ["TransferTileDown"] = 6,
+            ["TransferTileRight"] = 28
+          }
+        },
+        {
+          id = 19,
+          name = "Transfer to 4",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 448,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["EventType"] = "Touch",
+            ["TransferPlayer"] = "4",
+            ["TransferTileDown"] = 7,
+            ["TransferTileRight"] = 28
+          }
+        },
+        {
+          id = 20,
+          name = "Transfer to 4",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 512,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["EventType"] = "Touch",
+            ["TransferPlayer"] = "4",
+            ["TransferTileDown"] = 8,
+            ["TransferTileRight"] = 28
+          }
+        },
+        {
+          id = 21,
+          name = "Transfer to 4",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 576,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["EventType"] = "Touch",
+            ["TransferPlayer"] = "4",
+            ["TransferTileDown"] = 8,
+            ["TransferTileRight"] = 28
           }
         }
       }

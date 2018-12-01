@@ -1,7 +1,7 @@
 local map_data = ...
 local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
 
-local af = Def.ActorFrame{}
+local af = Def.ActorFrame{ Name="ParallaxAF" }
 
 for map_index,map in ipairs(map_data) do
 	for layer_index,layer in ipairs(map.layers) do
@@ -18,7 +18,8 @@ for map_index,map in ipairs(map_data) do
 							:align(0,0)
 							:setsize( _screen.w, _screen.h )
 							-- :visible(false)
-					end
+					end,
+					HideCommand=function(self) self:visible(false) end
 				}
 			end
 		end
