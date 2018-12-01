@@ -509,7 +509,7 @@ return {
             ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 1,
-            ["TransferTileRight"] = 3
+            ["TransferTileRight"] = 15
           }
         }
       }
