@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 70,
-  nextobjectid = 26,
+  nextobjectid = 32,
   properties = {},
   tilesets = {
     {
@@ -347,7 +347,7 @@ return {
         {
           id = 8,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 1792,
           y = 384,
@@ -356,7 +356,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 6,
             ["TransferTileRight"] = 0
@@ -365,7 +364,7 @@ return {
         {
           id = 18,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 1792,
           y = 448,
@@ -374,7 +373,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 7,
             ["TransferTileRight"] = 0
@@ -383,7 +381,7 @@ return {
         {
           id = 19,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 1792,
           y = 512,
@@ -392,7 +390,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 0
@@ -401,7 +398,7 @@ return {
         {
           id = 25,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 512,
@@ -410,7 +407,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 28
@@ -419,7 +415,7 @@ return {
         {
           id = 24,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 448,
@@ -428,7 +424,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 7,
             ["TransferTileRight"] = 28
@@ -437,7 +432,7 @@ return {
         {
           id = 22,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 384,
@@ -446,7 +441,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 6,
             ["TransferTileRight"] = 28
@@ -465,9 +459,73 @@ return {
           visible = true,
           properties = {
             ["img"] = "worried",
-            ["text"] = "This tree always looked so alone, distinct from the rest.",
-            ["text2"] = "I can't shake the ominous feeling that I've been here before...",
-            ["text3"] = "But I can't stop now.  I need to find him.  I need to save him.  I've got to keep going."
+            ["text"] = "Curiously set apart from the others, this tree looks so alone.",
+            ["text2"] = "It seems the winter has not been kind to it."
+          }
+        },
+        {
+          id = 26,
+          name = "Been Here Before",
+          type = "Touch",
+          shape = "rectangle",
+          x = 1472,
+          y = 384,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["img"] = "worried",
+            ["text"] = "I can't shake the ominous feeling that I've been here before..."
+          }
+        },
+        {
+          id = 29,
+          name = "Been Here Before",
+          type = "Touch",
+          shape = "rectangle",
+          x = 1472,
+          y = 448,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["img"] = "worried",
+            ["text"] = "I can't shake the ominous feeling that I've been here before..."
+          }
+        },
+        {
+          id = 30,
+          name = "Been Here Before",
+          type = "Touch",
+          shape = "rectangle",
+          x = 1472,
+          y = 512,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["img"] = "worried",
+            ["text"] = "I can't shake the ominous feeling that I've been here before..."
+          }
+        },
+        {
+          id = 31,
+          name = "Dead Tree",
+          type = "",
+          shape = "rectangle",
+          x = 704,
+          y = 512,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["img"] = "worried",
+            ["text"] = "Curiously set apart from the others, this tree looks so alone.",
+            ["text2"] = "It seems the winter has not been kind to it."
           }
         }
       }

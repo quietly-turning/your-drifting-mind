@@ -433,7 +433,7 @@ return {
         {
           id = 8,
           name = "Transfer to 1",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 960,
           y = 0,
@@ -442,7 +442,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "1",
             ["TransferTileDown"] = 32,
             ["TransferTileRight"] = 3
@@ -451,7 +450,7 @@ return {
         {
           id = 11,
           name = "Transfer to 3",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 2496,
           y = 1024,
@@ -460,7 +459,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
@@ -469,7 +467,7 @@ return {
         {
           id = 12,
           name = "Transfer to 3",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 2496,
           y = 1088,
@@ -478,7 +476,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
@@ -487,7 +484,7 @@ return {
         {
           id = 13,
           name = "Transfer to 3",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 2496,
           y = 1152,
@@ -496,7 +493,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
@@ -535,7 +531,7 @@ return {
         {
           id = 18,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 384,
@@ -544,7 +540,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 6,
             ["TransferTileRight"] = 28
@@ -553,7 +548,7 @@ return {
         {
           id = 19,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 448,
@@ -562,7 +557,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 7,
             ["TransferTileRight"] = 28
@@ -571,7 +565,7 @@ return {
         {
           id = 20,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 512,
@@ -580,7 +574,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 28
@@ -589,7 +582,7 @@ return {
         {
           id = 21,
           name = "Transfer to 4",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 576,
@@ -598,7 +591,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "4",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 28

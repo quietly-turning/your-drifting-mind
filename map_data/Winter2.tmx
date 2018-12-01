@@ -208,33 +208,29 @@
 </data>
  </layer>
  <objectgroup id="9" name="Events">
-  <object id="8" name="Transfer to 1" x="960" y="0" width="64" height="64">
+  <object id="8" name="Transfer to 1" type="Touch" x="960" y="0" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="1"/>
     <property name="TransferTileDown" type="int" value="32"/>
     <property name="TransferTileRight" type="int" value="3"/>
    </properties>
   </object>
-  <object id="11" name="Transfer to 3" x="2496" y="1024" width="64" height="64">
+  <object id="11" name="Transfer to 3" type="Touch" x="2496" y="1024" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="3"/>
     <property name="TransferTileDown" type="int" value="17"/>
     <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
-  <object id="12" name="Transfer to 3" x="2496" y="1088" width="64" height="64">
+  <object id="12" name="Transfer to 3" type="Touch" x="2496" y="1088" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="3"/>
     <property name="TransferTileDown" type="int" value="17"/>
     <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
-  <object id="13" name="Transfer to 3" x="2496" y="1152" width="64" height="64">
+  <object id="13" name="Transfer to 3" type="Touch" x="2496" y="1152" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="3"/>
     <property name="TransferTileDown" type="int" value="17"/>
     <property name="TransferTileRight" type="int" value="0"/>
@@ -250,33 +246,29 @@
     <property name="text" value="→   Kinder times, now distant. "/>
    </properties>
   </object>
-  <object id="18" name="Transfer to 4" x="0" y="384" width="64" height="64">
+  <object id="18" name="Transfer to 4" type="Touch" x="0" y="384" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="6"/>
     <property name="TransferTileRight" type="int" value="28"/>
    </properties>
   </object>
-  <object id="19" name="Transfer to 4" x="0" y="448" width="64" height="64">
+  <object id="19" name="Transfer to 4" type="Touch" x="0" y="448" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="7"/>
     <property name="TransferTileRight" type="int" value="28"/>
    </properties>
   </object>
-  <object id="20" name="Transfer to 4" x="0" y="512" width="64" height="64">
+  <object id="20" name="Transfer to 4" type="Touch" x="0" y="512" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="8"/>
     <property name="TransferTileRight" type="int" value="28"/>
    </properties>
   </object>
-  <object id="21" name="Transfer to 4" x="0" y="576" width="64" height="64">
+  <object id="21" name="Transfer to 4" type="Touch" x="0" y="576" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="8"/>
     <property name="TransferTileRight" type="int" value="28"/>

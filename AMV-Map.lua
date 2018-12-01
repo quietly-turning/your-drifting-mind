@@ -175,7 +175,7 @@ for layer_index,layer in ipairs(map_data.layers) do
 			end
 
 			-- set Events data
-			g.Events[map_index][tile_num] = event.properties
+			g.Events[map_index][tile_num] = event
 
 			if event.gid then
 				af[#af+1] = Def.Sprite{

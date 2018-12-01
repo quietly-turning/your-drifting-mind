@@ -528,7 +528,7 @@ return {
         {
           id = 8,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 192,
           y = 2048,
@@ -537,7 +537,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 1,
             ["TransferTileRight"] = 15

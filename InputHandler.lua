@@ -26,19 +26,15 @@ local PlayerIsFacingDirectionToTransfer = {
 }
 
 g.TouchHandler = function(next_tile)
-
-	-- SM(next_tile)
 	local event = g.Events[g.CurrentMap][next_tile]
 
-	-- SM(event)
-
-	if event and event.EventType == "Touch" then
+	if event and event.type == "Touch" and event.properties then
 		-- handle the event
-		if event.TransferPlayer and PlayerIsFacingDirectionToTransfer[g.Player[g.CurrentMap].dir](next_tile) then
+		if event.properties.TransferPlayer and PlayerIsFacingDirectionToTransfer[g.Player[g.CurrentMap].dir](next_tile) then
 			g.next_map = {
-				index = FindInTable("Winter"..event.TransferPlayer, g.maps),
-				x = event.TransferTileRight,
-				y = event.TransferTileDown
+				index = FindInTable("Winter"..event.properties.TransferPlayer, g.maps),
+				x = event.properties.TransferTileRight,
+				y = event.properties.TransferTileDown
 			}
 			g.SceneFade:playcommand("FadeToBlack")
 		end
@@ -51,20 +47,21 @@ local InteractionHandler = function()
 	if not g.DialogIsActive then
 		g.Dialog.Index = 1
 		local next_tile = g.Player[g.CurrentMap].NextTile[g.Player[g.CurrentMap].dir]()
+		local event = g.Events[g.CurrentMap][next_tile]
 
-		if g.Events[g.CurrentMap][next_tile] and g.Events[g.CurrentMap][next_tile].text then
+		if event and event.properties and event.properties.text then
 
-			g.Dialog.Words = { g.Events[g.CurrentMap][next_tile].text }
+			g.Dialog.Words = { event.properties.text }
 
-			if g.Events[g.CurrentMap][next_tile].text2 then
+			if event.properties.text2 then
 				local i = 2
-				while g.Events[g.CurrentMap][next_tile]["text"..i] do
-					table.insert(g.Dialog.Words, g.Events[g.CurrentMap][next_tile]["text"..i])
+				while event.properties["text"..i] do
+					table.insert(g.Dialog.Words, event.properties["text"..i])
 					i = i + 1
 				end
 			end
 
-			g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=g.Events[g.CurrentMap][next_tile].img})
+			g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=event.properties.img})
 			g.DialogIsActive = true
 		end
 

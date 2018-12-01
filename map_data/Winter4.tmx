@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="29" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="70" nextobjectid="26">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="29" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="70" nextobjectid="32">
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <layer id="62" name="Ground / Water" width="29" height="13">
@@ -135,49 +135,43 @@
 </data>
  </layer>
  <objectgroup id="9" name="Events">
-  <object id="8" name="Transfer to 2" x="1792" y="384" width="64" height="64">
+  <object id="8" name="Transfer to 2" type="Touch" x="1792" y="384" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="2"/>
     <property name="TransferTileDown" type="int" value="6"/>
     <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
-  <object id="18" name="Transfer to 2" x="1792" y="448" width="64" height="64">
+  <object id="18" name="Transfer to 2" type="Touch" x="1792" y="448" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="2"/>
     <property name="TransferTileDown" type="int" value="7"/>
     <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
-  <object id="19" name="Transfer to 2" x="1792" y="512" width="64" height="64">
+  <object id="19" name="Transfer to 2" type="Touch" x="1792" y="512" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="2"/>
     <property name="TransferTileDown" type="int" value="8"/>
     <property name="TransferTileRight" type="int" value="0"/>
    </properties>
   </object>
-  <object id="25" name="Transfer to 4" x="0" y="512" width="64" height="64">
+  <object id="25" name="Transfer to 4" type="Touch" x="0" y="512" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="8"/>
     <property name="TransferTileRight" type="int" value="28"/>
    </properties>
   </object>
-  <object id="24" name="Transfer to 4" x="0" y="448" width="64" height="64">
+  <object id="24" name="Transfer to 4" type="Touch" x="0" y="448" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="7"/>
     <property name="TransferTileRight" type="int" value="28"/>
    </properties>
   </object>
-  <object id="22" name="Transfer to 4" x="0" y="384" width="64" height="64">
+  <object id="22" name="Transfer to 4" type="Touch" x="0" y="384" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="4"/>
     <property name="TransferTileDown" type="int" value="6"/>
     <property name="TransferTileRight" type="int" value="28"/>
@@ -186,9 +180,33 @@
   <object id="23" name="Dead Tree" x="640" y="512" width="64" height="64">
    <properties>
     <property name="img" value="worried"/>
-    <property name="text" value="This tree always looked so alone, distinct from the rest."/>
-    <property name="text2" value="I can't shake the ominous feeling that I've been here before..."/>
-    <property name="text3" value="But I can't stop now.  I need to find him.  I need to save him.  I've got to keep going."/>
+    <property name="text" value="Curiously set apart from the others, this tree looks so alone."/>
+    <property name="text2" value="It seems the winter has not been kind to it."/>
+   </properties>
+  </object>
+  <object id="26" name="Been Here Before" type="Touch" x="1472" y="384" width="64" height="64">
+   <properties>
+    <property name="img" value="worried"/>
+    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
+   </properties>
+  </object>
+  <object id="29" name="Been Here Before" type="Touch" x="1472" y="448" width="64" height="64">
+   <properties>
+    <property name="img" value="worried"/>
+    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
+   </properties>
+  </object>
+  <object id="30" name="Been Here Before" type="Touch" x="1472" y="512" width="64" height="64">
+   <properties>
+    <property name="img" value="worried"/>
+    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
+   </properties>
+  </object>
+  <object id="31" name="Dead Tree" x="704" y="512" width="64" height="64">
+   <properties>
+    <property name="img" value="worried"/>
+    <property name="text" value="Curiously set apart from the others, this tree looks so alone."/>
+    <property name="text2" value="It seems the winter has not been kind to it."/>
    </properties>
   </object>
  </objectgroup>

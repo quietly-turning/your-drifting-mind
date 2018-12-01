@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 12,
-  nextobjectid = 5,
+  nextobjectid = 6,
   properties = {},
   tilesets = {
     {
@@ -359,7 +359,7 @@ return {
         {
           id = 3,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 1152,
@@ -368,7 +368,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 39
@@ -377,7 +376,7 @@ return {
         {
           id = 4,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 0,
           y = 1088,
@@ -386,7 +385,6 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 39

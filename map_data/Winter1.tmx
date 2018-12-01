@@ -267,9 +267,8 @@
     <property name="text" value="I can't go back inside.  I need to find him."/>
    </properties>
   </object>
-  <object id="8" name="Transfer to 2" x="192" y="2048" width="64" height="64">
+  <object id="8" name="Transfer to 2" type="Touch" x="192" y="2048" width="64" height="64">
    <properties>
-    <property name="EventType" value="Touch"/>
     <property name="TransferPlayer" value="2"/>
     <property name="TransferTileDown" type="int" value="1"/>
     <property name="TransferTileRight" type="int" value="15"/>

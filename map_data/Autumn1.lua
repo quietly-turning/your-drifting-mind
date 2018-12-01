@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 53,
-  nextobjectid = 13,
+  nextobjectid = 14,
   properties = {},
   tilesets = {
     {
@@ -500,7 +500,7 @@ return {
         {
           id = 8,
           name = "Transfer to 2",
-          type = "",
+          type = "Touch",
           shape = "rectangle",
           x = 192,
           y = 2048,
@@ -509,10 +509,25 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["EventType"] = "Touch",
             ["TransferPlayer"] = "2",
             ["TransferTileDown"] = 1,
             ["TransferTileRight"] = 15
+          }
+        },
+        {
+          id = 13,
+          name = "Signpost",
+          type = "",
+          shape = "rectangle",
+          x = 192,
+          y = 1408,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["text"] = "↓   Decisions ahead.",
+            ["text2"] = "↑   Forgetting all this and going back to bed, that way."
           }
         }
       }
