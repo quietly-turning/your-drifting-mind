@@ -32,11 +32,22 @@ local InteractionHandler = function()
 
 	-- if handling an event that must be interacted with
 	if not g.DialogIsActive then
-
+		g.Dialog.Index = 1
 		local next_tile = g.Player[g.CurrentMap].NextTile[g.Player[g.CurrentMap].dir]()
 
 		if g.Events[g.CurrentMap][next_tile] and g.Events[g.CurrentMap][next_tile].text then
-			g.Dialog.ActorFrame:playcommand("UpdateText", {text=g.Events[g.CurrentMap][next_tile].text}):playcommand("Show", {img=g.Events[g.CurrentMap][next_tile].img})
+
+			g.Dialog.Words = { g.Events[g.CurrentMap][next_tile].text }
+
+			if g.Events[g.CurrentMap][next_tile].text2 then
+				local i = 2
+				while g.Events[g.CurrentMap][next_tile]["text"..i] do
+					table.insert(g.Dialog.Words, g.Events[g.CurrentMap][next_tile]["text"..i])
+					i = i + 1
+				end
+			end
+
+			g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=g.Events[g.CurrentMap][next_tile].img})
 			g.DialogIsActive = true
 		end
 
@@ -46,25 +57,18 @@ local InteractionHandler = function()
 	-- if already handling dialog...
 	if not g.Dialog.IsTweening then
 		-- update the dialog index
-		-- g.Dialog.Index = SRT.Dialog.Index + 1
-
-		-- then, clear the old text
-		g.Dialog.ActorFrame:queuecommand("ClearText")
-
-		-- hide the dialog_box
-		g.Dialog.ActorFrame:queuecommand("Hide")
-
-		-- and change the flag
-		g.DialogIsActive = false
+		g.Dialog.Index = g.Dialog.Index + 1
 
 		-- then, ensure that there is more to load
-		-- if g.Dialog.Index <= #g.Dialog.Words then
-		-- 	-- if so, display it
-		-- 	g.Dialog.Box:queuecommand("UpdateText")
-		-- else
-			-- otherwise,
-			-- g.Dialog.ActorFrame:queuecommand("Hide")
-		-- end
+		if g.Dialog.Index <= #g.Dialog.Words then
+			-- otherwise, clear the old text, then display the new text
+			g.Dialog.ActorFrame:queuecommand("ClearText"):queuecommand("UpdateText")
+		else
+			-- otherwise, clear the old text, hide the dialog_box
+			g.Dialog.ActorFrame:queuecommand("ClearText"):queuecommand("Hide")
+			-- and change the flag
+			g.DialogIsActive = false
+		end
 	else
 		g.Dialog.ActorFrame:finishtweening()
 		g.Dialog.IsTweening = false

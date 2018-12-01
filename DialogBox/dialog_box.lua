@@ -37,12 +37,8 @@ af[#af+1] = Def.ActorFrame{
 	InitCommand=function(self)
 		self:xy(-250,-56)
 	end,
-	ClearTextCommand=function(self)
-		self:visible(false)
-	end,
-	UpdateTextCommand=function(self)
-		self:visible( g.Dialog.Speaker and g.Dialog.Speaker ~= "" )
-	end,
+	ShowCommand=function(self, params) self:visible( params.img ~= nil ) end,
+	ClearTextCommand=function(self) self:visible(false) end,
 
 	-- name box stroke
 	Def.Quad{
@@ -80,11 +76,11 @@ af[#af+1] = Def.BitmapText{
 	ClearTextCommand=function(self)
 		self:settext(""):cropright(1)
 	end,
-	UpdateTextCommand=function(self, params)
+	UpdateTextCommand=function(self)
 		g.Dialog.IsTweening = true
 
-		if params.text then
-			self:settext( params.text ):linear(0.75):cropright(0):queuecommand("FinishUpdateText")
+		if g.Dialog.Words[g.Dialog.Index] then
+			self:settext( g.Dialog.Words[g.Dialog.Index] ):linear(0.75):cropright(0):queuecommand("FinishUpdateText")
 		else
 			self:queuecommand("ClearText")
 		end

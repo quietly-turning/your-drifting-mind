@@ -245,6 +245,5 @@
     <property name="text" value="← Hallways ahead. "/>
    </properties>
   </object>
-  <object id="15" x="-256" y="512"/>
  </objectgroup>
 </map>
