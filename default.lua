@@ -1,5 +1,5 @@
 -- ------------------------------------------------------
--- Stuff related to chart selection
+-- Stuff related to chart selection / screen reloading
 
 -- Check if we're in EditMode by getting the class of the current screen.
 -- We could check the current screen's name, but it's possible for a theme
@@ -15,28 +15,13 @@ local IsEditMode = function()
 	return (THEME:GetMetric(screen:GetName(), "Class") == "ScreenEdit")
 end
 
--- if both players are joined
-if #GAMESTATE:GetHumanPlayers() > 1 then
-
-	local all_steps = GAMESTATE:GetCurrentSong():GetStepsByStepsType( "StepsType_Dance_Single" )
-	local reload_necessary = false
-
-	for player in ivalues(GAMESTATE:GetHumanPlayers()) do
-		if GAMESTATE:GetCurrentSteps(player):GetDifficulty() ~= "Difficulty_Challenge" then
-			GAMESTATE:SetCurrentSteps(player, steps[2])
-			reload_necessary = true
+local need_to_reload = LoadActor("./ChartReload")
+if need_to_reload then
+	return Def.Actor {
+		OnCommand=function(self)
+			if not IsEditMode() then SCREENMAN:SetNewScreen('ScreenGameplay') end
 		end
-	end
-
-	if reload_necessary then
-		return Def.Actor {
-			OnCommand=function(self)
-				if not IsEditMode() then SCREENMAN:SetNewScreen('ScreenGameplay') end
-			end
-		}
-	else
-		return Def.Actor{}
-	end
+	}
 end
 
 -- ------------------------------------------------------
