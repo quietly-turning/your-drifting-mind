@@ -8,8 +8,8 @@ return {
   height = 33,
   tilewidth = 64,
   tileheight = 64,
-  nextlayerid = 59,
-  nextobjectid = 14,
+  nextlayerid = 60,
+  nextobjectid = 15,
   properties = {},
   tilesets = {
     {
@@ -106,6 +106,37 @@ return {
           properties = {
             ["Texture"] = "map_data/mountains.png",
             ["zoom"] = 1.175
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 59,
+      name = "Texture",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 14,
+          name = "Fog",
+          type = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 2112,
+          height = 320,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["Texture"] = "map_data/FogTexture.png",
+            ["alpha"] = 0.25,
+            ["vx"] = 0.025000000000000001,
+            ["vy"] = 0
           }
         }
       }
