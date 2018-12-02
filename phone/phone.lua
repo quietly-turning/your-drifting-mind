@@ -42,7 +42,7 @@ af[#af+1] = Def.ActorFrame{
 		-- time
 		Def.BitmapText{
 			File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
-			Text="6:32 AM",
+			Text="6:32",
 			InitCommand=function(self) self:diffuse(1,1,1,1):xy(_screen.cx, _screen.cy-138):zoom(0.75):shadowlength(0.75) end
 		},
 
@@ -59,7 +59,7 @@ af[#af+1] = Def.ActorFrame{
 				InitCommand=function(self) self:valign(0):y(-40):zoomto(_phone.w*0.765, 22):diffuse(0,0,0,0.8) end,
 			},
 
-			-- message from Ben
+			-- notification text
 			Def.BitmapText{
 				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 				Text="1 new message:",
@@ -70,8 +70,7 @@ af[#af+1] = Def.ActorFrame{
 						:y(-36)
 				end
 			},
-
-			-- notification text
+			-- message text
 			Def.BitmapText{
 				File=song_dir.."Fonts/helvetica neue/_helvetica neue 40px.ini",
 				Text="you'll find me out here\nor maybe I'll disappear\na walk in the snow",

@@ -1,7 +1,10 @@
 local map_data = ...
 local song_dir = GAMESTATE:GetCurrentSong():GetSongDir()
 
-local af = Def.ActorFrame{ Name="ParallaxAF" }
+local af = Def.ActorFrame{
+	Name="ParallaxAF",
+	InitCommand=function(self) self:hibernate(13) end,
+}
 
 for map_index,map in ipairs(map_data) do
 	for layer_index,layer in ipairs(map.layers) do

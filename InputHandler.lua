@@ -26,6 +26,9 @@ local PlayerIsFacingDirectionToTransfer = {
 }
 
 local InitDialog = function(event)
+	-- if we're only supposed to trigger this dialog once, and we've already done so, just return now
+	if event.properties.seen and g.SeenEvents[event.properties.seen] then return end
+
 	g.Dialog.Index = 1
 	g.Dialog.Words = { event.properties.text }
 
@@ -37,10 +40,14 @@ local InitDialog = function(event)
 		end
 	end
 
+	-- handle the case of dialog that we only want to trigger once ever
+	if event.properties.seen then g.SeenEvents[event.properties.seen] = true end
+
 	g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=event.properties.img})
 	g.DialogIsActive = true
 end
 
+-- walk over a tile to trigger an event
 g.TouchHandler = function(next_tile)
 	local event = g.Events[g.CurrentMap][next_tile]
 
@@ -64,6 +71,7 @@ g.TouchHandler = function(next_tile)
 	end
 end
 
+-- press START to trigger an event
 local InteractionHandler = function()
 
 	-- if handling an event that must be interacted with

@@ -476,6 +476,7 @@ return {
           visible = true,
           properties = {
             ["img"] = "worried",
+            ["seen"] = "been-here-before",
             ["text"] = "I can't shake the ominous feeling that I've been here before..."
           }
         },
@@ -492,6 +493,7 @@ return {
           visible = true,
           properties = {
             ["img"] = "worried",
+            ["seen"] = "been-here-before",
             ["text"] = "I can't shake the ominous feeling that I've been here before..."
           }
         },
@@ -508,6 +510,7 @@ return {
           visible = true,
           properties = {
             ["img"] = "worried",
+            ["seen"] = "been-here-before",
             ["text"] = "I can't shake the ominous feeling that I've been here before..."
           }
         },

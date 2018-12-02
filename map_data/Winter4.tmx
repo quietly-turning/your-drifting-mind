@@ -187,18 +187,21 @@
   <object id="26" name="Been Here Before" type="Touch" x="1472" y="384" width="64" height="64">
    <properties>
     <property name="img" value="worried"/>
+    <property name="seen" value="been-here-before"/>
     <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
    </properties>
   </object>
   <object id="29" name="Been Here Before" type="Touch" x="1472" y="448" width="64" height="64">
    <properties>
     <property name="img" value="worried"/>
+    <property name="seen" value="been-here-before"/>
     <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
    </properties>
   </object>
   <object id="30" name="Been Here Before" type="Touch" x="1472" y="512" width="64" height="64">
    <properties>
     <property name="img" value="worried"/>
+    <property name="seen" value="been-here-before"/>
     <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
    </properties>
   </object>

@@ -17,7 +17,7 @@ local map_af = Def.ActorFrame{
 		self:GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 	end,
 	OnCommand=function(self)
-		-- self:hibernate(13)
+		self:hibernate(13)
 		self:GetChild("Map1"):visible(true)
 
 		local screen = SCREENMAN:GetTopScreen()

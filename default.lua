@@ -56,6 +56,7 @@ local g = {
 		Speaker = "Elli"
 	},
 
+	SeenEvents = {},
 	Events = {},
 	Player = {}
 }
@@ -100,13 +101,13 @@ return Def.ActorFrame{
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
 
 	-- Scenes
-	-- phone,
+	phone,
 	parallax_af,
 	map_af,
 
 	Def.Quad{
 		InitCommand=function(self) self:diffuse(0,0,0,1):FullScreen():Center(); g.SceneFade = self end,
-		OnCommand=function(self) self:queuecommand("FadeToClear") end,
+		OnCommand=function(self) self:hibernate(13):queuecommand("FadeToClear") end,
 		FadeToBlackCommand=function(self)
 			g.InputIsLocked = true
 			self:smooth(0.5):diffusealpha(1):queuecommand("ChangeMap")
