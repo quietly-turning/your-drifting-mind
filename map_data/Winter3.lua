@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 12,
-  nextobjectid = 6,
+  nextobjectid = 7,
   properties = {},
   tilesets = {
     {
@@ -388,6 +388,30 @@ return {
             ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 32
+          }
+        },
+        {
+          id = 6,
+          name = "Memory",
+          type = "",
+          shape = "rectangle",
+          x = 576,
+          y = 576,
+          width = 64,
+          height = 64,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["img"] = "wow",
+            ["img2"] = "wow",
+            ["img3"] = "wow",
+            ["img4"] = "worried",
+            ["img5"] = "worried",
+            ["text"] = "We spent so much time together here.",
+            ["text2"] = "The memories are warm, like a carefree summer evening.",
+            ["text3"] = "We lay on our backs in grass and counted the stars.",
+            ["text4"] = "But now...",
+            ["text5"] = "...now you are lost somewhere in the falling snow."
           }
         }
       }

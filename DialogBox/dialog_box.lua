@@ -27,7 +27,7 @@ for i,img in ipairs(imgs) do
 		InitCommand=function(self)
 			self:zoom(0.235):halign(0):visible(false):xy(-296, -2)
 		end,
-		ShowCommand=function(self, params) self:visible(params.img == img) end
+		ShowCommand=function(self, params) self:visible(g.Dialog.Faces[g.Dialog.Index] == img) end
 	}
 end
 
@@ -37,7 +37,7 @@ af[#af+1] = Def.ActorFrame{
 	InitCommand=function(self)
 		self:xy(-250,-56)
 	end,
-	ShowCommand=function(self, params) self:visible( params.img ~= nil ) end,
+	ShowCommand=function(self) self:visible( #g.Dialog.Faces > 0 ) end,
 
 	-- name box stroke
 	Def.Quad{

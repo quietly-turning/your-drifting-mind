@@ -9,7 +9,7 @@ return {
   tilewidth = 64,
   tileheight = 64,
   nextlayerid = 70,
-  nextobjectid = 32,
+  nextobjectid = 33,
   properties = {},
   tilesets = {
     {
@@ -458,7 +458,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["img"] = "worried",
+            ["img"] = "wow",
+            ["img2"] = "worried",
             ["text"] = "Set apart from the others, this tree looks so alone.",
             ["text2"] = "It seems the winter has not been kind to it."
           }
@@ -526,7 +527,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["img"] = "worried",
+            ["img"] = "wow",
+            ["img2"] = "worried",
             ["text"] = "Set apart from the others, this tree looks so alone.",
             ["text2"] = "It seems the winter has not been kind to it."
           }

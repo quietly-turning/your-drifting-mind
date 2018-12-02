@@ -31,6 +31,7 @@ local InitDialog = function(event)
 
 	g.Dialog.Index = 1
 	g.Dialog.Words = { event.properties.text }
+	g.Dialog.Faces = { event.properties.img }
 
 	if event.properties.text2 then
 		local i = 2
@@ -40,10 +41,18 @@ local InitDialog = function(event)
 		end
 	end
 
+	if event.properties.img2 then
+		local i = 2
+		while event.properties["text"..i] do
+			table.insert(g.Dialog.Faces, event.properties["img"..i])
+			i = i + 1
+		end
+	end
+
 	-- handle the case of dialog that we only want to trigger once ever
 	if event.properties.seen then g.SeenEvents[event.properties.seen] = true end
 
-	g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=event.properties.img})
+	g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show")
 	g.DialogIsActive = true
 end
 
@@ -104,7 +113,7 @@ local InteractionHandler = function()
 		-- then, ensure that there is more to load
 		if g.Dialog.Index <= #g.Dialog.Words then
 			-- otherwise, clear the old text, then display the new text
-			g.Dialog.ActorFrame:queuecommand("ClearText"):queuecommand("UpdateText")
+			g.Dialog.ActorFrame:queuecommand("ClearText"):queuecommand("UpdateText"):queuecommand("Show")
 		else
 			-- otherwise, clear the old text, hide the dialog_box
 			g.Dialog.ActorFrame:queuecommand("ClearText"):queuecommand("Hide")
@@ -144,21 +153,9 @@ local InputHandler = function(event)
 	-- if any of these, don't attempt to handle input
 	if not event.PlayerNumber or not event.button then return false end
 
-	----------------------------------------------------------------------------
-	-- DEVELOPER & DEBUG STUFF
+	-- get out by holding START or ESCAPE for longer than 3 seconds
+	if event.button == "Start" or event.DeviceInput.button == "DeviceButton_escape" then
 
-	-- quick hack to get out by pressing escape
-	if  (event.DeviceInput.button == "DeviceButton_escape") then
-		-- return input handling back to the engine
-		SCREENMAN:set_input_redirected(PLAYER_1, false)
-		SCREENMAN:set_input_redirected(PLAYER_2, false)
-		-- back out of ScreenGameplay
-		SCREENMAN:GetTopScreen():begin_backing_out()
-		return
-	end
-
-	-- get out by holding START for longer than 3 seconds
-	if event.button == "Start" then
 		if event.type == "InputEventType_FirstPress" then
 			_start.begin_time = GetTimeSinceStart()
 
@@ -170,15 +167,26 @@ local InputHandler = function(event)
 			_start.begin_time = 0
 		end
 
-		if _start.duration > 1 then
-			SCREENMAN:SystemMessage("Continue holding &START; to exit.")
+		if _start.duration > 0.5 then
+			if event.button == "Start" then
+				SCREENMAN:SystemMessage("Continue holding &START; to exit.")
+			elseif event.DeviceInput.button == "DeviceButton_escape" then
+				SCREENMAN:SystemMessage("Continue holding &BACK; to exit.")
+			end
 		end
 
 		if _start.duration > 3 then
 			-- return input handling back to the engine
 			SCREENMAN:set_input_redirected(PLAYER_1, false)
 			SCREENMAN:set_input_redirected(PLAYER_2, false)
-			SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_DoNextScreen")
+
+			if event.button == "Start" then
+				-- go to Evaluation if start was held
+				SCREENMAN:GetTopScreen():StartTransitioningScreen("SM_DoNextScreen")
+			elseif event.DeviceInput.button == "DeviceButton_escape" then
+				-- back out of ScreenGameplay if Escape was held
+				SCREENMAN:GetTopScreen():begin_backing_out()
+			end
 		end
 	end
 

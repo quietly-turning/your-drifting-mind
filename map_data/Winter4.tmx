@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="29" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="70" nextobjectid="32">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="29" height="13" tilewidth="64" tileheight="64" infinite="0" nextlayerid="70" nextobjectid="33">
  <tileset firstgid="1" source="autumn 16x32.tsx"/>
  <tileset firstgid="513" source="event-tileset.tsx"/>
  <layer id="62" name="Ground / Water" width="29" height="13">
@@ -179,7 +179,8 @@
   </object>
   <object id="23" name="Dead Tree" x="640" y="512" width="64" height="64">
    <properties>
-    <property name="img" value="worried"/>
+    <property name="img" value="wow"/>
+    <property name="img2" value="worried"/>
     <property name="text" value="Set apart from the others, this tree looks so alone."/>
     <property name="text2" value="It seems the winter has not been kind to it."/>
    </properties>
@@ -207,7 +208,8 @@
   </object>
   <object id="31" name="Dead Tree" x="704" y="512" width="64" height="64">
    <properties>
-    <property name="img" value="worried"/>
+    <property name="img" value="wow"/>
+    <property name="img2" value="worried"/>
     <property name="text" value="Set apart from the others, this tree looks so alone."/>
     <property name="text2" value="It seems the winter has not been kind to it."/>
    </properties>
