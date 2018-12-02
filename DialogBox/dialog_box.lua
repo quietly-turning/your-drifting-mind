@@ -38,7 +38,6 @@ af[#af+1] = Def.ActorFrame{
 		self:xy(-250,-56)
 	end,
 	ShowCommand=function(self, params) self:visible( params.img ~= nil ) end,
-	ClearTextCommand=function(self) self:visible(false) end,
 
 	-- name box stroke
 	Def.Quad{

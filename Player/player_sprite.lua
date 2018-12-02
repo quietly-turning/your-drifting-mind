@@ -144,6 +144,11 @@ return LoadActor( "./" .. player.file )..{
 	end,
 	TweenCommand=function(self)
 
+		if g.DialogIsActive then
+			self:playcommand("AnimationOff")
+			return
+		end
+
 		-- collision check the impending tile
 		if not g.InputIsLocked and not WillCollide() and not WillBeOffMap[player.dir]() then
 

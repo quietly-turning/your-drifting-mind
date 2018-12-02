@@ -25,11 +25,33 @@ local PlayerIsFacingDirectionToTransfer = {
 	end,
 }
 
+local InitDialog = function(event)
+	g.Dialog.Words = { event.properties.text }
+
+	if event.properties.text2 then
+		local i = 2
+		while event.properties["text"..i] do
+			table.insert(g.Dialog.Words, event.properties["text"..i])
+			i = i + 1
+		end
+	end
+
+	g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=event.properties.img})
+	g.DialogIsActive = true
+end
+
 g.TouchHandler = function(next_tile)
 	local event = g.Events[g.CurrentMap][next_tile]
 
 	if event and event.type == "Touch" and event.properties then
-		-- handle the event
+
+		-- walk to trigger dialog text
+		if event.properties.text then
+			InitDialog(event)
+			return
+		end
+
+		-- walk to trigger map transfer
 		if event.properties.TransferPlayer and PlayerIsFacingDirectionToTransfer[g.Player[g.CurrentMap].dir](next_tile) then
 			g.next_map = {
 				index = FindInTable("Winter"..event.properties.TransferPlayer, g.maps),
@@ -50,19 +72,7 @@ local InteractionHandler = function()
 		local event = g.Events[g.CurrentMap][next_tile]
 
 		if event and event.properties and event.properties.text then
-
-			g.Dialog.Words = { event.properties.text }
-
-			if event.properties.text2 then
-				local i = 2
-				while event.properties["text"..i] do
-					table.insert(g.Dialog.Words, event.properties["text"..i])
-					i = i + 1
-				end
-			end
-
-			g.Dialog.ActorFrame:playcommand("UpdateText"):playcommand("Show", {img=event.properties.img})
-			g.DialogIsActive = true
+			InitDialog(event)
 		end
 
 		return false
