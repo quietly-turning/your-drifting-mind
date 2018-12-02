@@ -153,7 +153,7 @@ local InputHandler = function(event)
 	-- if any of these, don't attempt to handle input
 	if not event.PlayerNumber or not event.button then return false end
 
-	-- get out by holding START or ESCAPE for longer than 3 seconds
+	-- get out by holding START or ESCAPE for longer than 2 seconds
 	if event.button == "Start" or event.DeviceInput.button == "DeviceButton_escape" then
 
 		if event.type == "InputEventType_FirstPress" then
@@ -167,7 +167,7 @@ local InputHandler = function(event)
 			_start.begin_time = 0
 		end
 
-		if _start.duration > 0.5 then
+		if _start.duration > 0.1 then
 			if event.button == "Start" then
 				SCREENMAN:SystemMessage("Continue holding &START; to exit.")
 			elseif event.DeviceInput.button == "DeviceButton_escape" then
@@ -175,7 +175,7 @@ local InputHandler = function(event)
 			end
 		end
 
-		if _start.duration > 3 then
+		if _start.duration > 2 then
 			-- return input handling back to the engine
 			SCREENMAN:set_input_redirected(PLAYER_1, false)
 			SCREENMAN:set_input_redirected(PLAYER_2, false)
