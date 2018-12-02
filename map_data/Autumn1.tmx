@@ -19,7 +19,7 @@
   <object id="14" name="Fog" x="0" y="0" width="2112" height="320">
    <properties>
     <property name="Texture" value="map_data/FogTexture.png"/>
-    <property name="alpha" type="float" value="0.33300000000000002"/>
+    <property name="alpha" type="float" value="0.25"/>
     <property name="vx" type="float" value="0.025000000000000001"/>
     <property name="vy" type="float" value="0"/>
    </properties>
@@ -147,7 +147,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="1" name="Player" x="128" y="320" width="64" height="64"/>
+  <object id="1" name="Player" x="384" y="1472" width="64" height="64"/>
  </objectgroup>
  <layer id="56" name="Over" width="33" height="33">
   <data encoding="csv">

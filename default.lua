@@ -30,6 +30,8 @@ local g = {
 	CurrentMap = 1,
 	collision_layer = {},
 
+	TimeAtStart = GetTimeSinceStart(),
+
 	InputIsLocked = false,
 	SleepDuration = 0.2,
 
@@ -45,6 +47,8 @@ local g = {
 	Events = {},
 	Player = {}
 }
+
+g.RunTime = function() return GetTimeSinceStart() - g.TimeAtStart end
 
 local map_data = {}
 for i,map in ipairs(g.maps) do map_data[i] = LoadActor("./map_data/" .. map .. ".lua") end
@@ -125,10 +129,21 @@ return Def.ActorFrame{
 			map_af:GetChild("Map"..g.CurrentMap):visible(true):playcommand("MoveMap")
 			-- get a handle to the new parallax bg if it exists
 			local parallax_bg = parallax_af:GetChild("Parallax"..g.CurrentMap)
+			-- make the new parallax bg visible if it exists
 			if parallax_bg then parallax_bg:visible(true) end
 
 			self:queuecommand("FadeToClear")
 		end
+	},
+
+	-- final fade
+	Def.Quad{
+		InitCommand=function(self)
+			self:diffuse(1,1,1,0):FullScreen():Center():hibernate(150):queuecommand("FadeToWhite")
+		end,
+		FadeToWhiteCommand=function(self)
+			self:linear( 210 - g.RunTime() ):diffusealpha(1)
+		end,
 	},
 
 	-- DialogBox, hidden unless needed

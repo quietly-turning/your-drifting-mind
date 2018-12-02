@@ -66,6 +66,16 @@ g.TouchHandler = function(next_tile)
 				x = event.properties.TransferTileRight,
 				y = event.properties.TransferTileDown
 			}
+
+			-- hardcode a transfer to blizzard as the end approaches
+			if g.RunTime() > (195) then
+				g.next_map = {
+					index = FindInTable("Blizzard", g.maps),
+					x = 7,
+					y = 5
+				}
+			end
+
 			g.SceneFade:playcommand("FadeToBlack")
 		end
 	end
