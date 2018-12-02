@@ -58,6 +58,8 @@ local map_af = LoadActor("./MapActorFrame.lua", {g, map_data})
 local phone = LoadActor("./phone/phone.lua")
 local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
 
+-- audio
+
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 return Def.ActorFrame{
@@ -88,6 +90,14 @@ return Def.ActorFrame{
 
 	-- keep alive Actor
 	Def.Actor{ InitCommand=function(self) self:sleep(9999) end },
+
+	-- audio
+	LoadActor("./YourDriftingMindAQ.ogg")..{
+		OnCommand=function(self)
+			if not IsEditMode() then self:sleep(13):queuecommand("PlayAudio") end
+		end,
+		PlayAudioCommand=function(self) self:play() end
+	},
 
 	-- Scenes
 	phone,
@@ -142,7 +152,7 @@ return Def.ActorFrame{
 			self:diffuse(1,1,1,0):FullScreen():Center():hibernate(150):queuecommand("FadeToWhite")
 		end,
 		FadeToWhiteCommand=function(self)
-			self:linear( 210 - g.RunTime() ):diffusealpha(1)
+			self:linear( 194 - g.RunTime() ):diffusealpha(1)
 		end,
 	},
 
