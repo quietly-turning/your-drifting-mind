@@ -9,8 +9,8 @@ local snow_index = args[3]
 -- starting values (these can be manipulated later as needed)
 local num_particles = 600
 -- particle size in pixels
-local min_size = 10 + ((snow_index-1)*8)
-local max_size = 30 + ((snow_index-1)*8)
+local min_size = 15 + ((snow_index-1)*8)
+local max_size = 40 + ((snow_index-1)*8)
 -- particle velocity in pixels per second
 local min_vx = -7
 local max_vx = 7

@@ -147,7 +147,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="1" name="Player" x="384" y="1536" width="64" height="64"/>
+  <object id="1" name="Player" x="128" y="320" width="64" height="64"/>
  </objectgroup>
  <layer id="50" name="Over" width="40" height="33">
   <data encoding="csv">
@@ -269,7 +269,7 @@
   </object>
   <object id="8" name="Transfer to 2" type="Touch" x="192" y="2048" width="64" height="64">
    <properties>
-    <property name="TransferPlayer" value="2"/>
+    <property name="TransferPlayer" value="Winter2"/>
     <property name="TransferTileDown" type="int" value="1"/>
     <property name="TransferTileRight" type="int" value="15"/>
    </properties>
@@ -277,7 +277,7 @@
   <object id="14" name="Signpost" x="192" y="1408" width="64" height="64">
    <properties>
     <property name="text" value="↓   Decisions ahead."/>
-    <property name="text2" value="↑   Forgetting all this and going back to bed, that way."/>
+    <property name="text2" value="↑   Pretending to forget all this and going back to bed, that way."/>
    </properties>
   </object>
  </objectgroup>

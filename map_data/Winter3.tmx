@@ -135,7 +135,7 @@
 284,285,286,287,283,284,285,286,287,283,284,285,286,287,283,284,285,286,287,0
 </data>
  </layer>
- <layer id="8" name="Collision" width="20" height="20" visible="0" opacity="0.48">
+ <layer id="8" name="Collision" width="20" height="20" opacity="0.48">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,
@@ -162,14 +162,14 @@
  <objectgroup id="9" name="Events">
   <object id="3" name="Transfer to 2" type="Touch" x="0" y="1152" width="64" height="64">
    <properties>
-    <property name="TransferPlayer" value="2"/>
+    <property name="TransferPlayer" value="Winter2"/>
     <property name="TransferTileDown" type="int" value="17"/>
     <property name="TransferTileRight" type="int" value="39"/>
    </properties>
   </object>
   <object id="4" name="Transfer to 2" type="Touch" x="0" y="1088" width="64" height="64">
    <properties>
-    <property name="TransferPlayer" value="2"/>
+    <property name="TransferPlayer" value="Winter2"/>
     <property name="TransferTileDown" type="int" value="17"/>
     <property name="TransferTileRight" type="int" value="39"/>
    </properties>

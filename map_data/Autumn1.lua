@@ -307,8 +307,8 @@ return {
           name = "Player",
           type = "",
           shape = "rectangle",
-          x = 384,
-          y = 1536,
+          x = 128,
+          y = 320,
           width = 64,
           height = 64,
           rotation = 0,
@@ -509,7 +509,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "2",
+            ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 1,
             ["TransferTileRight"] = 15
           }
@@ -527,7 +527,7 @@ return {
           visible = true,
           properties = {
             ["text"] = "↓   Decisions ahead.",
-            ["text2"] = "↑   Forgetting all this and going back to bed, that way."
+            ["text2"] = "↑   Pretending to forget all this and going back to bed, that way."
           }
         }
       }

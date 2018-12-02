@@ -39,7 +39,7 @@
 205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,205,
 221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,221,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,19,0,0,0,0,0,0,0,0,47,48,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -64,7 +64,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="9" name="Player" x="1600" y="448" width="64" height="64"/>
+  <object id="9" name="Player" x="512" y="448" width="64" height="64"/>
  </objectgroup>
  <layer id="65" name="Over" width="29" height="13">
   <data encoding="csv">
@@ -74,8 +74,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,15,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-270,271,265,266,267,268,269,270,271,265,31,32,0,0,0,271,265,266,267,268,269,270,271,265,266,267,268,269,270,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+270,271,265,266,267,268,269,270,271,265,0,0,0,0,0,271,265,266,267,268,269,270,271,265,266,267,268,269,270,
 286,287,281,282,283,284,285,286,287,0,0,0,0,0,0,0,281,282,283,284,285,286,287,281,282,283,284,285,286,
 302,303,297,298,299,300,301,302,303,0,0,0,0,0,0,0,297,298,299,300,301,302,303,297,298,299,300,301,302,
 318,319,313,314,315,316,317,318,319,0,0,0,0,0,0,0,313,314,315,316,317,318,319,313,314,315,316,317,318,
@@ -127,7 +127,7 @@
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,513,513,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 513,513,513,513,513,513,513,513,0,0,0,0,0,0,0,0,513,513,513,513,513,513,513,513,513,513,513,513,513,
 513,513,513,513,513,513,513,513,513,0,0,0,0,0,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,
 513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,513,
@@ -175,38 +175,6 @@
     <property name="TransferPlayer" value="Winter5"/>
     <property name="TransferTileDown" type="int" value="6"/>
     <property name="TransferTileRight" type="int" value="28"/>
-   </properties>
-  </object>
-  <object id="23" name="Dead Tree" x="640" y="512" width="64" height="64">
-   <properties>
-    <property name="img" value="worried"/>
-    <property name="text" value="Set apart from the others, this tree looks so alone."/>
-    <property name="text2" value="It seems the winter has not been kind to it."/>
-   </properties>
-  </object>
-  <object id="26" name="Been Here Before" type="Touch" x="1472" y="384" width="64" height="64">
-   <properties>
-    <property name="img" value="worried"/>
-    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
-   </properties>
-  </object>
-  <object id="29" name="Been Here Before" type="Touch" x="1472" y="448" width="64" height="64">
-   <properties>
-    <property name="img" value="worried"/>
-    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
-   </properties>
-  </object>
-  <object id="30" name="Been Here Before" type="Touch" x="1472" y="512" width="64" height="64">
-   <properties>
-    <property name="img" value="worried"/>
-    <property name="text" value="I can't shake the ominous feeling that I've been here before..."/>
-   </properties>
-  </object>
-  <object id="31" name="Dead Tree" x="704" y="512" width="64" height="64">
-   <properties>
-    <property name="img" value="worried"/>
-    <property name="text" value="Set apart from the others, this tree looks so alone."/>
-    <property name="text2" value="It seems the winter has not been kind to it."/>
    </properties>
   </object>
  </objectgroup>

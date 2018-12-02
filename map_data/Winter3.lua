@@ -316,7 +316,7 @@ return {
       y = 0,
       width = 20,
       height = 20,
-      visible = false,
+      visible = true,
       opacity = 0.48,
       offsetx = 0,
       offsety = 0,
@@ -368,7 +368,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "2",
+            ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 39
           }
@@ -385,7 +385,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "2",
+            ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 39
           }

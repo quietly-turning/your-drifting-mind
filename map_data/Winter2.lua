@@ -442,7 +442,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "1",
+            ["TransferPlayer"] = "Winter1",
             ["TransferTileDown"] = 32,
             ["TransferTileRight"] = 3
           }
@@ -459,7 +459,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "3",
+            ["TransferPlayer"] = "Winter3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
           }
@@ -476,7 +476,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "3",
+            ["TransferPlayer"] = "Winter3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
           }
@@ -493,7 +493,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "3",
+            ["TransferPlayer"] = "Winter3",
             ["TransferTileDown"] = 17,
             ["TransferTileRight"] = 0
           }
@@ -540,7 +540,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "4",
+            ["TransferPlayer"] = "Winter4",
             ["TransferTileDown"] = 6,
             ["TransferTileRight"] = 28
           }
@@ -557,7 +557,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "4",
+            ["TransferPlayer"] = "Winter4",
             ["TransferTileDown"] = 7,
             ["TransferTileRight"] = 28
           }
@@ -574,7 +574,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "4",
+            ["TransferPlayer"] = "Winter4",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 28
           }
@@ -591,7 +591,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["TransferPlayer"] = "4",
+            ["TransferPlayer"] = "Winter4",
             ["TransferTileDown"] = 8,
             ["TransferTileRight"] = 28
           }

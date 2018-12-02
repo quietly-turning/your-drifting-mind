@@ -69,7 +69,7 @@ af[#af+1] = Def.BitmapText{
 	OnCommand=function(self)
 		self:align(0,0):xy(-200, -30)
 			:diffuse(Color.Black)
-			:wrapwidthpixels(500/self:GetZoom())
+			:wrapwidthpixels(480/self:GetZoom())
 	end,
 
 	ClearTextCommand=function(self)

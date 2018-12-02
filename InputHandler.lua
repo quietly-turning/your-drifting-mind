@@ -26,6 +26,7 @@ local PlayerIsFacingDirectionToTransfer = {
 }
 
 local InitDialog = function(event)
+	g.Dialog.Index = 1
 	g.Dialog.Words = { event.properties.text }
 
 	if event.properties.text2 then
@@ -54,7 +55,7 @@ g.TouchHandler = function(next_tile)
 		-- walk to trigger map transfer
 		if event.properties.TransferPlayer and PlayerIsFacingDirectionToTransfer[g.Player[g.CurrentMap].dir](next_tile) then
 			g.next_map = {
-				index = FindInTable("Winter"..event.properties.TransferPlayer, g.maps),
+				index = FindInTable(event.properties.TransferPlayer, g.maps),
 				x = event.properties.TransferTileRight,
 				y = event.properties.TransferTileDown
 			}
@@ -67,7 +68,6 @@ local InteractionHandler = function()
 
 	-- if handling an event that must be interacted with
 	if not g.DialogIsActive then
-		g.Dialog.Index = 1
 		local next_tile = g.Player[g.CurrentMap].NextTile[g.Player[g.CurrentMap].dir]()
 		local event = g.Events[g.CurrentMap][next_tile]
 
