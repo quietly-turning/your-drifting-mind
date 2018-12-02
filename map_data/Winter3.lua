@@ -370,7 +370,7 @@ return {
           properties = {
             ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 17,
-            ["TransferTileRight"] = 39
+            ["TransferTileRight"] = 32
           }
         },
         {
@@ -387,7 +387,7 @@ return {
           properties = {
             ["TransferPlayer"] = "Winter2",
             ["TransferTileDown"] = 17,
-            ["TransferTileRight"] = 39
+            ["TransferTileRight"] = 32
           }
         }
       }

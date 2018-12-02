@@ -9,8 +9,8 @@ local snow_index = args[3]
 -- starting values (these can be manipulated later as needed)
 local num_particles = 600
 -- particle size in pixels
-local min_size = 15 + ((snow_index-1)*8)
-local max_size = 40 + ((snow_index-1)*8)
+local min_size = 12 + ((snow_index-1)*8)
+local max_size = 35 + ((snow_index-1)*8)
 -- particle velocity in pixels per second
 local min_vx = -7
 local max_vx = 7
@@ -66,7 +66,7 @@ local af = Def.ActorFrame{
 		self:diffusealpha(0):visible(false)
 	end,
 	OnCommand=function(self)
-		self:hibernate(snow_index*5):queuecommand("Appear")
+		self:hibernate(snow_index*20):queuecommand("Appear")
 	end,
 	AppearCommand=function(self)
 		self:visible(true):linear(1):diffusealpha(1)

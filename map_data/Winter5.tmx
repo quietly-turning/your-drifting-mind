@@ -64,7 +64,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="Player">
-  <object id="9" name="Player" x="512" y="448" width="64" height="64"/>
+  <object id="9" name="Player" x="896" y="448" width="64" height="64"/>
  </objectgroup>
  <layer id="65" name="Over" width="29" height="13">
   <data encoding="csv">

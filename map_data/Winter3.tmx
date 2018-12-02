@@ -171,7 +171,7 @@
    <properties>
     <property name="TransferPlayer" value="Winter2"/>
     <property name="TransferTileDown" type="int" value="17"/>
-    <property name="TransferTileRight" type="int" value="39"/>
+    <property name="TransferTileRight" type="int" value="32"/>
    </properties>
   </object>
  </objectgroup>

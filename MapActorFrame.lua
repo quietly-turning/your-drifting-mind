@@ -34,7 +34,7 @@ for map_index,map in ipairs(map_data) do
 	map_af[#map_af+1] = LoadActor("AMV-Map.lua" ,{g, map, map_index})..{ Name="Map"..map_index }
 end
 
--- add 5 snowfall AMVs to the overall map_af
+-- add 4 snowfall AMVs to the overall map_af
 for i=1,4 do
 	map_af[#map_af+1] = LoadActor("./snow/snow.lua", {g, map_data, i})
 end
