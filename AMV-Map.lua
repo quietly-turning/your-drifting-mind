@@ -3,6 +3,9 @@ local g = args[1]
 local map_data = args[2]
 local map_index = args[3]
 
+DBK2_GLOBAL_MAP_X = 0
+DBK2_GLOBAL_MAP_Y = 0
+
 g.Events[map_index] = {}
 
 
@@ -95,8 +98,12 @@ end
 
 af.MoveMapCommand=function(self)
 	local MapCenter = FindCenterOfMap()
-	self:GetParent():x(-(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2))
-	self:GetParent():y(-(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2))
+
+	DBK2_GLOBAL_MAP_X = -(MapCenter.right * map_data.tilewidth * g.map.zoom - _screen.w/2)
+	DBK2_GLOBAL_MAP_Y = -(MapCenter.down * map_data.tileheight * g.map.zoom - _screen.h/2)
+
+	self:GetParent():x(DBK2_GLOBAL_MAP_X)
+	self:GetParent():y(DBK2_GLOBAL_MAP_Y)
 end
 
 
