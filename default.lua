@@ -24,7 +24,9 @@ if need_to_reload then
 	}
 end
 
--- ------------------------------------------------------
+-- ----------------------------------------
+-- Your Drifting Mind
+-- ----------------------------------------
 local g = {
 	maps = { "Autumn1", "Winter1", "Winter2", "Winter3", "Winter4", "Winter5", "Blizzard" },
 	CurrentMap = 1,
