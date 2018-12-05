@@ -12,8 +12,6 @@ local map_af = Def.ActorFrame{
 	InitCommand=function(self)
 		g.map.af = self
 
-		-- uncomment to initialize map to center the player sprite
-		-- leave commented to intialize map at 0,0, or specify map starting xy() below
 		self:GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 	end,
 	OnCommand=function(self)
@@ -42,6 +40,6 @@ end
 ]]
 
 -- add taro snow
-map_af[#map_af+1] = LoadActor("./snow/snow-simple.lua", {g, map_data, 1})
+map_af[#map_af+1] = LoadActor("./snow/snow-simple.lua", {g, map_data})
 
 return map_af

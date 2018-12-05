@@ -1,7 +1,6 @@
 local args = ...
 local g = args[1]
 local map_data = args[2][1]
-local snow_index = args[3]
 
 -- -----------------------------------
 -- variables you might want to configure to your liking
@@ -27,8 +26,8 @@ local SNOW_MAX_TIME = 120
 local SNOW_BEGIN_TIME = 15
 local wrap_buffer = 100 --how far offscreen should it be before it wraps
 local snow_growth = 32 --how much larger is the biggest snowflake (towards the end of the file) than the smallest one
-local speed_increase = 20 --how much faster the snow is falling at the end vs the start
-local sine_amount = 25 --strength of sine effect
+local speed_increase = 15 --how much faster the snow is falling at the end vs the start
+local sine_amount = 20 --strength of sine effect
 
 -- snow amount should be slightly exponential
 local function inCubic (t, b, c, d)

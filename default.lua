@@ -58,8 +58,6 @@ local map_af = LoadActor("./MapActorFrame.lua", {g, map_data})
 local phone = LoadActor("./phone/phone.lua")
 local dialog_box = LoadActor("./DialogBox/dialog_box.lua", {g})
 
--- audio
-
 -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 return Def.ActorFrame{
@@ -68,7 +66,7 @@ return Def.ActorFrame{
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- This won't work with ScreenEdit, so don't bother trying.
-		if screen:GetName() ~= "ScreenEdit" then
+		if not IsEditMode() then
 
 			-- redirect input away from ScreenGameplay
 			SCREENMAN:set_input_redirected(PLAYER_1, true)
@@ -103,7 +101,10 @@ return Def.ActorFrame{
 	phone,
 	parallax_af,
 	map_af,
+	dialog_box,
 
+	-- Quad used to fade to black while transitioning between maps
+	-- it handles more logic than it should because of time constraints :(
 	Def.Quad{
 		InitCommand=function(self) self:diffuse(0,0,0,1):FullScreen():Center(); g.SceneFade = self end,
 		OnCommand=function(self) self:hibernate(13):queuecommand("FadeToClear") end,
@@ -149,13 +150,12 @@ return Def.ActorFrame{
 	-- final fade
 	Def.Quad{
 		InitCommand=function(self)
-			self:diffuse(1,1,1,0):FullScreen():Center():hibernate(150):queuecommand("FadeToWhite")
+			self:diffuse(1,1,1,0):FullScreen():Center()
+				:hibernate(GAMESTATE:GetCurrentSong():GetLastSecond() - 45)
+				:queuecommand("FadeToWhite")
 		end,
 		FadeToWhiteCommand=function(self)
-			self:linear( 194 - g.RunTime() ):diffusealpha(1)
+			self:linear( GAMESTATE:GetCurrentSong():GetLastSecond() - g.RunTime() ):diffusealpha(1)
 		end,
 	},
-
-	-- DialogBox, hidden unless needed
-	dialog_box,
 }
