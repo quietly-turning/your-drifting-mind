@@ -1,3 +1,8 @@
+-- make an effort to namespace the many things we'll want to be
+-- passing around our many files
+
+local g = {}
+
 -- ------------------------------------------------------
 -- Stuff related to chart selection / screen reloading
 
@@ -19,7 +24,7 @@ local need_to_reload = LoadActor("./ChartReload")
 if need_to_reload then
 	return Def.Actor {
 		OnCommand=function(self)
-			if not IsEditMode() then SCREENMAN:SetNewScreen('ScreenGameplay') end
+			if not g.IsEditMode() then SCREENMAN:SetNewScreen('ScreenGameplay') end
 		end
 	}
 end
@@ -27,28 +32,27 @@ end
 -- ----------------------------------------
 -- Your Drifting Mind
 -- ----------------------------------------
-local g = {
-	maps = { "Autumn1", "Winter1", "Winter2", "Winter3", "Winter4", "Winter5", "Blizzard" },
-	CurrentMap = 1,
-	collision_layer = {},
 
-	TimeAtStart = GetTimeSinceStart(),
+g.maps = { "Autumn1", "Winter1", "Winter2", "Winter3", "Winter4", "Winter5", "Blizzard" }
+g.CurrentMap = 1
+g.collision_layer = {}
 
-	InputIsLocked = false,
-	SleepDuration = 0.2,
+g.TimeAtStart = GetTimeSinceStart()
 
-	map = {
-		af = nil,
-		zoom = 1
-	},
-	Dialog = {
-		Speaker = "Elli"
-	},
+g.InputIsLocked = false
+g.SleepDuration = 0.2
 
-	SeenEvents = {},
-	Events = {},
-	Player = {}
+g.map = {
+	af = nil,
+	zoom = 1
 }
+g.Dialog = {
+	Speaker = "Elli"
+}
+
+g.SeenEvents = {}
+g.Events = {}
+g.Player = {}
 
 g.RunTime = function() return GetTimeSinceStart() - g.TimeAtStart end
 
@@ -68,17 +72,16 @@ return Def.ActorFrame{
 		local screen = SCREENMAN:GetTopScreen()
 
 		-- This won't work with ScreenEdit, so don't bother trying.
-		if not IsEditMode() then
+		if g.IsEditMode() then self:hibernate(200); return end
 
-			-- redirect input away from ScreenGameplay
-			SCREENMAN:set_input_redirected(PLAYER_1, true)
-			SCREENMAN:set_input_redirected(PLAYER_2, true)
+		-- otherwise, redirect input away from ScreenGameplay
+		SCREENMAN:set_input_redirected(PLAYER_1, true)
+		SCREENMAN:set_input_redirected(PLAYER_2, true)
 
-			-- hide everything but the SongForeground layer
-			for k,v in pairs(screen:GetChildren()) do
-				if k ~= "SongForeground" then
-					v:visible(false)
-				end
+		-- and hide everything but the SongForeground layer
+		for k,v in pairs(screen:GetChildren()) do
+			if k ~= "SongForeground" then
+				v:visible(false)
 			end
 		end
 	end,

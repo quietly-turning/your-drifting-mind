@@ -15,6 +15,8 @@ local map_af = Def.ActorFrame{
 		self:GetChild("Map"..g.CurrentMap):playcommand("MoveMap")
 	end,
 	OnCommand=function(self)
+		if g.IsEditMode() then return end
+
 		self:hibernate(13)
 		self:GetChild("Map1"):visible(true)
 
